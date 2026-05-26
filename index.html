@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console 12 - Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #121824;
+            --bg-surface: #1e293b;
+            --bg-accent: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --color-active: #3b82f6;
+            --color-success: #10b981;
+            --border-color: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 260px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            padding: 24px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--color-active);
+        }
+
+        .nav-tabs {
+            list-style: none;
+            padding: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            width: 90%;
+            margin: 0 auto;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            text-align: left;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--bg-accent);
+            color: var(--text-main);
+        }
+
+        .nav-btn.active {
+            background-color: var(--color-active);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* Main Content Container */
+        main {
+            flex-1: 1;
+            width: calc(100% - 260px);
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        .sheet-panel {
+            display: none;
+        }
+
+        .sheet-panel.active {
+            display: block;
+        }
+
+        h2 {
+            margin-bottom: 24px;
+            font-size: 1.75rem;
+            border-bottom: 2px solid var(--bg-accent);
+            padding-bottom: 12px;
+        }
+
+        /* Data Tables styling */
+        .table-container {
+            background-color: var(--bg-surface);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--bg-accent);
+            color: var(--text-main);
+            padding: 14px 16px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Checklist Form Controls */
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--color-success);
+            cursor: pointer;
+        }
+
+        /* Simple Calculator Inputs Grid */
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            background-color: var(--bg-surface);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .input-group input {
+            padding: 10px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-main);
+            font-size: 1rem;
+        }
+
+        .calc-result {
+            margin-top: 16px;
+            padding: 16px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--color-success);
+            border-radius: 6px;
+            color: var(--color-success);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="brand">CONSOLE 12</div>
+        <ul class="nav-tabs">
+            <li><button class="nav-btn active" onclick="switchTab('tab-console')">Console 12 (2)</button></li>
+            <li><button class="nav-btn" onclick="switchTab('tab-checklist')">Shift Started Check list</button></li>
+            <li><button class="nav-btn" onclick="switchTab('tab-rates')">Rate Schedule</button></li>
+            <li><button class="nav-btn" onclick="switchTab('tab-calculator')">Calculator</button></li>
+            <li><button class="nav-btn" onclick="switchTab('tab-by')">B-Y</button></li>
+        </ul>
+    </aside>
+
+    <main>
+        
+        <section id="tab-console" class="sheet-panel active">
+            <h2>Console 12 (2) Overview</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter ID</th>
+                            <th>Description</th>
+                            <th>Target Line Rate</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SYS-01</td>
+                            <td>Main Operational Loop</td>
+                            <td>12,500 bbl/h</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>SYS-02</td>
+                            <td>Secondary Bypass Line</td>
+                            <td>4,200 bbl/h</td>
+                            <td>Idle</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="tab-checklist" class="sheet-panel">
+            <h2>Shift Started Check list</h2>
+            <div class="checklist-item">
+                <input type="checkbox" id="chk1">
+                <label for="chk1">Review SCADA system alerts and system health logs.</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="chk2">
+                <label for="chk2">Verify active line communication handoffs.</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="chk3">
+                <label for="chk3">Cross-check shift baseline rate schedules.</label>
+            </div>
+        </section>
+
+        <section id="tab-rates" class="sheet-panel">
+            <h2>Rate Schedule</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time Block</th>
+                            <th>Zone Route</th>
+                            <th>Scheduled Capacity</th>
+                            <th>Effective Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rate-data-rows">
+                        <tr>
+                            <td>00:00 - 06:00</td>
+                            <td>North-East Loop</td>
+                            <td>100% Base</td>
+                            <td>$1.42 / bbl</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="tab-calculator" class="sheet-panel">
+            <h2>Operations Calculator</h2>
+            <div class="grid-inputs">
+                <div class="input-group">
+                    <label for="calc-flow">Current Flow Rate (bbl/h)</label>
+                    <input type="number" id="calc-flow" value="2500" oninput="runCalculations()">
+                </div>
+                <div class="input-group">
+                    <label for="calc-hours">Duration Hours</label>
+                    <input type="number" id="calc-hours" value="12" oninput="runCalculations()">
+                </div>
+            </div>
+            <div class="calc-result" id="calc-output">
+                Estimated Total Volume: 30,000 bbl
+            </div>
+        </section>
+
+        <section id="tab-by" class="sheet-panel">
+            <h2>B-Y Target Data Matrix</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Block Key</th>
+                            <th>Yield Factor</th>
+                            <th>Deviation Margin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BY-Alpha</td>
+                            <td>0.9942</td>
+                            <td>± 0.002</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // 1. Navigation Tab Switching System
+        function switchTab(tabId) {
+            document.querySelectorAll('.sheet-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // 2. Client Side Math Engine (Excel Formula Replacement)
+        function runCalculations() {
+            const flow = parseFloat(document.getElementById('calc-flow').value) || 0;
+            const hours = parseFloat(document.getElementById('calc-hours').value) || 0;
+            
+            // Replicating a base logic rule (=A2*B2)
+            const totalVolume = flow * hours;
+            
+            document.getElementById('calc-output').innerText = 
+                `Estimated Total Volume: ${totalVolume.toLocaleString()} bbl`;
+        }
+
+        // 3. Storing standard lookup sheet data as clean background variables
+        const BACKGROUND_DATA_SHEETS = {
+            sheet6Data: [
+                {id: 1, name: "Data point A", reference: "Table6"}
+            ]
+        };
+    </script>
+</body>
+</html>
