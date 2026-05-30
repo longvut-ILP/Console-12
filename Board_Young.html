@@ -186,14 +186,14 @@ td {
     
     <!-- BOARD SECTION -->
     <div>
-        <h2 class="section-title">Active Ticket - BOARD</h2>
+        <h2 class="section-title">BOARD</h2>
         <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
                         <th>Line fill and TM</th>
                         <th>Boar Curr Sched GSV</th>
-                        <th>Curr Tkt GSV</th>
+                        <th>Curr TKT GSV</th>
                         <th>Curr Sched GSV</th>
                         <th>New Vol Togo</th>
                     </tr>
@@ -202,7 +202,7 @@ td {
                     <tr>
                         <td class="input-calculated"><input type="number" id="A3" class="grid-text-input rate-input input-calculated" value="135" oninput="calculateVolumes()"></td>
                         <td class="input-calculated"><input type="number" id="B3" class="grid-text-input rate-input input-calculated" readonly></td>
-                        <td class="input-editable"><input type="number" id="C3" class="grid-text-input rate-input input-editable" value="60" oninput="calculateVolumes()"></td>
+                        <td class="input-editable"><input type="number" id="C3" class="grid-text-input rate-input input-editable" value="" oninput="calculateVolumes()"></td>
                         <td class="input-green"><input type="number" id="D3" class="grid-text-input rate-input input-green" readonly></td>
                         <td class="input-calculated"><input type="number" id="E3" class="grid-text-input rate-input input-calculated" readonly></td>
                     </tr>
@@ -213,7 +213,7 @@ td {
 
     <!-- YOUNG SECTION -->
     <div>
-        <h2 class="section-title">Active Ticket - YOUNG</h2>
+        <h2 class="section-title">YOUNG</h2>
         <div class="table-responsive">
             <table>
                 <thead>
@@ -228,9 +228,9 @@ td {
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="input-editable"><input type="number" id="A7" class="grid-text-input rate-input input-editable" value="2070" oninput="calculateVolumes()"></td>
+                        <td class="input-editable"><input type="number" id="A7" class="grid-text-input rate-input input-editable" value="" oninput="calculateVolumes()"></td>
                         <td class="blank-cell"></td>
-                        <td class="input-editable"><input type="number" id="C7" class="grid-text-input rate-input input-editable" value="93" oninput="calculateVolumes()"></td>
+                        <td class="input-editable"><input type="number" id="C7" class="grid-text-input rate-input input-editable" value="" oninput="calculateVolumes()"></td>
                         <td class="input-green"><input type="number" id="D7" class="grid-text-input rate-input input-green" readonly></td>
                         <td class="input-calculated"><input type="number" id="E7" class="grid-text-input rate-input input-calculated" readonly></td>
                         <td class="input-calculated"><input type="number" id="F7" class="grid-text-input rate-input input-calculated" readonly></td>
@@ -245,7 +245,7 @@ td {
     function calculateVolumes() {
         // Retrieve explicit input values (If field is empty, default to 0 for math)
         const A3 = parseFloat(document.getElementById('A3').value) || 0; // Line fill and TM
-        const C3 = parseFloat(document.getElementById('C3').value) || 0; // Curr Tkt GSV
+        const C3 = parseFloat(document.getElementById('C3').value) || 0; // Curr TKT GSV
         const A7 = parseFloat(document.getElementById('A7').value) || 0; // Youn Tank to fill
         const C7 = parseFloat(document.getElementById('C7').value) || 0; // Youn Curr Tkt GSV
 
