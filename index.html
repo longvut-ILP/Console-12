@@ -7,21 +7,21 @@
 <style>
 :root {
     /* Oil & Gas Theme Colors */
-    --bg-body: #cbd5e1; /* Industrial metal grey */
-    --bg-card: #ffffff; /* Clean white for data contrast */
-    --primary-color: #0f172a; /* Deep slate/black for headers (equipment color) */
-    --accent-color: #f59e0b; /* Pipeline safety orange/yellow */
+    --bg-body: #cbd5e1; 
+    --bg-card: #ffffff; 
+    --primary-color: #0f172a; 
+    --accent-color: #f59e0b; 
     --accent-hover: #d97706;
     --text-dark: #1e293b;
-    --border-color: #94a3b8; /* Steel grey borders */
+    --border-color: #94a3b8; 
     --zebra-color: #f8fafc;
-    --hover-color: #fffbeb; /* Light yellow tint on hover */
+    --hover-color: #fffbeb; 
     
     /* Functional Colors */
-    --formula-bg: #dcfce7; /* Success green for automated math */
+    --formula-bg: #dcfce7; 
     --error-bg: #fee2e2;
     --error-border: #ef4444;
-    --btn-clear-bg: #dc2626; /* Warning red */
+    --btn-clear-bg: #dc2626; 
     --btn-clear-hover: #991b1b;
 }
 
@@ -43,7 +43,6 @@ body {
     border: 1px solid #64748b;
 }
 
-/* Redesigned Header for SCADA Look */
 .header-section {
     display: flex;
     justify-content: space-between;
@@ -228,7 +227,7 @@ tbody tr:hover {
 
 .rate-input {
     text-align: center;
-    font-family: "Courier New", Courier, monospace; /* Monospace for numbers */
+    font-family: "Courier New", Courier, monospace;
     font-weight: 600;
     font-size: 0.95rem;
 }
@@ -301,7 +300,6 @@ tbody tr:hover {
         <h1>Pipeline Operations - Console 12</h1>
         <div class="header-buttons">
             <a href="Time_Calculator.html" target="_blank" class="btn-nav">Time Calculator</a>
-            <a href="Terminal_Notes.html" target="_blank" class="btn-nav">Terminal Notes</a>
             <button class="btn-clear" onclick="clearAllFields()">Clear All Fields</button>
         </div>
     </div>
@@ -316,7 +314,7 @@ tbody tr:hover {
                         <th class="col-terminal">Terminal</th>
                         <th>Product</th>
                         <th>Tank</th>
-                        <th>Ticket</th>
+                        <th>Ticket2</th>
                         <th>Flow control</th>
                         <th>Control</th>
                     </tr>
@@ -356,11 +354,13 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>Fostoria Station Notes:</strong>
                                 <ul>
-                                    <li>Butane Tank: only needed for Gas-Update total Batch size and Batch Number</li>
-                                    <li>MGDR BCK S/U & MGD3 INP S/D: This change will be done by the field technician, we only watch and confirm the change.</li>
-                                    <li>Pump to Alleghany Access and Mogadore Tank at the same time: First send to PAA, increase flow at FOS, wait for pressure 200 bbl (approx 5 mins) to hit WLLR. Open WLLR valve to prevent losing pressure at PAA.</li>
-                                    <li>MANI drop to -6 PSI (low tank level), DRA and pump will shutdown. Booster will take 6 mins to build up pressure. Drop DIS pressure lower to 500/600 psi to prevent MANI drop.</li>
-                                    <li>Rate 3800 bph: DISC @ 1347, MOV is 1350 is all FOS can run. On Start up: Set DISC 50 psi above the line pressure to prevent pump crash.</li>
+                                    <li><strong>Butane Tank:</strong> Required only for gas batches; update total batch size and batch number accordingly.</li>
+                                    <li><strong>MGDR BCK Startup & MGD3 INP Shutdown:</strong> Executed by field technicians; PC's role is strictly observation and confirmation. Manual COB required when indicated.</li>
+                                    <li><strong>Simultaneous Pumping (Alleghany Access & Mogadore Tank):</strong> Initiate delivery to PAA first. Increase flow at FOS and wait for pressure (approx. 200 bbls or 5 minutes) to reach WLLR. Open the WLLR valve to prevent pressure loss at PAA.</li>
+                                    <li><strong>Manifold (MANI) Pressure Drops:</strong> If MANI drops to -6 PSI (due to low tank level), both the DRA and pump will shut down. The booster pump requires 6 minutes to rebuild pressure and return to READY status. Preventative measures include lowering discharge (DIS) pressure to 500-600 psi, switching to a full tank, or reducing flow rate.</li>
+                                    <li><strong>SANE Constraints:</strong> High Alarm triggers at 950 psi. Exceeding 1,020 psi will cause FOS to shut down.</li>
+                                    <li><strong>Operational Limits (Rate 3,800 bph):</strong> Maximum operating parameters are DIS @ 1,347 psi with the Motor Operated Valve (MOV) at 1,350 psi.</li>
+                                    <li><strong>Startup Procedure:</strong> Set DIS 50 psi above the current line pressure to prevent pump cavitation/crashes.</li>
                                 </ul>
                             </div>
                         </td>
@@ -412,9 +412,9 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>WILLARD Station Notes:</strong>
                                 <ul>
-                                    <li>Before starting the pump, check what in the line at the STOP time using Batch track report. WILL pump need to run if SANE get to 900 psi.</li>
-                                    <li>Only 1 valve can be opened. Pump is not in sequence. DISC need to be very low DISC: 600 psi. SUC 120 psi.</li>
-                                    <li>Booster @ pump start at the same time. H-H alarm or start the pump and start booster as soon as pump interval.</li>
+                                    <li><strong>Pre-startup:</strong> Review the Batch Track report to determine line contents at the previous shutdown time. The WILL pump must run if SANE pressure reaches 900 psi.</li>
+                                    <li><strong>Pump Operations:</strong> Only one valve can be open at a time; the pump is not sequenced. Discharge (DISC) pressure must be kept very low (approx. 600 psi) with suction (SUC) at 120 psi.</li>
+                                    <li><strong>Startup Sequence:</strong> The booster and main pump must start simultaneously. To prevent a High-High alarm, start the pump and immediately start the booster within the pump interval window.</li>
                                 </ul>
                             </div>
                         </td>
@@ -445,13 +445,13 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>HUDS Station Notes:</strong>
                                 <ul>
-                                    <li>Set Ticket to 5500. Relift at 425 PSI. Flush 12 bbls. @ 2800 bbls: Set 170 bbls when arrive at preview.</li>
-                                    <li>Swing from HUD to CLVN: Target barrel at 70 bbls. As soon as V1372 open, flow to HUD = 0. S/D HUD-AKRO target.</li>
-                                    <li>Grav drop very fast so do at 1st indication, if not, station will be lock out if gas delivery get <50.</li>
-                                    <li>V2 cannot close, V4 was open. Recommend to close V4 and re-open V2.</li>
-                                    <li>Next pro 87CB, and in line is 15MV: open TRNMX @ 100 bbls. Open to 87CB when good gravity.</li>
-                                    <li>15MV require spur flush to 100% diesel. 93 & 87 go direct to product tank.</li>
-                                    <li>Running Reversal: Close 2 valves on CV10 at MGD station (V4320 & V4421). Open V4422 at MGDR_PMTRMIX to HUD: 200 bbls target.</li>
+                                    <li><strong>Standard Settings:</strong> Set ticket to 5,500 bbls. Relift pressure is 425 psi. Execute a 12 bbl flush. At 2,800 bbls, set the target to 170 bbls upon arrival at PREVIEW.</li>
+                                    <li><strong>Swing Operations (HUD to CLVN):</strong> Target 70 bbls. Once Valve 1372 opens, flow to HUD drops to 0. Target a shutdown for HUD-AKRO.</li>
+                                    <li><strong>Gravity Monitoring:</strong> Gravity drops occur rapidly; react at the first indication. Failure to respond will cause a station lockout if gas delivery gravity drops below 50.</li>
+                                    <li><strong>Valve Anomalies:</strong> If Valve 2 fails to close while Valve 4 is open, it is recommended to close Valve 4 and cycle Valve 2 open.</li>
+                                    <li><strong>Product Transitions (15MV to 87CB):</strong> Open TRNMX at 100 bbls. Switch to the 87CB tank once gravity is acceptable. The 15MV product requires a spur flush to 100% diesel. Products 93 and 87 route directly to the product tank (manifold volume is deemed negligible by Quality Control).</li>
+                                    <li><strong>Reversal Operations:</strong> Close valves V4320 and V4421 on CV10 at the MGD station. Open V4422 at MGDR_PMTRMIX to HUD (target 200 bbls).</li>
+                                    <li><strong>Opening to CV10 while running FM12:</strong> Target 100-200 bbls. Reduce flow rate or FOS discharge by 50%. Open HUD, then open to CV10 (note: valve may stall). Start up WLLR and back up VANP suction to 120 psi to protect the pump. If PA loses 100 bph, increase the control valve at PITT to maintain HOLL operation. Adjust FOS to the target rate. If HOLL drops to 0 RPM, reduce suction from 490 to 450 psi.</li>
                                 </ul>
                             </div>
                         </td>
@@ -482,12 +482,12 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>AKRO Station Notes:</strong>
                                 <ul>
-                                    <li>COB@ HUDSON 30 bbl: starting to open and close valves. @ AKRON: click COB when GRAVITY CHANGE.</li>
-                                    <li>From 15 to 87: Open Gas Tank valve as soon as Gravity first jumps. By the time gravity got to stable gas, the valve of Diesel completely closed.</li>
-                                    <li>Delivery Diesel: if gravity reaches above 40, it is going to shutdown the station.</li>
-                                    <li>Tank 5014: Fill meter does Work when get down to 80ft. Tank level will keep go on until it spills.</li>
-                                    <li>Line Fill: 2450 bbls = Current bill + the next bill. IF does not, update the current bill.</li>
-                                    <li>Verify batch size/availability with Akron Area Pipeliner 2 hours prior to startup. Also confirm CLVN T.O. will be ready.</li>
+                                    <li><strong>Valve Sequences:</strong> Initiate valve sequencing when the Hudson Change of Batch (COB) indicates 30 bbls. At Akron, execute COB immediately upon detecting a gravity change.</li>
+                                    <li><strong>Product Transition (15 to 87):</strong> Open the gas tank valve at the first indication of a gravity jump. The diesel valve must be completely closed by the time gravity stabilizes for gas.</li>
+                                    <li><strong>Diesel Delivery:</strong> The station will automatically shut down if gravity exceeds 40.</li>
+                                    <li><strong>Tank 5014:</strong> The fill meter only operates when the tank level drops to 80 ft; otherwise, the tank level will continue to rise until overflow.</li>
+                                    <li><strong>Pre-startup (2 Hours Prior):</strong> The Pipeline Controller (PC) must verify batch size and product availability with the Akron Area Pipeliner. The Pipeliner will then coordinate with the Buckeye BRAD Terminal Operator (T.O.) to confirm startup readiness. The PC must also confirm readiness with the CLVN T.O. For pumping from BRAD tankage, the PC handles all CLVN T.O. communications and resolves scheduling issues.</li>
+                                    <li><strong>Line Fill:</strong> Maintain at 2,450 bbls (calculated as Current Bill + Next Bill). Update the current bill if this condition is not met.</li>
                                 </ul>
                             </div>
                         </td>
@@ -527,10 +527,11 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>CLVN Station Notes:</strong>
                                 <ul>
-                                    <li>Don't wait too long when swinging from HUB to CLVN. If these two valves are opened too long, product from CLVN can flow back and contaminate HUD.</li>
-                                    <li>P/C has to click COB for product change - Cut batch at mid point, call when product arrive.</li>
-                                    <li>S/D CLVN: Close CV10 immediately after MGDR storage open, Close valves at HUDSON, Close valve at SAGA (watch pressure hit 180-190 psi). Close VLVN and try to maintain pressure.</li>
-                                    <li>When Brad Rd change product, set current batch 2450, and tell CLVN when and what gravity.</li>
+                                    <li><strong>Swing Operations (HUB to CLVN):</strong> Minimize the duration both valves remain open to prevent reverse flow from CLVN to HUD, which could contaminate the HUD protective product tank.</li>
+                                    <li><strong>COB Operations:</strong> The PC must manually execute COB for product changes. Cut the batch at the midpoint and notify the terminal upon product arrival.</li>
+                                    <li><strong>Shutdown (S/D) Procedures:</strong> Close CV10 immediately after MGDR storage opens. Close HUDSON and SAGA valves (monitor pressure until it reaches 180-190 psi; the relief valve is set at 250 psi). Close the VLVN valve and attempt to maintain pressure in the line.</li>
+                                    <li><strong>Brad Rd Product Change:</strong> Set the current batch to 2,450 bbls and notify CLVN of the estimated arrival time and target gravity.</li>
+                                    <li><strong>TR16:</strong> Contact TR16 at startup and confirm the settling gravity.</li>
                                 </ul>
                             </div>
                         </td>
@@ -551,11 +552,12 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>MGDR DEL Station Notes:</strong>
                                 <ul>
-                                    <li>Relief: Low alarm 1075 PSI and HA 1125 PSI. (MADB)</li>
-                                    <li>Call 2 mins before swinging to Storage. Don't have to call for the finished delivery to the storage. Does not have to call for swinging in and out of CV10 and ALL.</li>
-                                    <li>Swing between CV10 to storage, increase WLLR Suc to 150 (to Suction control) to prevent hitting Hi Discharge.</li>
-                                    <li>Valves V4421 stay open most of the time, check each time before START UP.</li>
-                                    <li>MGDR PMP: COB will be changed by station personnel. As soon as COB move to COP, switch between V4 and V5.</li>
+                                    <li><strong>Relief Settings (MADB):</strong> Low Alarm at 1,075 psi; High Alarm at 1,125 psi.</li>
+                                    <li><strong>Communications:</strong> Provide a 2-minute warning call before swinging to storage. Notification is not required for completing delivery to storage or for swinging in/out of CV10 and ALL.</li>
+                                    <li><strong>Swing Operations (CV10 to Storage):</strong> Increase WLLR suction to 150 psi (to suction control mode) to prevent triggering a high discharge alarm.</li>
+                                    <li><strong>Valve Configuration:</strong> Valve V4421 typically remains open; verify its status before every startup.</li>
+                                    <li><strong>MGDR PMP Operations:</strong> COB is managed locally by station personnel. Immediately switch between V4 and V5 when COB transitions to COP.</li>
+                                    <li><strong>MGDR & MGDR 3:</strong> Tickets should auto-roll during tank switches. Execute COB at the midpoint.</li>
                                 </ul>
                             </div>
                         </td>
@@ -576,8 +578,8 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>MGDR_PMP Station Notes:</strong>
                                 <ul>
-                                    <li>The tank change will be done by field personnel, we only observe to verify the change and COB manually by the T/O too.</li>
-                                    <li>Notify both CNTN T/O that the delivery is complete.</li>
+                                    <li><strong>Tank switches:</strong> Executed by field personnel. The PC's role is to verify the alignment and ensure the manual COB is executed by the T.O.</li>
+                                    <li>Notify both CNTN T.O.s upon completion of delivery.</li>
                                 </ul>
                             </div>
                         </td>
@@ -598,11 +600,12 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>CNTN Station Notes:</strong>
                                 <ul>
-                                    <li>COB: If COB on a same product, we click CBO. If COB on a different product (require change tank), CNTN will roll the ticket.</li>
-                                    <li>We start and S/D MGDR pump, Call CNTN when product arrives HART, let CNTN know exact time GRAVITY level out. Hit COB at mid Gravity.</li>
-                                    <li>When closing the valve @ MGDR PMP, WAIT 5 mins before closing the valve @ CANTON, because it is an OLD pipe.</li>
-                                    <li>To CYCLE valve 4111: call CNTN to verify it lines up to a tank.</li>
-                                    <li>Notify both MGDR and CNTN T/O that the delivery is complete.</li>
+                                    <li><strong>COB Operations:</strong> For continuous product, the PC manually executes COB. For product changes requiring a tank switch, CNTN will roll the ticket.</li>
+                                    <li><strong>Pump Coordination:</strong> PC controls the start and shutdown of the MGDR pump. Notify CNTN when the product reaches HART and specify the exact time gravity stabilizes. Alert CNTN at the first indication of a gravity change and execute COB at mid-gravity.</li>
+                                    <li><strong>Valve Sequencing:</strong> When closing the valve at MGDR PMP, allow a 5-minute delay before closing the CANTON valve due to the age of the piping infrastructure.</li>
+                                    <li><strong>Delivery Timing:</strong> Diesel behind Gas runs approximately 10 minutes late. Gas behind Diesel runs approximately 10 minutes early.</li>
+                                    <li><strong>Valve 4111:</strong> Contact CNTN to confirm proper tank alignment before cycling Valve 4111.</li>
+                                    <li><strong>Completion:</strong> Notify both MGDR and CNTN T.O.s upon delivery completion.</li>
                                 </ul>
                             </div>
                         </td>
@@ -633,10 +636,9 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>BOARD Station Notes:</strong>
                                 <ul>
-                                    <li>FLUSH: Set pressure higher than the line pressure so when opening the valves we don't put too much into gas Tank.</li>
-                                    <li>Should do the flush well before schedule time. We can put pressure back to higher than the line pressure to leave the valve open.</li>
-                                    <li>Change to flow control when delivering to BOARD.</li>
-                                    <li>With Diesel in line and starting with Gas, No Flush needed, open to gas tank and roll ticket (Will have incompatible ticket).</li>
+                                    <li><strong>Flush Procedures:</strong> Set station pressure higher than line pressure before opening valves to prevent excessive diesel displacement (exceeding 12 bbls) into the gas tank. Execute the flush well ahead of the scheduled time. Pressure can be returned to a level higher than line pressure to safely leave the valve open.</li>
+                                    <li><strong>Control Mode:</strong> Switch to flow control during delivery to BOARD.</li>
+                                    <li><strong>Diesel to Gas Transition:</strong> If starting with gas while diesel is in the line, no flush is required. Open directly to the gas tank and roll the ticket (this will generate an incompatible ticket).</li>
                                 </ul>
                             </div>
                         </td>
@@ -657,10 +659,9 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>YOUN Station Notes:</strong>
                                 <ul>
-                                    <li>Line Fill with GAS: Reg. Flush, Switch to DIESEL when 100% Gravity.</li>
-                                    <li>Line Fill with DIESEL: Reg. Flush, Switch to GAS when Gravity AT 50 degree.</li>
-                                    <li>Full tank full: Volume to fill - 100 bbls line fill - 35 extra space = barrels add to both tickets.</li>
-                                    <li>Power fail: close valve V11 immediately.</li>
+                                    <li><strong>Line Fills:</strong> If filling with gas: Perform a regular flush and switch to diesel upon achieving 100% gravity. If filling with diesel: Perform a regular flush and switch to gas when gravity reaches 50 degrees.</li>
+                                    <li><strong>Tank Fill Calculations:</strong> To calculate ticket volumes for a full tank: (Volume to fill) - (100 bbls line fill) - (35 bbls safety margin) = Barrels to add to both tickets. The target barrel amount should maintain a 35 bbl differential from the absolute tank capacity.</li>
+                                    <li><strong>Power Failure:</strong> Immediately close valve V11 in the event of a power loss.</li>
                                 </ul>
                             </div>
                         </td>
@@ -681,12 +682,11 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>VANP Station Notes:</strong>
                                 <ul>
-                                    <li>To switch from SUC control to DIS, lower DIS 100 psi and wait 3 mins.</li>
-                                    <li>Down Stream valve has High Alarm @ 995 because the RELEAVE valve @ ALLE has WARNING @ 995 and High warning @ 1017.</li>
-                                    <li>@ VANP set point SUC @ 60 psi, DISC @ 1020 psi, and meter down stream of VANP set point @ 930 - 940 psi.</li>
-                                    <li>When DIS at control around 1020 psi, slowly let out the pressure by increasing DIS to 1030 psi.</li>
-                                    <li>Swing from ALLE to DELM: Change SUCT 200 psi, DISC 950 psi. Get to DISC control instead of SUCT.</li>
-                                    <li>Lost power at VANP: open V2331 & then V2341. Facility reset, Suction 120, and start the pump.</li>
+                                    <li><strong>Control Mode Transition:</strong> To switch from suction (SUC) control to discharge (DIS) control, lower DIS by 100 psi and hold for 3 minutes.</li>
+                                    <li><strong>Alarms:</strong> The downstream valve triggers a High Alarm at 995 psi to coordinate with the ALLE relief valve (Warning at 995 psi; High Alarm at 1,017 psi).</li>
+                                    <li><strong>Set Points:</strong> Standard VANP set points are SUC at 60 psi and DISC at 1,020 psi. The downstream meter set point is 930-940 psi. Once DIS stabilizes at 1,020 psi, gradually increase to 1,030 psi to slowly bleed out pressure.</li>
+                                    <li><strong>Swing Operations (ALLE to DELM):</strong> Adjust SUCT to 200 psi and DISC to 950 psi to force the system into DISC control rather than SUCT control.</li>
+                                    <li><strong>Power Failure Recovery:</strong> To restore the pump to READY status after a power loss: Open V2331, then open V2341. Execute a facility reset, set suction to 120 psi, and initiate pump startup.</li>
                                 </ul>
                             </div>
                         </td>
@@ -707,9 +707,9 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>ALLE Station Notes:</strong>
                                 <ul>
-                                    <li>Relief Valve: Low 995 psi, H 1045 psi.</li>
-                                    <li>IF Going End of Line: Keep >450 psi, if lower will kill VANP. Keep High SUC at VANP, if restart VANP: set SUC at 120 psi.</li>
-                                    <li>COB until grav shows good Diesel = 35-Trainmix @ 50 degree. If open at 1st indication, it takes 20 mins to get to 50 degrees.</li>
+                                    <li><strong>Relief Valve Setpoints:</strong> Low Alarm at 995 psi; High Alarm at 1,045 psi.</li>
+                                    <li><strong>End of Line Operations:</strong> Maintain pressure >450 psi; dropping below this threshold will trip the VANP station. Maintain high suction (SUC) at VANP. If restarting VANP, set SUC to 120 psi.</li>
+                                    <li><strong>COB Execution:</strong> Delay COB until gravity indicates on-spec diesel (35) or transmix at 50 degrees. Note: Opening the valve at the first indication requires approximately 20 minutes to reach 50 degrees.</li>
                                 </ul>
                             </div>
                         </td>
@@ -740,9 +740,10 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>PITT Station Notes:</strong>
                                 <ul>
-                                    <li>Leave line Fill 1600 bbls. Valve can operate only the different pressure under 300 psi. Open and verify Valve open 100%.</li>
-                                    <li>Pump and Vanp will not start if does not have enough pressure.</li>
-                                    <li>Control valve is not stable: raising slowly from 15% open to 30% open (1-2 hrs duration). Sharp drop from 35% to 15% open (10 mins).</li>
+                                    <li><strong>Line Fill:</strong> Maintain at 1,600 bbls.</li>
+                                    <li><strong>Valve Operations:</strong> Valves can only operate if differential pressure is under 300 psi. Verify visually/electronically that the valve is 100% open.</li>
+                                    <li><strong>Startup:</strong> Pumps and VANP will fail to start without sufficient inlet pressure.</li>
+                                    <li><strong>Control Valve Instability:</strong> The control valve exhibits instability, slowly drifting from 15% to 30% open over 1-2 hours, followed by a sharp drop from 35% to 15% open within 10 minutes.</li>
                                 </ul>
                             </div>
                         </td>
@@ -773,8 +774,8 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>DELM Station Notes:</strong>
                                 <ul>
-                                    <li>From Gas to Premium: watch Gravity at PREVIEW to find the difference and add to the STATION Gravity at DELM.</li>
-                                    <li>When changing product from 15MV to 87CB: 35.5, get out at +0.5 degree. Tank level alarm: Came back immediately after.</li>
+                                    <li><strong>Product Transition (Gas to Premium):</strong> Monitor gravity at PREVIEW to determine the differential, then apply this offset to the STATION gravity at DELM.</li>
+                                    <li><strong>Product Transition (15MV to 87CB):</strong> Base gravity is 35.5; cut out at +0.5 degrees. Note: Tank level alarms may clear and return immediately during this process.</li>
                                 </ul>
                             </div>
                         </td>
@@ -795,12 +796,14 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>EPJT Station Notes:</strong>
                                 <ul>
-                                    <li>Check the same product in the line fill with both stations.</li>
-                                    <li>New products -> Diesel or 93CB: Set ticket 1800 bbls (200 go to MIX). 93/87 -> 87: Set ticket 1900 bbls.</li>
-                                    <li>Open valves base on barrels counts (target bbls at 200 to open valve). This line is very fast so No auto flush. We can open DELM valve early.</li>
-                                    <li>Carefully check tank line up: SPL is Sunoco (ET); BPL is Buckeye.</li>
-                                    <li>Pressure change will mess up the gravity -> so open them early. Sometimes gravity jumps to 100 and auto closes the tank.</li>
-                                    <li>If gravity outside station is 155, open to transmix it may help to reduce the pressure and normalize the gravity.</li>
+                                    <li><strong>Line Fill:</strong> Verify matching product line fill with both stations.</li>
+                                    <li><strong>Ticket Settings:</strong> For new products (Diesel or 93CB), set the ticket to 1,800 bbls (200 bbls allocated to transmix). For 93/87 transitions to 87, set the ticket to 1,900 bbls (100 bbls to transmix).</li>
+                                    <li><strong>COB (87 to TNMX):</strong> Execute COB at 50 degrees. If gravity is < 42 degrees, no spur flush is required. If > 42 degrees, a manual spur flush is required at the first indication or at 1,800 bbls (125 net) while the line is shut down.</li>
+                                    <li><strong>Valve Target Settings:</strong> Open valves based on barrel counts (target 200 bbls to open valve). Target settings: Premium/Gas to Diesel = 1,800 bbls; Diesel to Gas = 1,900 bbls; Premium to Gas = 1,800 bbls.</li>
+                                    <li><strong>Line Velocity Precautions:</strong> Due to high line velocity, auto-flush is disabled. The DELM valve can be opened early with prior notification.</li>
+                                    <li><strong>Line Alignment:</strong> Verify tank alignment (SPL = Sunoco/ET; BPL = Buckeye).</li>
+                                    <li><strong>Gravity Stability:</strong> Pressure fluctuations cause erratic gravity readings, so valves should be opened early. Gravity spikes up to 100 may trigger an auto-closure of the tank, requiring tickets to be placed in split mode. This line requires strict monitoring; if an auto-closure occurs, contact Buckeye immediately to initiate a shutdown.</li>
+                                    <li><strong>Delivery Conflicts (DEL):</strong> Avoid line conflicts when delivering from both the main line and export junction simultaneously, particularly due to the single 93CB tank limitation (87 octane has two tanks and allows simultaneous use). If external station gravity reaches 155, diverting flow to the transmix tank can help reduce pressure and normalize gravity readings.</li>
                                 </ul>
                             </div>
                         </td>
@@ -821,9 +824,9 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>P.A. Access Station Notes:</strong>
                                 <ul>
-                                    <li>SUCT: minimum at 490 psi at HOLL to maintain the elevation high. HOLL: SUCT should be above 500 psi in order to keep green line above the purple line.</li>
-                                    <li>PLAI: to have ready status, bring the line fill below 700 psi by low MNTL press to 0 psi. Increase HOLL SUC a little bit to reduce DIS.</li>
-                                    <li>Flow: 600 bph, good profile at HOLL: SUC-460 psi, 1500 rpm; PLAIN-SUC-660 psi, 1500 rpm; LNGS: 1032 psi, MNTL: 500 psi. NOT GOOD TO run but pump, need to turn off PLAIN pump.</li>
+                                    <li><strong>Suction (SUCT) Parameters:</strong> Maintain a minimum of 490 psi at HOLL to support elevation heads. Optimally, HOLL SUCT should remain above 500 psi to keep the operational profile (green line) above the minimum threshold (purple line).</li>
+                                    <li><strong>PLAI Readiness:</strong> To achieve READY status, reduce line fill pressure below 700 psi by dropping MNTL pressure to 0 psi. Slightly increase HOLL suction to lower discharge pressure.</li>
+                                    <li><strong>Flow Profile (600 bph):</strong> An optimal profile consists of: HOLL SUC at 460 psi/1,500 RPM; PLAI SUC at 660 psi/1,500 RPM; LNGS at 1,032 psi; MNTL at 500 psi. Avoid running in adverse conditions; if necessary, shut down the PLAI pump.</li>
                                 </ul>
                             </div>
                         </td>
@@ -872,10 +875,9 @@ tbody tr:hover {
                             <div class="note-content">
                                 <strong>MNTL Station Notes:</strong>
                                 <ul>
-                                    <li>Switching between Diesel to Gas: Call T.O after shut down. When GRAVITY change, call MNTL.</li>
-                                    <li>When opening and closing valves, GRAVITY drop and rise back up. Call MNTL for their confirmation request. COB @ 5 bbls.</li>
-                                    <li>HOLL: Pump needs to run above 1800 rpm (applies for all other pumps).</li>
-                                    <li>Rolling Ticket: There is 100 Bbls line file from the densitometer so estimate 20 mins delay for TO to change tank.</li>
+                                    <li><strong>Product Transition (Diesel to Gas):</strong> Contact the T.O. following shutdown. Notify MNTL when a gravity change occurs. Note that opening and closing valves will cause gravity to fluctuate (drop and spike). Notify MNTL to fulfill their confirmation requests. Execute COB at 5 bbls.</li>
+                                    <li><strong>Pump Operations:</strong> The HOLL pump (and all other similar pumps) must operate above 1,800 RPM.</li>
+                                    <li><strong>Rolling Tickets:</strong> Account for 100 bbls of line fill originating from the densitometer, resulting in an estimated 20-minute delay for the T.O. to complete tank switches.</li>
                                 </ul>
                             </div>
                         </td>
@@ -946,7 +948,7 @@ tbody tr:hover {
 </div>
 
 <script>
-    // New function to toggle the expanding Notes rows
+    // Toggle the expanding Notes rows
     function toggleNote(noteId) {
         const noteRow = document.getElementById(noteId);
         if (noteRow.style.display === "none" || noteRow.style.display === "") {
