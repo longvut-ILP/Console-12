@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Board & Young - Console 12</title>
+<style>
+:root {
+    /* Oil & Gas Theme Colors */
+    --bg-body: #cbd5e1; 
+    --bg-card: #ffffff; 
+    --primary-color: #0f172a; 
+    --accent-color: #f59e0b; 
+    --accent-hover: #d97706;
+    --text-dark: #1e293b;
+    --border-color: #94a3b8; 
+    --zebra-color: #f8fafc;
+    --hover-color: #fffbeb; 
+    
+    /* Functional Colors */
+    --formula-bg: #dcfce7; /* Green for calculation fields */
+    --calculated-grey: #e2e8f0; /* Grey for standard calculated fields */
+}
+
+body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--bg-card);
+    border-radius: 4px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+    padding: 24px;
+    border: 1px solid #64748b;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
+    padding: 16px 24px;
+    border-radius: 4px;
+    margin-bottom: 32px;
+    border-bottom: 4px solid var(--accent-color);
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.1);
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.btn-nav {
+    background-color: var(--accent-color);
+    color: #0f172a;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    margin-left: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.2s;
+}
+
+.btn-nav:hover {
+    background-color: var(--accent-hover);
+    color: #ffffff;
+}
+
+.section-title {
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 6px;
+    font-weight: 800;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+th {
+    background-color: #bce6f4; /* Light blue header matching Excel */
+    color: #000000;
+    font-weight: 700;
+    padding: 14px 10px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    border: 1px solid #334155;
+    text-align: center;
+}
+
+td {
+    padding: 0;
+    border: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.grid-text-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    background: transparent;
+    padding: 10px 8px;
+    font-size: 1.1rem;
+    color: #0f172a;
+    outline: none;
+    font-family: inherit;
+    text-align: right; /* Excel numbers align right */
+}
+
+.grid-text-input:focus {
+    background-color: #ffffff;
+    box-shadow: inset 0 0 0 2px var(--accent-color);
+}
+
+.rate-input {
+    font-family: "Courier New", Courier, monospace;
+}
+
+.input-editable {
+    background-color: #ffffff;
+}
+
+.input-calculated {
+    background-color: var(--calculated-grey);
+    font-weight: bold;
+}
+
+.input-green {
+    background-color: #00b050; /* Excel Green */
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.blank-cell {
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header-section">
+        <h1>Board & Young Volumes</h1>
+        <div class="header-buttons">
+            <a href="index.html" class="btn-nav">Main Dashboard</a>
+            <a href="Time_Calculator.html" class="btn-nav">Time Calculator</a>
+        </div>
+    </div>
+    
+    <!-- BOARD SECTION -->
+    <div>
+        <h2 class="section-title">BOARD</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Line fill and TM</th>
+                        <th>Boar Curr Sched GSV</th>
+                        <th>CurrTkt GSV</th>
+                        <th>Curr Sched GSV</th>
+                        <th>New Vol Togo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="input-calculated"><input type="number" id="A3" class="grid-text-input rate-input input-calculated" value="135" oninput="calculateVolumes()"></td>
+                        <td class="input-calculated"><input type="number" id="B3" class="grid-text-input rate-input input-calculated" readonly></td>
+                        <td class="input-editable"><input type="number" id="C3" class="grid-text-input rate-input input-editable" value="60" oninput="calculateVolumes()"></td>
+                        <td class="input-green"><input type="number" id="D3" class="grid-text-input rate-input input-green" readonly></td>
+                        <td class="input-calculated"><input type="number" id="E3" class="grid-text-input rate-input input-calculated" readonly></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- YOUNG SECTION -->
+    <div>
+        <h2 class="section-title">YOUNG</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Youn Tank to fill</th>
+                        <th class="blank-cell"></th>
+                        <th>Youn Curr Tkt GSV</th>
+                        <th>Curr Sched GSV</th>
+                        <th>New Vol Togo</th>
+                        <th>Check</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="input-editable"><input type="number" id="A7" class="grid-text-input rate-input input-editable" value="2070" oninput="calculateVolumes()"></td>
+                        <td class="blank-cell"></td>
+                        <td class="input-editable"><input type="number" id="C7" class="grid-text-input rate-input input-editable" value="93" oninput="calculateVolumes()"></td>
+                        <td class="input-green"><input type="number" id="D7" class="grid-text-input rate-input input-green" readonly></td>
+                        <td class="input-calculated"><input type="number" id="E7" class="grid-text-input rate-input input-calculated" readonly></td>
+                        <td class="input-calculated"><input type="number" id="F7" class="grid-text-input rate-input input-calculated" readonly></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateVolumes() {
+        // Retrieve explicit input values (If field is empty, default to 0 for math)
+        const A3 = parseFloat(document.getElementById('A3').value) || 0; // Line fill and TM
+        const C3 = parseFloat(document.getElementById('C3').value) || 0; // CurrTkt GSV
+        const A7 = parseFloat(document.getElementById('A7').value) || 0; // Youn Tank to fill
+        const C7 = parseFloat(document.getElementById('C7').value) || 0; // Youn Curr Tkt GSV
+
+        // Formula 1: B3 = A7 - A3
+        const B3 = A7 - A3;
+        document.getElementById('B3').value = B3;
+
+        // Formula 2: D3 = B3 + C3
+        const D3 = B3 + C3;
+        document.getElementById('D3').value = D3;
+
+        // Formula 3: E3 = D3 - C3
+        const E3 = D3 - C3;
+        document.getElementById('E3').value = E3;
+
+        // Formula 4: D7 = E3 + C7 + A3 - 20
+        const D7 = E3 + C7 + A3 - 20;
+        document.getElementById('D7').value = D7;
+
+        // Formula 5: E7 = D7 - C7
+        const E7 = D7 - C7;
+        document.getElementById('E7').value = E7;
+
+        // Formula 6: F7 = E7 - E3
+        const F7 = E7 - E3;
+        document.getElementById('F7').value = F7;
+    }
+
+    // Run calculations immediately when the page loads so the placeholders display correctly
+    window.onload = calculateVolumes;
+</script>
+</body>
+</html>
