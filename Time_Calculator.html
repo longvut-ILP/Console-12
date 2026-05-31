@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Time Calculator - Console 12</title>
-    <!-- PASTE THE FAVICON HERE -->
+
+<!-- PASTE THE FAVICON HERE -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230f172a'/><path d='M50 15 L75 55 A 30 30 0 1 1 25 55 Z' fill='%23f59e0b'/></svg>">
+
 <style>
 :root {
     /* Oil & Gas Theme Colors */
@@ -271,11 +273,22 @@ tbody tr:hover {
             <a href="Board_Young.html" class="btn-nav">Board & Young</a>
         </div>
     </div>
-
+    
     <div id="calculator-container"></div>
 </div>
 
 <script>
+// Auto-adds a colon after typing the first two digits
+function autoFormatTime(input, event) {
+    // Allows backspace/delete to function normally without forcing the colon back in
+    if (event && (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward')) {
+        return;
+    }
+    if (input.value.length === 2 && !input.value.includes(':')) {
+        input.value += ':';
+    }
+}
+
 function toMins(timeStr) {
     const [h, m] = timeStr.split(':').map(Number);
     return (h * 60) + m;
@@ -314,7 +327,7 @@ function calculateRow(el) {
     
     if (st.includes(':')) {
         let finalEndStr = "";
-        let currentSplitTimeStr = ""; 
+        let currentSplitTimeStr = "";
         
         if (!isSplit) {
             // Normal Mode
@@ -322,6 +335,7 @@ function calculateRow(el) {
             finalEndStr = toStr(toMins(st) + (dur * 60));
             row.querySelector('.et').innerText = finalEndStr;
             row.querySelector('.rem').innerText = '-';
+            
         } else {
             // Split Mode
             currentSplitTimeStr = row.querySelector('.split-time').value;
@@ -385,7 +399,6 @@ function calculateRow(el) {
                     nextRow.querySelector('.r1').value = "";
                 }
             }
-            
             calculateRow(nextRow.querySelector('.st'));
         }
     }
@@ -395,6 +408,7 @@ function toggleSplit(btn) {
     const row = btn.closest('tr');
     const box = row.querySelector('.split-box');
     box.classList.toggle('visible');
+    
     btn.innerText = box.classList.contains('visible') ? "Remove Split" : "Split Rate";
     
     if (!box.classList.contains('visible')) {
@@ -419,6 +433,7 @@ function resetTable(btn) {
 }
 
 const container = document.getElementById('calculator-container');
+
 ['FOST', 'MGD1', 'MGD2', 'MGDR3'].forEach((term, index) => {
     // Add margin-top: 0 to the first header to align cleanly
     const mt = index === 0 ? 'margin-top: 0;' : '';
@@ -442,7 +457,7 @@ const container = document.getElementById('calculator-container');
             </thead>
             <tbody>
                 ${Array.from({length: 10}, () => `<tr>
-                    <td><input type="text" class="grid-text-input st" oninput="calculateRow(this)" placeholder="HH:MM"></td>
+                    <td><input type="text" maxlength="5" class="grid-text-input st" oninput="autoFormatTime(this, event); calculateRow(this)" placeholder="HH:MM"></td>
                     <td><input type="number" class="grid-text-input r1" oninput="calculateRow(this)" placeholder="R1"></td>
                     <td><input type="number" class="grid-text-input goal" oninput="calculateRow(this)" placeholder="Total"></td>
                     <td class="et highlight-time">-</td>
@@ -451,7 +466,7 @@ const container = document.getElementById('calculator-container');
                         <div class="split-box">
                             <div class="split-input-row">
                                 <span>Split Time:</span>
-                                <input type="text" class="split-time" oninput="calculateRow(this)" placeholder="HH:MM">
+                                <input type="text" maxlength="5" class="split-time" oninput="autoFormatTime(this, event); calculateRow(this)" placeholder="HH:MM">
                             </div>
                             <div class="split-input-row">
                                 <span>Rate 2:</span>
