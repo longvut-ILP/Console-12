@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pipeline Operations Dashboard - Console 12</title>
-    <!-- PASTE THE FAVICON HERE -->
+
+<!-- PASTE THE FAVICON HERE -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230f172a'/><path d='M50 15 L75 55 A 30 30 0 1 1 25 55 Z' fill='%23f59e0b'/></svg>">
+
 <style>
 :root {
     /* Oil & Gas Theme Colors */
@@ -801,7 +803,7 @@ tbody tr:hover {
                                 <ul>
                                     <li><strong>Line Fill:</strong> Verify matching product line fill with both stations.</li>
                                     <li><strong>Ticket Settings:</strong> For new products (Diesel or 93CB), set the ticket to 1,800 bbls (200 bbls allocated to transmix). For 93/87 transitions to 87, set the ticket to 1,900 bbls (100 bbls to transmix).</li>
-                                    <li><strong>COB (87 to TNMX):</strong> Execute COB at 50 degrees. If gravity is < 42 degrees, no spur flush is required. If > 42 degrees, a manual spur flush is required at the first indication or at 1,800 bbls (125 net) while the line is shut down.</li>
+                                    <li><strong>COB (87 to TNMX):</strong> Execute COB at 50 degrees. If gravity is &lt; 42 degrees, no spur flush is required. If &gt; 42 degrees, a manual spur flush is required at the first indication or at 1,800 bbls (125 net) while the line is shut down.</li>
                                     <li><strong>Valve Target Settings:</strong> Open valves based on barrel counts (target 200 bbls to open valve). Target settings: Premium/Gas to Diesel = 1,800 bbls; Diesel to Gas = 1,900 bbls; Premium to Gas = 1,800 bbls.</li>
                                     <li><strong>Line Velocity Precautions:</strong> Due to high line velocity, auto-flush is disabled. The DELM valve can be opened early with prior notification.</li>
                                     <li><strong>Line Alignment:</strong> Verify tank alignment (SPL = Sunoco/ET; BPL = Buckeye).</li>
@@ -979,6 +981,7 @@ tbody tr:hover {
         const rateInputs = document.querySelectorAll('.rate-input');
         rateInputs.forEach(input => {
             input.value = "";
+            input.placeholder = "-"; // Reset placeholders as well
             input.classList.remove('input-error');
             input.classList.remove('formula-filled');
         });
@@ -1007,21 +1010,42 @@ tbody tr:hover {
         const delmInput = row.querySelector('.delm-in');
         const mntlInput = row.querySelector('.mntl-in');
 
-        const fostVal = fostInput.value.trim() !== "" ? parseFloat(fostInput.value) : 0;
-        const cv10Val = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : 0;
-        const mgdrVal = mgdrInput.value.trim() !== "" ? parseFloat(mgdrInput.value) : 0;
+        // NEW CASCADE LOGIC: Pull values downwards into the placeholders of the current row if rowId > 1
+        if (rowId > 1 && triggerSource !== 'clear') {
+            const prevRow = document.querySelector(`tr[data-row="${rowId - 1}"]`);
+            if (prevRow) {
+                const manualCols = ['fost', 'cv10', 'huds', 'clvn', 'mgdr', 'board', 'alle', 'pitt'];
+                manualCols.forEach(col => {
+                    const prevIn = prevRow.querySelector(`.${col}-in`);
+                    const currIn = row.querySelector(`.${col}-in`);
+                    if (prevIn && currIn) {
+                        // Check if the previous row has an explicitly typed value, OR a cascaded placeholder
+                        const prevEff = prevIn.value.trim() !== "" ? prevIn.value : prevIn.placeholder;
+                        currIn.placeholder = (prevEff && prevEff !== "-") ? prevEff : "-";
+                    }
+                });
+            }
+        }
 
-        cv10Input.classList.remove('input-error');
-        mgdrInput.classList.remove('input-error');
-        aaInput.classList.remove('input-error');
-        boardInput.classList.remove('input-error');
-        alleInput.classList.remove('input-error');
-        pittInput.classList.remove('input-error');
-        delmInput.classList.remove('input-error');
+        // Get effective values for the math (Checking explicitly entered .value first, then checking cascaded .placeholder)
+        const fostVal = fostInput.value.trim() !== "" ? parseFloat(fostInput.value) : (fostInput.placeholder !== "-" ? parseFloat(fostInput.placeholder) : 0);
+        const cv10Val = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : (cv10Input.placeholder !== "-" ? parseFloat(cv10Input.placeholder) : 0);
+        const mgdrVal = mgdrInput.value.trim() !== "" ? parseFloat(mgdrInput.value) : (mgdrInput.placeholder !== "-" ? parseFloat(mgdrInput.placeholder) : 0);
 
-        if (triggerSource !== 'clear') {
+        // Clear error styles for recalculation
+        if (triggerSource !== 'cascade') {
+            cv10Input.classList.remove('input-error');
+            mgdrInput.classList.remove('input-error');
+            aaInput.classList.remove('input-error');
+            boardInput.classList.remove('input-error');
+            alleInput.classList.remove('input-error');
+            pittInput.classList.remove('input-error');
+            delmInput.classList.remove('input-error');
+        }
+
+        if (triggerSource !== 'clear' && triggerSource !== 'cascade') {
             if (cv10Input.value.trim() !== "" && fostInput.value.trim() !== "") {
-                if (cv10Val > fostVal) {
+                if (parseFloat(cv10Input.value) > fostVal) {
                     cv10Input.classList.add('input-error');
                     alert(`Validation Error on Job ${rowId}: CV10 value must be less than or equal to FOST.`);
                     cv10Input.value = "";
@@ -1030,19 +1054,10 @@ tbody tr:hover {
             }
             if (mgdrInput.value.trim() !== "") {
                 const sumLimit = fostVal + cv10Val;
-                if (mgdrVal > sumLimit) {
+                if (parseFloat(mgdrInput.value) > sumLimit) {
                     mgdrInput.classList.add('input-error');
                     alert(`Validation Error on Job ${rowId}: MGDR value must be smaller than or equal to FOST + CV10 (${sumLimit}).`);
                     mgdrInput.value = "";
-                    return;
-                }
-            }
-            if (aaInput.value.trim() !== "" && fostInput.value.trim() !== "") {
-                const explicitAA = parseFloat(aaInput.value);
-                if (explicitAA > fostVal) {
-                    aaInput.classList.add('input-error');
-                    alert(`Validation Error on Job ${rowId}: A.A. value must be smaller than or equal to FOST.`);
-                    aaInput.value = "";
                     return;
                 }
             }
@@ -1058,7 +1073,9 @@ tbody tr:hover {
             clvnInput.value = cv10Input.value.trim();
         }
 
-        if (fostInput.value.trim() !== "" || cv10Input.value.trim() !== "" || mgdrInput.value.trim() !== "") {
+        // Auto-math for A.A. using cascaded values
+        if (fostInput.value.trim() !== "" || cv10Input.value.trim() !== "" || mgdrInput.value.trim() !== "" || 
+            fostInput.placeholder !== "-" || cv10Input.placeholder !== "-" || mgdrInput.placeholder !== "-") {
             aaInput.placeholder = Number((fostVal - cv10Val - mgdrVal).toFixed(4));
         } else {
             aaInput.placeholder = "-";
@@ -1066,7 +1083,7 @@ tbody tr:hover {
 
         const effectiveAA = aaInput.value.trim() !== "" ? parseFloat(aaInput.value) : (aaInput.placeholder !== "-" ? parseFloat(aaInput.placeholder) : NaN);
 
-        if (triggerSource !== 'clear' && !isNaN(effectiveAA)) {
+        if (triggerSource !== 'clear' && triggerSource !== 'cascade' && !isNaN(effectiveAA)) {
             if (boardInput.value.trim() !== "" && parseFloat(boardInput.value) > effectiveAA) {
                 boardInput.classList.add('input-error');
                 alert(`Validation Error on Job ${rowId}: BOARD value cannot be greater than A.A. (${effectiveAA}).`);
@@ -1093,12 +1110,14 @@ tbody tr:hover {
             }
         }
 
-        const boardVal = boardInput.value.trim() !== "" ? parseFloat(boardInput.value) : 0;
-        const alleVal = alleInput.value.trim() !== "" ? parseFloat(alleInput.value) : 0;
-        const pittVal = pittInput.value.trim() !== "" ? parseFloat(pittInput.value) : 0;
+        const boardVal = boardInput.value.trim() !== "" ? parseFloat(boardInput.value) : (boardInput.placeholder !== "-" ? parseFloat(boardInput.placeholder) : 0);
+        const alleVal = alleInput.value.trim() !== "" ? parseFloat(alleInput.value) : (alleInput.placeholder !== "-" ? parseFloat(alleInput.placeholder) : 0);
+        const pittVal = pittInput.value.trim() !== "" ? parseFloat(pittInput.value) : (pittInput.placeholder !== "-" ? parseFloat(pittInput.placeholder) : 0);
 
+        // Updated Math constraints: Prevents DELM and MNTL placeholders from dropping below zero
         if (!isNaN(effectiveAA)) {
-            delmInput.placeholder = Number((effectiveAA - boardVal - alleVal - pittVal).toFixed(4));
+            let calcDelm = Number((effectiveAA - boardVal - alleVal - pittVal).toFixed(4));
+            delmInput.placeholder = calcDelm < 0 ? 0 : calcDelm;
         } else {
             delmInput.placeholder = "-";
         }
@@ -1106,7 +1125,8 @@ tbody tr:hover {
         const effectiveDELM = delmInput.value.trim() !== "" ? parseFloat(delmInput.value) : (delmInput.placeholder !== "-" ? parseFloat(delmInput.placeholder) : 0);
 
         if (!isNaN(effectiveAA)) {
-            mntlInput.placeholder = Number((effectiveAA - boardVal - alleVal - pittVal - effectiveDELM).toFixed(4));
+            let calcMntl = Number((effectiveAA - boardVal - alleVal - pittVal - effectiveDELM).toFixed(4));
+            mntlInput.placeholder = calcMntl < 0 ? 0 : calcMntl;
         } else {
             mntlInput.placeholder = "-";
         }
@@ -1118,6 +1138,11 @@ tbody tr:hover {
                 input.classList.remove('formula-filled');
             }
         });
+
+        // CHAIN REACTION: Automatically recalculate and cascade to the row underneath it
+        if (rowId < 7 && triggerSource !== 'clear') {
+            calculateRow(rowId + 1, 'cascade');
+        }
     }
 </script>
 </body>
