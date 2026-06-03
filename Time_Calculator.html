@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Time Calculator - Console 12</title>
 
-<!-- PASTE THE FAVICON HERE -->
+<!-- Favicon -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230f172a'/><path d='M50 15 L75 55 A 30 30 0 1 1 25 55 Z' fill='%23f59e0b'/></svg>">
 
 <style>
@@ -280,7 +280,6 @@ tbody tr:hover {
 <script>
 // Auto-adds a colon after typing the first two digits
 function autoFormatTime(input, event) {
-    // Allows backspace/delete to function normally without forcing the colon back in
     if (event && (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward')) {
         return;
     }
@@ -322,7 +321,11 @@ function calculateRow(el) {
     const row = el.closest('tr');
     const st = row.querySelector('.st').value;
     const r1 = parseFloat(row.querySelector('.r1').value) || 0;
-    const totalGoal = parseFloat(row.querySelector('.goal').value) || 0;
+    
+    // Check if the user manually entered a Total Bbl
+    const totalGoalStr = row.querySelector('.goal').value.trim();
+    const totalGoal = parseFloat(totalGoalStr) || 0;
+    
     const isSplit = row.querySelector('.split-box').classList.contains('visible');
     
     if (st.includes(':')) {
@@ -347,9 +350,11 @@ function calculateRow(el) {
                 const elapsedMins = splitMins - startMins;
                 
                 const prevRemaining = getPrevRemaining(row);
-                const actualTotal = prevRemaining > 0 ? prevRemaining : totalGoal;
                 const prevRate2 = getPrevRate2(row);
-                const actualRate = prevRemaining > 0 ? prevRate2 : r1;
+                
+                // NEW LOGIC: Only pull previous remaining balance if current Total Bbl is blank
+                const actualTotal = (totalGoalStr === "" && prevRemaining > 0) ? prevRemaining : totalGoal;
+                const actualRate = (totalGoalStr === "" && prevRemaining > 0) ? prevRate2 : r1;
                 
                 const batchDone = (elapsedMins / 60) * actualRate;
                 const batchRem = actualTotal - batchDone;
@@ -364,18 +369,18 @@ function calculateRow(el) {
         const nextRow = row.nextElementSibling;
         if (nextRow && nextRow.querySelector('.st')) {
             const nextIsSplit = nextRow.querySelector('.split-box').classList.contains('visible');
+            const nextGoalStr = nextRow.querySelector('.goal').value.trim();
             let timeToPass = "";
             
-            // Determine which time to pass based on the NEXT row's split status
+            // Determine which time to pass based on the NEXT row's split status AND goal input
             if (!isSplit) {
-                // If current row is NOT split, always pass End Time
                 timeToPass = finalEndStr;
             } else {
-                // If current row IS split, check the next row
-                if (nextIsSplit) {
-                    timeToPass = currentSplitTimeStr; // Next row is split -> pass Split Time
+                // NEW LOGIC: Don't pass Split Time if the next row has its own Total Bbl typed in
+                if (nextIsSplit && nextGoalStr === "") {
+                    timeToPass = currentSplitTimeStr; 
                 } else {
-                    timeToPass = finalEndStr; // Next row is NOT split -> pass End Time
+                    timeToPass = finalEndStr; 
                 }
             }
             
