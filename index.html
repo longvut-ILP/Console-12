@@ -107,10 +107,29 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 0.03em;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    margin-right: 12px;
 }
 
 .btn-clear:hover {
     background-color: var(--btn-clear-hover);
+}
+
+.btn-print {
+    background-color: #166534;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-print:hover {
+    background-color: #14532d;
 }
 
 .section-title {
@@ -215,12 +234,21 @@ tbody tr:hover {
     color: #0f172a;
     outline: none;
     font-family: inherit;
+    transition: background-color 0.2s, border 0.2s;
 }
 
 .grid-text-input:focus {
     background-color: #ffffff;
     border: 1px solid var(--accent-color);
     box-shadow: inset 0 0 0 1px var(--accent-color);
+}
+
+/* User-Entered Highlight State */
+.user-entered {
+    background-color: #cbd5e1 !important; 
+    color: #0f172a !important;
+    font-weight: 700;
+    border: 1px solid #94a3b8 !important;
 }
 
 .time-input {
@@ -296,6 +324,41 @@ tbody tr:hover {
 .note-content li {
     margin-bottom: 4px;
 }
+
+/* Print PDF Overrides */
+@media print {
+    @page { 
+        size: landscape; 
+        margin: 10mm; 
+    }
+    body { 
+        background-color: #ffffff; 
+        zoom: 0.78; 
+    }
+    .container { 
+        box-shadow: none; 
+        border: none; 
+        padding: 0; 
+        margin: 0; 
+    }
+    .header-buttons, .note-toggle { 
+        display: none !important; 
+    }
+    .checklist-container, .table-responsive { 
+        max-height: none !important; 
+        overflow: visible !important; 
+        border: 1px solid #94a3b8; 
+        box-shadow: none; 
+    }
+    /* FIX FOR OVERLAPPING HEADERS */
+    th {
+        position: static !important; 
+    }
+    .print-page-2 { 
+        page-break-before: always; 
+        margin-top: 20px;
+    }
+}
 </style>
 </head>
 <body>
@@ -306,6 +369,7 @@ tbody tr:hover {
             <a href="Time_Calculator.html" target="_blank" class="btn-nav">Time Calculator</a>
             <a href="Board_Young.html" target="_blank" class="btn-nav">Board & Young</a>
             <button class="btn-clear" onclick="clearAllFields()">Clear All Fields</button>
+            <button class="btn-print" onclick="window.print()">Print PDF</button>
         </div>
     </div>
     
@@ -902,7 +966,8 @@ tbody tr:hover {
         </div>
     </div>
 
-    <div>
+    <!-- Print Wrapper for Page 2 -->
+    <div class="print-page-2">
         <h2 class="section-title">Rate Change Schedule</h2>
         <div class="table-responsive">
             <table id="rate-table">
@@ -953,6 +1018,17 @@ tbody tr:hover {
 </div>
 
 <script>
+    // General Listener: Add visual highlight to ANY field when a user manually enters data
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('grid-text-input')) {
+            if (e.target.value.trim() !== "") {
+                e.target.classList.add('user-entered');
+            } else {
+                e.target.classList.remove('user-entered');
+            }
+        }
+    });
+
     // Toggle the expanding Notes rows
     function toggleNote(noteId) {
         const noteRow = document.getElementById(noteId);
@@ -976,18 +1052,25 @@ tbody tr:hover {
         shiftChks.forEach(chk => chk.checked = false);
         
         const shiftFields = document.querySelectorAll('.shift-field');
-        shiftFields.forEach(field => field.value = "");
+        shiftFields.forEach(field => {
+            field.value = "";
+            field.classList.remove('user-entered');
+        });
         
         const rateInputs = document.querySelectorAll('.rate-input');
         rateInputs.forEach(input => {
             input.value = "";
-            input.placeholder = "-"; // Reset placeholders as well
+            input.placeholder = "-"; 
             input.classList.remove('input-error');
             input.classList.remove('formula-filled');
+            input.classList.remove('user-entered');
         });
         
         const timeInputs = document.querySelectorAll('.time-input');
-        timeInputs.forEach(input => input.value = "");
+        timeInputs.forEach(input => {
+            input.value = "";
+            input.classList.remove('user-entered');
+        });
         
         for (let i = 1; i <= 7; i++) {
             calculateRow(i, 'clear');
@@ -1065,12 +1148,18 @@ tbody tr:hover {
 
         if (triggerSource === 'cv10') {
             hudsInput.value = cv10Input.value;
+            hudsInput.classList.add('user-entered');
         }
 
-        if (hudsInput.value.trim() !== "") {
-            clvnInput.value = "";
+        // NEW CLVN MATH LOGIC
+        const safeCv10 = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : 0;
+        const safeHuds = hudsInput.value.trim() !== "" ? parseFloat(hudsInput.value) : 0;
+
+        if (cv10Input.value.trim() !== "" || hudsInput.value.trim() !== "") {
+            clvnInput.value = Number((safeCv10 - safeHuds).toFixed(4));
         } else {
-            clvnInput.value = cv10Input.value.trim();
+            clvnInput.value = "";
+            clvnInput.classList.remove('user-entered');
         }
 
         // Auto-math for A.A. using cascaded values
@@ -1114,7 +1203,7 @@ tbody tr:hover {
         const alleVal = alleInput.value.trim() !== "" ? parseFloat(alleInput.value) : (alleInput.placeholder !== "-" ? parseFloat(alleInput.placeholder) : 0);
         const pittVal = pittInput.value.trim() !== "" ? parseFloat(pittInput.value) : (pittInput.placeholder !== "-" ? parseFloat(pittInput.placeholder) : 0);
 
-        // Updated Math constraints: Prevents DELM and MNTL placeholders from dropping below zero
+        // Math constraints: Prevents DELM and MNTL placeholders from dropping below zero
         if (!isNaN(effectiveAA)) {
             let calcDelm = Number((effectiveAA - boardVal - alleVal - pittVal).toFixed(4));
             delmInput.placeholder = calcDelm < 0 ? 0 : calcDelm;
