@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Batch Log Tracking - Console 12</title>
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230f172a'/><path d='M50 15 L75 55 A 30 30 0 1 1 25 55 Z' fill='%23f59e0b'/></svg>">
+
+<style>
+:root {
+    /* Oil & Gas Theme Colors */
+    --bg-body: #cbd5e1; 
+    --bg-card: #ffffff; 
+    --primary-color: #0f172a; 
+    --accent-color: #f59e0b; 
+    --accent-hover: #d97706;
+    --text-dark: #1e293b;
+    --border-color: #94a3b8; 
+    --zebra-color: #f8fafc;
+    --hover-color: #fffbeb; 
+    
+    /* Functional Colors */
+    --formula-bg: #dcfce7; 
+    --error-bg: #fee2e2;
+    --error-border: #ef4444;
+    --btn-clear-bg: #dc2626; 
+    --btn-clear-hover: #991b1b;
+}
+
+body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: var(--bg-card);
+    border-radius: 4px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+    padding: 24px;
+    border: 1px solid #64748b;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
+    padding: 16px 24px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    border-bottom: 4px solid var(--accent-color);
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.1);
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.btn-nav {
+    background-color: var(--accent-color);
+    color: #0f172a;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    margin-right: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.2s;
+}
+
+.btn-nav:hover {
+    background-color: var(--accent-hover);
+    color: #ffffff;
+}
+
+.btn-clear {
+    background-color: var(--btn-clear-bg);
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    margin-right: 12px;
+}
+
+.btn-clear:hover {
+    background-color: var(--btn-clear-hover);
+}
+
+.btn-print {
+    background-color: #166534;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-print:hover {
+    background-color: #14532d;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    min-width: 1550px; 
+}
+
+th {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 8px;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    border: 1px solid #334155;
+    border-bottom: 3px solid var(--accent-color);
+    text-align: center;
+    position: static;
+    letter-spacing: 0.03em;
+}
+
+td {
+    padding: 3px;
+    border: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--zebra-color);
+}
+
+tbody tr:hover {
+    background-color: var(--hover-color);
+}
+
+.grid-text-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 8px 6px;
+    font-size: 0.88rem;
+    color: #0f172a;
+    outline: none;
+    font-family: inherit;
+    transition: background-color 0.2s, border 0.2s;
+}
+
+.grid-text-input:focus {
+    background-color: #ffffff;
+    border: 1px solid var(--accent-color);
+    box-shadow: inset 0 0 0 1px var(--accent-color);
+}
+
+/* User-Entered Highlight State */
+.user-entered {
+    background-color: #cbd5e1 !important; 
+    color: #0f172a !important;
+    font-weight: 700;
+    border: 1px solid #94a3b8 !important;
+}
+
+.batch-input {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.rate-input {
+    text-align: center;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.formula-filled {
+    background-color: var(--formula-bg) !important;
+    font-weight: 700;
+    color: #166534 !important;
+}
+
+.input-error {
+    background-color: var(--error-bg) !important;
+    border: 1px solid var(--error-border) !important;
+    color: #b91c1c !important;
+}
+
+/* Specific button style for the toggle images */
+.btn-action {
+    background-color: #475569;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-action:hover {
+    background-color: var(--accent-color);
+    color: #0f172a;
+}
+
+/* Styles for Gravity Change Image Rows */
+.img-upload-label {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #64748b;
+    transition: color 0.2s;
+    display: inline-block;
+}
+
+.img-upload-label:hover {
+    color: var(--accent-color);
+}
+
+.img-preview {
+    max-width: 60px;
+    max-height: 40px;
+    display: none;
+    margin: 4px auto 0 auto;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    object-fit: cover;
+    cursor: zoom-in;
+}
+
+.image-row {
+    background-color: #f1f5f9;
+}
+
+.image-row td {
+    padding: 6px;
+}
+
+/* GLOBAL HOVER PREVIEW (Pop-out style) */
+#global-preview {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 85vw;
+    max-height: 85vh;
+    z-index: 9999;
+    box-shadow: 0 0 0 10000px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.8);
+    border: 5px solid #ffffff;
+    border-radius: 6px;
+    pointer-events: none;
+    object-fit: contain;
+}
+
+/* Print PDF Overrides */
+@media print {
+    @page { 
+        size: landscape; 
+        margin: 10mm; 
+    }
+    body { 
+        background-color: #ffffff; 
+        zoom: 0.75; 
+    }
+    .container { 
+        box-shadow: none; 
+        border: none; 
+        padding: 0; 
+        margin: 0; 
+    }
+    .header-buttons, .btn-action, .img-upload-label { 
+        display: none !important; 
+    }
+    .table-responsive { 
+        max-height: none !important; 
+        overflow: visible !important; 
+        border: 1px solid #94a3b8; 
+        box-shadow: none; 
+    }
+    /* Ensure uploaded pictures are large enough to read on the PDF */
+    .img-preview {
+        max-width: 140px !important;
+        max-height: 90px !important;
+        border: 2px solid #0f172a !important;
+    }
+    .image-row {
+        background-color: #ffffff !important; 
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header-section">
+        <h1>Batch Log Tracking - Console 12</h1>
+        <div class="header-buttons">
+            <a href="index.html" class="btn-nav">Main Dashboard</a>
+            <button class="btn-clear" onclick="clearAllFields()">Clear All Fields</button>
+            <button class="btn-print" onclick="window.print()">Print PDF</button>
+        </div>
+    </div>
+
+    <div>
+        <div class="table-responsive">
+            <table id="rate-table">
+                <thead>
+                    <tr>
+                        <th style="width: 90px; text-align: center;">Products</th>
+                        <th style="width: 105px;">Batch ID</th>
+                        <th>FOST</th>
+                        <th style="width: 105px;">Batch ID</th>
+                        <th>CV10</th>
+                        <th>HUDS</th>
+                        <th>CLVN</th>
+                        <th>MGDR</th>
+                        <th style="width: 105px;">Batch ID</th>
+                        <th>A.A.</th>
+                        <th>BOARD</th>
+                        <th>ALLE</th>
+                        <th>PITT</th>
+                        <th>DELM</th>
+                        <th style="width: 105px;">Batch ID</th>
+                        <th>MNTL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script>
+                        for (let i = 1; i <= 7; i++) {
+                            document.write(`
+                            <tr data-row="${i}" class="data-grid-row">
+                                <td style="border-right: 2px solid #94a3b8; padding: 4px;">
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                                        <select class="grid-text-input product-dropdown" style="font-weight: 700; cursor: pointer; text-align: center; appearance: auto;">
+                                            <option value="" disabled selected>Select...</option>
+                                            <option value="87CB">87CB</option>
+                                            <option value="15MV">15MV</option>
+                                            <option value="93CB">93CB</option>
+                                        </select>
+                                        <button class="btn-action" style="font-size: 0.65rem; padding: 3px 8px;" onclick="toggleImgRow(${i})">📷 Pic</button>
+                                    </div>
+                                </td>
+                                
+                                <td style="padding: 0;">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <span style="font-weight: 700; color: var(--primary-color); padding-left: 6px;">FSMG-</span>
+                                        <input type="text" maxlength="3" class="grid-text-input batch-input" placeholder="000" style="width: 45px; text-align: left; padding-left: 4px;">
+                                    </div>
+                                </td>
+
+                                <td><input type="number" step="100" class="grid-text-input rate-input fost-in" placeholder="-" oninput="calculateRow(${i}, 'fost')"></td>
+                                
+                                <td style="padding: 0;">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <span style="font-weight: 700; color: var(--primary-color); padding-left: 6px;">BDMG-</span>
+                                        <input type="text" maxlength="3" class="grid-text-input batch-input" placeholder="000" style="width: 45px; text-align: left; padding-left: 4px;">
+                                    </div>
+                                </td>
+
+                                <td><input type="number" step="100" class="grid-text-input rate-input cv10-in" placeholder="-" oninput="calculateRow(${i}, 'cv10')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input huds-in" placeholder="-" oninput="calculateRow(${i}, 'huds')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input clvn-in" placeholder="-" readonly></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input mgdr-in" placeholder="-" oninput="calculateRow(${i}, 'mgdr')"></td>
+                                
+                                <td style="padding: 0;">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <span style="font-weight: 700; color: var(--primary-color); padding-left: 6px;">MGDE-</span>
+                                        <input type="text" maxlength="3" class="grid-text-input batch-input" placeholder="000" style="width: 45px; text-align: left; padding-left: 4px;">
+                                    </div>
+                                </td>
+
+                                <td><input type="number" step="100" class="grid-text-input rate-input aa-in" placeholder="-" oninput="calculateRow(${i}, 'aa')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input board-in" placeholder="-" oninput="calculateRow(${i}, 'board')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input alle-in" placeholder="-" oninput="calculateRow(${i}, 'alle')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input pitt-in" placeholder="-" oninput="calculateRow(${i}, 'pitt')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input delm-in" placeholder="-" oninput="calculateRow(${i}, 'delm')" onkeydown="handleDelmKey(event, ${i})"></td>
+                                
+                                <td style="padding: 0;">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <span style="font-weight: 700; color: var(--primary-color); padding-left: 6px;">DLMN-</span>
+                                        <input type="text" maxlength="3" class="grid-text-input batch-input" placeholder="000" style="width: 45px; text-align: left; padding-left: 4px;">
+                                    </div>
+                                </td>
+
+                                <td><input type="number" step="100" class="grid-text-input rate-input mntl-in" placeholder="-" oninput="calculateRow(${i}, 'mntl')"></td>
+                            </tr>
+                            
+                            <!-- COLLAPSIBLE GRAVITY IMAGE ROW WITH HOVER EFFECTS -->
+                            <tr id="img-row-${i}" class="image-row" style="display: none;">
+                                <td style="border-right: 2px solid #94a3b8; font-size: 0.75rem; font-weight: 700; text-align: center; color: #475569;">Gravity Track</td>
+                                <td></td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-fost-${i}')">
+                                    </label>
+                                    <img id="img-fost-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td></td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-cv10-${i}')">
+                                    </label>
+                                    <img id="img-cv10-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-huds-${i}')">
+                                    </label>
+                                    <img id="img-huds-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-clvn-${i}')">
+                                    </label>
+                                    <img id="img-clvn-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-mgdr-${i}')">
+                                    </label>
+                                    <img id="img-mgdr-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td></td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-aa-${i}')">
+                                    </label>
+                                    <img id="img-aa-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-board-${i}')">
+                                    </label>
+                                    <img id="img-board-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-alle-${i}')">
+                                    </label>
+                                    <img id="img-alle-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-pitt-${i}')">
+                                    </label>
+                                    <img id="img-pitt-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-delm-${i}')">
+                                    </label>
+                                    <img id="img-delm-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                                <td></td>
+                                <td style="text-align: center;">
+                                    <label class="img-upload-label" title="Upload Gravity Image">
+                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-mntl-${i}')">
+                                    </label>
+                                    <img id="img-mntl-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                </td>
+                            </tr>
+                            `);
+                        }
+                    </script>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Global Large Image Hover Container -->
+<img id="global-preview" alt="Full Size Image Preview">
+
+<script>
+    // General Listener: Add visual highlight to ANY field when a user manually enters data
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('grid-text-input')) {
+            if (e.target.value.trim() !== "") {
+                e.target.classList.add('user-entered');
+            } else {
+                e.target.classList.remove('user-entered');
+            }
+        }
+    });
+
+    // BEFORE PRINT: Automatically expand any rows that contain uploaded pictures
+    window.addEventListener('beforeprint', function() {
+        for (let i = 1; i <= 7; i++) {
+            const imgRow = document.getElementById(`img-row-${i}`);
+            const images = imgRow.querySelectorAll('.img-preview');
+            let hasImage = false;
+            
+            images.forEach(img => {
+                if (img.src && img.src.length > 50 && img.style.display === 'block') {
+                    hasImage = true;
+                }
+            });
+            
+            imgRow.setAttribute('data-pre-print-state', imgRow.style.display);
+            if (hasImage) {
+                imgRow.style.display = 'table-row';
+            }
+        }
+        hideLargePreview();
+    });
+
+    // AFTER PRINT: Collapse rows back down if they were closed before
+    window.addEventListener('afterprint', function() {
+        for (let i = 1; i <= 7; i++) {
+            const imgRow = document.getElementById(`img-row-${i}`);
+            if (imgRow.hasAttribute('data-pre-print-state')) {
+                imgRow.style.display = imgRow.getAttribute('data-pre-print-state');
+                imgRow.removeAttribute('data-pre-print-state');
+            }
+        }
+    });
+
+    // Toggle Visibility of the Image Row manually
+    function toggleImgRow(rowId) {
+        const imgRow = document.getElementById(`img-row-${rowId}`);
+        if (imgRow.style.display === "none" || imgRow.style.display === "") {
+            imgRow.style.display = "table-row";
+        } else {
+            imgRow.style.display = "none";
+        }
+    }
+
+      // Load and Display Image Preview Function
+    function previewImg(input, imgId) {
+        // Using .item(0) bypasses the chat formatting bug!
+        const file = input.files.item(0); 
+        const imgElement = document.getElementById(imgId);
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imgElement.src = e.target.result;
+                imgElement.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            imgElement.src = '';
+            imgElement.style.display = 'none';
+        }
+    }
+
+    // Hover Zoom Preview Functions
+    function showLargePreview(src) {
+        if (!src || src.length < 50) return; 
+        const preview = document.getElementById('global-preview');
+        preview.src = src;
+        preview.style.display = 'block';
+    }
+
+    function hideLargePreview() {
+        document.getElementById('global-preview').style.display = 'none';
+    }
+
+    function handleDelmKey(event, rowId) {
+        if (event.key === "Delete" || event.key === "Backspace") {
+            setTimeout(() => {
+                calculateRow(rowId, 'delm');
+            }, 10);
+        }
+    }
+
+    function clearAllFields() {
+        const productSelects = document.querySelectorAll('.product-dropdown');
+        productSelects.forEach(select => {
+            select.selectedIndex = 0;
+            select.classList.remove('user-entered');
+        });
+
+        const rateInputs = document.querySelectorAll('.rate-input');
+        rateInputs.forEach(input => {
+            input.value = "";
+            input.placeholder = "-"; 
+            input.classList.remove('input-error');
+            input.classList.remove('formula-filled');
+            input.classList.remove('user-entered');
+        });
+        
+        const batchInputs = document.querySelectorAll('.batch-input');
+        batchInputs.forEach(input => {
+            input.value = "";
+            input.classList.remove('user-entered');
+        });
+
+        const fileInputs = document.querySelectorAll('.img-upload-input');
+        fileInputs.forEach(input => input.value = "");
+        
+        const imgPreviews = document.querySelectorAll('.img-preview');
+        imgPreviews.forEach(img => {
+            img.src = "";
+            img.style.display = "none";
+        });
+        
+        const imageRows = document.querySelectorAll('.image-row');
+        imageRows.forEach(row => row.style.display = "none");
+        
+        hideLargePreview();
+        
+        for (let i = 1; i <= 7; i++) {
+            calculateRow(i, 'clear');
+        }
+    }
+
+    function calculateRow(rowId, triggerSource) {
+        const row = document.querySelector(`tr[data-row="${rowId}"]`);
+        if (!row) return;
+
+        const fostInput = row.querySelector('.fost-in');
+        const cv10Input = row.querySelector('.cv10-in');
+        const hudsInput = row.querySelector('.huds-in');
+        const clvnInput = row.querySelector('.clvn-in');
+        const mgdrInput = row.querySelector('.mgdr-in');
+        const aaInput = row.querySelector('.aa-in');
+        const boardInput = row.querySelector('.board-in');
+        const alleInput = row.querySelector('.alle-in');
+        const pittInput = row.querySelector('.pitt-in');
+        const delmInput = row.querySelector('.delm-in');
+        const mntlInput = row.querySelector('.mntl-in');
+
+        if (rowId > 1 && triggerSource !== 'clear') {
+            const prevRow = document.querySelector(`tr[data-row="${rowId - 1}"]`);
+            if (prevRow) {
+                const manualCols = ['fost', 'cv10', 'huds', 'clvn', 'mgdr', 'board', 'alle', 'pitt'];
+                manualCols.forEach(col => {
+                    const prevIn = prevRow.querySelector(`.${col}-in`);
+                    const currIn = row.querySelector(`.${col}-in`);
+                    if (prevIn && currIn) {
+                        const prevEff = prevIn.value.trim() !== "" ? prevIn.value : prevIn.placeholder;
+                        currIn.placeholder = (prevEff && prevEff !== "-") ? prevEff : "-";
+                    }
+                });
+            }
+        }
+
+        const fostVal = fostInput.value.trim() !== "" ? parseFloat(fostInput.value) : (fostInput.placeholder !== "-" ? parseFloat(fostInput.placeholder) : 0);
+        const cv10Val = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : (cv10Input.placeholder !== "-" ? parseFloat(cv10Input.placeholder) : 0);
+        const mgdrVal = mgdrInput.value.trim() !== "" ? parseFloat(mgdrInput.value) : (mgdrInput.placeholder !== "-" ? parseFloat(mgdrInput.placeholder) : 0);
+
+        if (triggerSource !== 'cascade') {
+            cv10Input.classList.remove('input-error');
+            mgdrInput.classList.remove('input-error');
+            aaInput.classList.remove('input-error');
+            boardInput.classList.remove('input-error');
+            alleInput.classList.remove('input-error');
+            pittInput.classList.remove('input-error');
+            delmInput.classList.remove('input-error');
+        }
+
+        if (triggerSource !== 'clear' && triggerSource !== 'cascade') {
+            if (cv10Input.value.trim() !== "" && fostInput.value.trim() !== "") {
+                if (parseFloat(cv10Input.value) > fostVal) {
+                    cv10Input.classList.add('input-error');
+                    alert(`Validation Error on Product ${rowId}: CV10 value must be less than or equal to FOST.`);
+                    cv10Input.value = "";
+                    return;
+                }
+            }
+            if (mgdrInput.value.trim() !== "") {
+                const sumLimit = fostVal + cv10Val;
+                if (parseFloat(mgdrInput.value) > sumLimit) {
+                    mgdrInput.classList.add('input-error');
+                    alert(`Validation Error on Product ${rowId}: MGDR value must be smaller than or equal to FOST + CV10 (${sumLimit}).`);
+                    mgdrInput.value = "";
+                    return;
+                }
+            }
+        }
+
+        if (triggerSource === 'cv10') {
+            hudsInput.value = cv10Input.value;
+            hudsInput.classList.add('user-entered');
+        }
+
+        const safeCv10 = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : 0;
+        const safeHuds = hudsInput.value.trim() !== "" ? parseFloat(hudsInput.value) : 0;
+
+        if (cv10Input.value.trim() !== "" || hudsInput.value.trim() !== "") {
+            clvnInput.value = Number((safeCv10 - safeHuds).toFixed(4));
+        } else {
+            clvnInput.value = "";
+            clvnInput.classList.remove('user-entered');
+        }
+
+        if (fostInput.value.trim() !== "" || cv10Input.value.trim() !== "" || mgdrInput.value.trim() !== "" || 
+            fostInput.placeholder !== "-" || cv10Input.placeholder !== "-" || mgdrInput.placeholder !== "-") {
+            aaInput.placeholder = Number((fostVal - cv10Val - mgdrVal).toFixed(4));
+        } else {
+            aaInput.placeholder = "-";
+        }
+
+        const effectiveAA = aaInput.value.trim() !== "" ? parseFloat(aaInput.value) : (aaInput.placeholder !== "-" ? parseFloat(aaInput.placeholder) : NaN);
+
+        if (triggerSource !== 'clear' && triggerSource !== 'cascade' && !isNaN(effectiveAA)) {
+            if (boardInput.value.trim() !== "" && parseFloat(boardInput.value) > effectiveAA) {
+                boardInput.classList.add('input-error');
+                alert(`Validation Error on Product ${rowId}: BOARD value cannot be greater than A.A. (${effectiveAA}).`);
+                boardInput.value = "";
+                return;
+            }
+            if (alleInput.value.trim() !== "" && parseFloat(alleInput.value) > effectiveAA) {
+                alleInput.classList.add('input-error');
+                alert(`Validation Error on Product ${rowId}: ALLE value cannot be greater than A.A. (${effectiveAA}).`);
+                alleInput.value = "";
+                return;
+            }
+            if (pittInput.value.trim() !== "" && parseFloat(pittInput.value) > effectiveAA) {
+                pittInput.classList.add('input-error');
+                alert(`Validation Error on Product ${rowId}: PITT value cannot be greater than A.A. (${effectiveAA}).`);
+                pittInput.value = "";
+                return;
+            }
+            if (delmInput.value.trim() !== "" && parseFloat(delmInput.value) > effectiveAA) {
+                delmInput.classList.add('input-error');
+                alert(`Validation Error on Product ${rowId}: DELM value cannot be greater than A.A. (${effectiveAA}).`);
+                delmInput.value = "";
+                return;
+            }
+        }
+
+        const boardVal = boardInput.value.trim() !== "" ? parseFloat(boardInput.value) : (boardInput.placeholder !== "-" ? parseFloat(boardInput.placeholder) : 0);
+        const alleVal = alleInput.value.trim() !== "" ? parseFloat(alleInput.value) : (alleInput.placeholder !== "-" ? parseFloat(alleInput.placeholder) : 0);
+        const pittVal = pittInput.value.trim() !== "" ? parseFloat(pittInput.value) : (pittInput.placeholder !== "-" ? parseFloat(pittInput.placeholder) : 0);
+
+        if (!isNaN(effectiveAA)) {
+            let calcDelm = Number((effectiveAA - boardVal - alleVal - pittVal).toFixed(4));
+            delmInput.placeholder = calcDelm < 0 ? 0 : calcDelm;
+        } else {
+            delmInput.placeholder = "-";
+        }
+
+        const effectiveDELM = delmInput.value.trim() !== "" ? parseFloat(delmInput.value) : (delmInput.placeholder !== "-" ? parseFloat(delmInput.placeholder) : 0);
+
+        if (!isNaN(effectiveAA)) {
+            let calcMntl = Number((effectiveAA - boardVal - alleVal - pittVal - effectiveDELM).toFixed(4));
+            mntlInput.placeholder = calcMntl < 0 ? 0 : calcMntl;
+        } else {
+            mntlInput.placeholder = "-";
+        }
+
+        [hudsInput, clvnInput].forEach(input => {
+            if (input.value !== "") {
+                input.classList.add('formula-filled');
+            } else {
+                input.classList.remove('formula-filled');
+            }
+        });
+
+        if (rowId < 7 && triggerSource !== 'clear') {
+            calculateRow(rowId + 1, 'cascade');
+        }
+    }
+</script>
+</body>
+</html>
