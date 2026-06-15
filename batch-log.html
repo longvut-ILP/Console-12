@@ -373,7 +373,7 @@ tbody tr:hover {
                 <tbody>
                     <script>
                         for (let i = 1; i <= 7; i++) {
-                            // Sub-component injected into the specific Terminal columns
+                            // Sub-component injected into the specific Terminal columns with Cur before Next
                             const apiBoxes = `
                             <div style="display: flex; gap: 2px; margin-top: 4px; width: 100%;">
                                 <input type="number" step="0.1" class="grid-text-input api-input" placeholder="Cur" title="Current API Gravity" style="font-size: 0.65rem; padding: 2px; text-align: center; font-weight: 700; width: 50%; min-width: 0;">
@@ -588,7 +588,49 @@ tbody tr:hover {
 <img id="global-preview" alt="Full Size Image Preview">
 
 <script>
-    // General Listener: Add visual highlight to ANY field when a user manually enters data
+    // --- LOCAL STORAGE AUTO-SAVE LOGIC ---
+    const STORAGE_KEY = 'batchLog_session_data_v1';
+
+    // Function to scrape and save inputs to the browser cache
+    function saveDashboardData() {
+        const inputs = document.querySelectorAll('input:not([type="file"]), select');
+        const data = {};
+        inputs.forEach((input, index) => {
+            data[index] = input.value;
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // Auto-load data immediately when page boots up
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedData = localStorage.getItem(STORAGE_KEY);
+        if (savedData) {
+            try {
+                const data = JSON.parse(savedData);
+                const inputs = document.querySelectorAll('input:not([type="file"]), select');
+                inputs.forEach((input, index) => {
+                    if (data[index] !== undefined && data[index] !== "") {
+                        input.value = data[index];
+                        // If it's a text input and has a value, mark it visually
+                        if (input.classList.contains('grid-text-input') || input.classList.contains('batch-input')) {
+                            input.classList.add('user-entered');
+                        }
+                    }
+                });
+                
+                // Recalculate all formulas to restore green formula highlighting and error checking
+                for (let i = 1; i <= 7; i++) {
+                    calculateRow(i, 'init');
+                }
+            } catch (e) {
+                console.error("Could not load saved data from localStorage", e);
+            }
+        }
+    });
+
+    // --- INTERACTIVE EVENT LISTENERS ---
+
+    // Add visual highlight and trigger auto-save for typing in inputs
     document.addEventListener('input', function(e) {
         if (e.target.classList.contains('grid-text-input')) {
             if (e.target.value.trim() !== "") {
@@ -596,6 +638,14 @@ tbody tr:hover {
             } else {
                 e.target.classList.remove('user-entered');
             }
+            saveDashboardData(); // Auto-save on type
+        }
+    });
+
+    // Trigger auto-save when selecting a product from a dropdown
+    document.addEventListener('change', function(e) {
+        if (e.target.tagName === 'SELECT') {
+            saveDashboardData(); // Auto-save on select change
         }
     });
 
@@ -701,7 +751,6 @@ tbody tr:hover {
             input.classList.remove('user-entered');
         });
 
-        // Wipes the distributed Current & Next API inputs
         const apiInputs = document.querySelectorAll('.api-input');
         apiInputs.forEach(input => {
             input.value = "";
@@ -725,6 +774,9 @@ tbody tr:hover {
         for (let i = 1; i <= 7; i++) {
             calculateRow(i, 'clear');
         }
+        
+        // Wipe local storage data so memory is completely clean
+        localStorage.removeItem(STORAGE_KEY);
     }
 
     function calculateRow(rowId, triggerSource) {
@@ -766,7 +818,7 @@ tbody tr:hover {
         const cv10Val = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : (cv10Input.placeholder !== "-" ? parseFloat(cv10Input.placeholder) : 0);
         const mgdrVal = mgdrInput.value.trim() !== "" ? parseFloat(mgdrInput.value) : (mgdrInput.placeholder !== "-" ? parseFloat(mgdrInput.placeholder) : 0);
 
-        if (triggerSource !== 'cascade') {
+        if (triggerSource !== 'cascade' && triggerSource !== 'init') {
             cv10Input.classList.remove('input-error');
             mgdrInput.classList.remove('input-error');
             aaInput.classList.remove('input-error');
@@ -776,7 +828,7 @@ tbody tr:hover {
             delmInput.classList.remove('input-error');
         }
 
-        if (triggerSource !== 'clear' && triggerSource !== 'cascade') {
+        if (triggerSource !== 'clear' && triggerSource !== 'cascade' && triggerSource !== 'init') {
             if (cv10Input.value.trim() !== "" && fostInput.value.trim() !== "") {
                 if (parseFloat(cv10Input.value) > fostVal) {
                     cv10Input.classList.add('input-error');
@@ -820,7 +872,7 @@ tbody tr:hover {
 
         const effectiveAA = aaInput.value.trim() !== "" ? parseFloat(aaInput.value) : (aaInput.placeholder !== "-" ? parseFloat(aaInput.placeholder) : NaN);
 
-        if (triggerSource !== 'clear' && triggerSource !== 'cascade' && !isNaN(effectiveAA)) {
+        if (triggerSource !== 'clear' && triggerSource !== 'cascade' && triggerSource !== 'init' && !isNaN(effectiveAA)) {
             if (boardInput.value.trim() !== "" && parseFloat(boardInput.value) > effectiveAA) {
                 boardInput.classList.add('input-error');
                 alert(`Validation Error on Product ${rowId}: BOARD value cannot be greater than A.A. (${effectiveAA}).`);
