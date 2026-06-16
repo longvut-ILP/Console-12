@@ -4,1140 +4,1249 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pipeline Operations Dashboard - Console 12</title>
-<!-- PASTE THE FAVICON HERE -->
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230f172a'/><path d='M50 15 L75 55 A 30 30 0 1 1 25 55 Z' fill='%23f59e0b'/></svg>">
 <style>
 :root {
-/* Oil & Gas Theme Colors */
---bg-body: #cbd5e1;
---bg-card: #ffffff;
---primary-color: #0f172a;
---accent-color: #f59e0b;
---accent-hover: #d97706;
---text-dark: #1e293b;
---border-color: #94a3b8;
---zebra-color: #f8fafc;
---hover-color: #fffbeb;
-/* Functional Colors */
---formula-bg: #dcfce7;
---error-bg: #fee2e2;
---error-border: #ef4444;
---btn-clear-bg: #dc2626;
---btn-clear-hover: #991b1b;
+    --bg-body: #cbd5e1;
+    --bg-card: #ffffff;
+    --primary-color: #0f172a;
+    --accent-color: #f59e0b;
+    --accent-hover: #d97706;
+    --text-dark: #1e293b;
+    --border-color: #94a3b8;
+    --zebra-color: #f8fafc;
+    --hover-color: #fffbeb;
+    --formula-bg: #dcfce7;
+    --error-bg: #fee2e2;
+    --error-border: #ef4444;
+    --btn-clear-bg: #dc2626;
+    --btn-clear-hover: #991b1b;
 }
+
 body {
-font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-background-color: var(--bg-body);
-color: var(--text-dark);
-margin: 0;
-padding: 20px;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 20px;
 }
+
 .container {
-max-width: 100%;
-margin: 0 auto;
-background-color: var(--bg-card);
-border-radius: 4px;
-box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
-padding: 24px;
-border: 1px solid #64748b;
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: var(--bg-card);
+    border-radius: 4px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+    padding: 24px;
+    border: 1px solid #64748b;
 }
+
 .header-section {
-display: flex;
-justify-content: space-between;
-align-items: center;
-background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
-padding: 16px 24px;
-border-radius: 4px;
-margin-bottom: 24px;
-border-bottom: 4px solid var(--accent-color);
-box-shadow: inset 0 2px 4px rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
+    padding: 16px 24px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    border-bottom: 4px solid var(--accent-color);
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.1);
 }
+
 h1 {
-margin: 0;
-font-size: 1.5rem;
-color: #ffffff;
-text-transform: uppercase;
-letter-spacing: 0.05em;
-font-weight: 700;
+    margin: 0;
+    font-size: 1.5rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
 }
+
 .header-buttons {
-display: flex;
-align-items: center;
+    display: flex;
+    align-items: center;
 }
+
 .btn-nav {
-background-color: var(--accent-color);
-color: #0f172a;
-border: none;
-padding: 8px 16px;
-font-size: 0.85rem;
-font-weight: 700;
-border-radius: 3px;
-cursor: pointer;
-text-transform: uppercase;
-letter-spacing: 0.03em;
-text-decoration: none;
-margin-right: 12px;
-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-transition: background-color 0.2s;
+    background-color: var(--accent-color);
+    color: #0f172a;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    margin-right: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.2s;
 }
+
 .btn-nav:hover {
-background-color: var(--accent-hover);
-color: #ffffff;
+    background-color: var(--accent-hover);
+    color: #ffffff;
 }
+
 .btn-clear {
-background-color: var(--btn-clear-bg);
-color: #ffffff;
-border: none;
-padding: 8px 16px;
-font-size: 0.85rem;
-font-weight: 700;
-border-radius: 3px;
-cursor: pointer;
-text-transform: uppercase;
-letter-spacing: 0.03em;
-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-margin-right: 12px;
+    background-color: var(--btn-clear-bg);
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    margin-right: 12px;
 }
+
 .btn-clear:hover {
-background-color: var(--btn-clear-hover);
+    background-color: var(--btn-clear-hover);
 }
+
 .btn-print {
-background-color: #166534;
-color: #ffffff;
-border: none;
-padding: 8px 16px;
-font-size: 0.85rem;
-font-weight: 700;
-border-radius: 3px;
-cursor: pointer;
-text-transform: uppercase;
-letter-spacing: 0.03em;
-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    background-color: #166534;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
 .btn-print:hover {
-background-color: #14532d;
+    background-color: #14532d;
 }
+
 .section-title {
-margin-top: 0;
-margin-bottom: 14px;
-font-size: 1.2rem;
-color: var(--primary-color);
-text-transform: uppercase;
-letter-spacing: 0.04em;
-border-bottom: 2px solid var(--border-color);
-padding-bottom: 6px;
-font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 6px;
+    font-weight: 800;
 }
+
 .table-responsive {
-width: 100%;
-overflow-x: auto;
-border: 1px solid var(--border-color);
-border-radius: 3px;
-margin-bottom: 32px;
-box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
+
 .checklist-container {
-max-height: 450px;
-overflow-y: auto;
-border: 1px solid var(--border-color);
-border-radius: 3px;
-margin-bottom: 32px;
-box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    max-height: 450px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
+
 table {
-width: 100%;
-border-collapse: collapse;
-font-size: 0.88rem;
-min-width: 1200px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    min-width: 1200px;
 }
+
 th {
-background-color: var(--primary-color);
-color: #ffffff;
-font-weight: 600;
-padding: 12px 8px;
-text-transform: uppercase;
-font-size: 0.82rem;
-border: 1px solid #334155;
-border-bottom: 3px solid var(--accent-color);
-text-align: center;
-position: sticky;
-top: 0;
-z-index: 10;
-letter-spacing: 0.03em;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 8px;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    border: 1px solid #334155;
+    border-bottom: 3px solid var(--accent-color);
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    letter-spacing: 0.03em;
 }
+
 th.col-status { width: 70px; }
 th.col-terminal { width: 180px; text-align: left; padding-left: 12px; }
+
 td {
-padding: 3px;
-border: 1px solid var(--border-color);
-vertical-align: middle;
+    padding: 3px;
+    border: 1px solid var(--border-color);
+    vertical-align: middle;
 }
+
 tbody td.row-label {
-padding: 8px 12px;
-font-weight: 700;
-background-color: #e2e8f0;
-color: #0f172a;
-border-right: 2px solid var(--border-color);
+    padding: 8px 12px;
+    font-weight: 700;
+    background-color: #e2e8f0;
+    color: #0f172a;
+    border-right: 2px solid var(--border-color);
 }
+
 tbody tr:nth-child(even) {
-background-color: var(--zebra-color);
+    background-color: var(--zebra-color);
 }
+
 tbody tr:hover {
-background-color: var(--hover-color);
+    background-color: var(--hover-color);
 }
+
 .chk-cell {
-text-align: center;
-background-color: #e2e8f0;
+    text-align: center;
+    background-color: #e2e8f0;
 }
+
 .chk-cell input[type="checkbox"] {
-width: 18px;
-height: 18px;
-cursor: pointer;
-margin: 0 auto;
-display: block;
-accent-color: var(--accent-color);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+    accent-color: var(--accent-color);
 }
+
 .grid-text-input {
-width: 100%;
-box-sizing: border-box;
-border: 1px solid transparent;
-background: transparent;
-padding: 8px 6px;
-font-size: 0.88rem;
-color: #0f172a;
-outline: none;
-font-family: inherit;
-transition: background-color 0.2s, border 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 8px 6px;
+    font-size: 0.88rem;
+    color: #0f172a;
+    outline: none;
+    font-family: inherit;
+    transition: background-color 0.2s, border 0.2s;
 }
+
 .grid-text-input:focus {
-background-color: #ffffff;
-border: 1px solid var(--accent-color);
-box-shadow: inset 0 0 0 1px var(--accent-color);
+    background-color: #ffffff;
+    border: 1px solid var(--accent-color);
+    box-shadow: inset 0 0 0 1px var(--accent-color);
 }
-/* User-Entered Highlight State */
+
 .user-entered {
-background-color: #cbd5e1 !important;
-color: #0f172a !important;
-font-weight: 700;
-border: 1px solid #94a3b8 !important;
+    background-color: #cbd5e1 !important;
+    color: #0f172a !important;
+    font-weight: 700;
+    border: 1px solid #94a3b8 !important;
 }
+
 .time-input {
-text-align: center;
-font-weight: 700;
-color: var(--primary-color);
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-color);
 }
+
 .rate-input {
-text-align: center;
-font-family: "Courier New", Courier, monospace;
-font-weight: 600;
-font-size: 0.95rem;
+    text-align: center;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 600;
+    font-size: 0.95rem;
 }
+
 .formula-filled {
-background-color: var(--formula-bg) !important;
-font-weight: 700;
-color: #166534 !important;
+    background-color: var(--formula-bg) !important;
+    font-weight: 700;
+    color: #166534 !important;
 }
+
 .input-error {
-background-color: var(--error-bg) !important;
-border: 1px solid var(--error-border) !important;
-color: #b91c1c !important;
+    background-color: var(--error-bg) !important;
+    border: 1px solid var(--error-border) !important;
+    color: #b91c1c !important;
 }
-/* Dropdown Notes Styles */
+
 .note-toggle {
-float: right;
-font-size: 0.7rem;
-background-color: #475569;
-color: white;
-border: none;
-padding: 4px 8px;
-border-radius: 3px;
-cursor: pointer;
-text-transform: uppercase;
-font-weight: bold;
+    float: right;
+    font-size: 0.7rem;
+    background-color: #475569;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
 }
+
 .note-toggle:hover {
-background-color: var(--accent-color);
-color: #0f172a;
+    background-color: var(--accent-color);
+    color: #0f172a;
 }
+
 .note-row {
-background-color: #f1f5f9 !important;
+    background-color: #f1f5f9 !important;
 }
+
 .note-content {
-padding: 12px 18px;
-font-size: 0.85rem;
-color: #334155;
-border-left: 4px solid var(--accent-color);
-background-color: #ffffff;
-margin: 4px 8px;
-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 12px 18px;
+    font-size: 0.85rem;
+    color: #334155;
+    border-left: 4px solid var(--accent-color);
+    background-color: #ffffff;
+    margin: 4px 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
+
 .note-content strong {
-color: var(--primary-color);
-font-size: 0.9rem;
-text-transform: uppercase;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
+
 .note-content ul {
-margin: 6px 0 0 20px;
-padding: 0;
-line-height: 1.6;
+    margin: 6px 0 0 20px;
+    padding: 0;
+    line-height: 1.6;
 }
+
 .note-content li {
-margin-bottom: 4px;
+    margin-bottom: 4px;
 }
-/* Print PDF Overrides */
+
 @media print {
-@page {
-size: landscape;
-margin: 10mm;
-}
-body {
-background-color: #ffffff;
-zoom: 0.78;
-}
-.container {
-box-shadow: none;
-border: none;
-padding: 0;
-margin: 0;
-}
-.header-buttons, .note-toggle {
-display: none !important;
-}
-.checklist-container, .table-responsive {
-max-height: none !important;
-overflow: visible !important;
-border: 1px solid #94a3b8;
-box-shadow: none;
-}
-/* FIX FOR OVERLAPPING HEADERS */
-th {
-position: static !important;
-}
-.print-page-2 {
-page-break-before: always;
-margin-top: 20px;
-}
+    @page {
+        size: landscape;
+        margin: 10mm;
+    }
+    body {
+        background-color: #ffffff;
+        zoom: 0.78;
+    }
+    .container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+    }
+    .header-buttons, .note-toggle {
+        display: none !important;
+    }
+    .checklist-container, .table-responsive {
+        max-height: none !important;
+        overflow: visible !important;
+        border: 1px solid #94a3b8;
+        box-shadow: none;
+    }
+    th {
+        position: static !important;
+    }
+    .print-page-2 {
+        page-break-before: always;
+        margin-top: 20px;
+    }
 }
 </style>
 </head>
 <body>
+
 <div class="container">
-<div class="header-section">
-<h1>Pipeline Operations - Console 12</h1>
-<div class="header-buttons">
-<a href="batch-log.html" target="_blank" class="btn-nav">Batch Log</a>
-<a href="Time_Calculator.html" target="_blank" class="btn-nav">Time Calculator</a>
-<a href="Board_Young.html" target="_blank" class="btn-nav">Board & Young</a>
-<button class="btn-clear" onclick="clearAllFields()">Clear All Fields</button>
-<button class="btn-print" onclick="window.print()">Print PDF</button>
+    <div class="header-section">
+        <h1>Pipeline Operations - Console 12</h1>
+        <div class="header-buttons">
+            <a href="Time_Calculator.html" target="_blank" class="btn-nav">Time Calculator</a>
+            <a href="Board_Young.html" target="_blank" class="btn-nav">Board & Young</a>
+            <button class="btn-clear" onclick="clearAllFields()">Clear All Fields</button>
+            <button class="btn-print" onclick="window.print()">Print PDF</button>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="section-title">Shift Started Check List</h2>
+        <div class="checklist-container">
+            <table class="checklist-table">
+                <thead>
+                    <tr>
+                        <th class="col-status">Status</th>
+                        <th class="col-terminal">Terminal</th>
+                        <th>Product</th>
+                        <th>Tank</th>
+                        <th>Ticket2</th>
+                        <th>Flow control</th>
+                        <th>Control</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">ALARM/LEAK</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">MACRON</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <!-- Fostoria with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">Fostoria <button class="note-toggle" onclick="toggleNote('note-fostoria')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product/Butane"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Manifold pressure"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Discharge control: psi"></td>
+                    </tr>
+                    <tr id="note-fostoria" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>Fostoria Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Butane Tank:</strong> Required only for gas batches; update total batch size and batch number accordingly.</li>
+                                    <li><strong>MGDR BCK Startup & MGD3 INP Shutdown:</strong> Executed by field technicians; PC's role is strictly observation and confirmation. Manual COB required when indicated.</li>
+                                    <li><strong>Simultaneous Pumping (Alleghany Access & Mogadore Tank):</strong> Initiate delivery to PAA first. Increase flow at FOS and wait for pressure (approx. 200 bbls or 5 minutes) to reach WLLR. Open the WLLR valve to prevent pressure loss at PAA.</li>
+                                    <li><strong>Manifold (MANI) Pressure Drops:</strong> If MANI drops to -6 PSI (due to low tank level), both the DRA and pump will shut down. The booster pump requires 6 minutes to rebuild pressure and return to READY status. Preventative measures include lowering discharge (DIS) pressure to 500-600 psi, switching to a full tank, or reducing flow rate.</li>
+                                    <li><strong>SANE Constraints:</strong> High Alarm triggers at 950 psi. Exceeding 1,020 psi will cause FOS to shut down.</li>
+                                    <li><strong>Operational Limits (Rate 3,800 bph):</strong> Maximum operating parameters are DIS @ 1,347 psi with the Motor Operated Valve (MOV) at 1,350 psi.</li>
+                                    <li><strong>Startup Procedure:</strong> Set DIS 50 psi above the current line pressure to prevent pump cavitation/crashes.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- SANE with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">SANE <button class="note-toggle" onclick="toggleNote('note-sane')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Pressure: H-950 psi"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-sane" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>SANE Station Notes:</strong>
+                                <ul>
+                                    <li>950 psi High; 1000 psi High-High* (will Shutdown FOST Unit if running).</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">SR19</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <!-- WLLR (WILLARD) with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">WLLR <button class="note-toggle" onclick="toggleNote('note-wllr')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="SUC"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="DIS"></td>
+                    </tr>
+                    <tr id="note-wllr" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>WILLARD Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Pre-startup:</strong> Review the Batch Track report to determine line contents at the previous shutdown time. The WILL pump must run if SANE pressure reaches 900 psi.</li>
+                                    <li><strong>Pump Operations:</strong> Only one valve can be open at a time; the pump is not sequenced. Discharge (DISC) pressure must be kept very low (approx. 600 psi) with suction (SUC) at 120 psi.</li>
+                                    <li><strong>Startup Sequence:</strong> The booster and main pump must start simultaneously. To prevent a High-High alarm, start the pump and immediately start the booster within the pump interval window.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">CV10</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
+                    </tr>
+                    <!-- HUD Tank with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">HUD Tank <button class="note-toggle" onclick="toggleNote('note-huds')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
+                    </tr>
+                    <tr id="note-huds" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>HUDS Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Standard Settings:</strong> Set ticket to 5,500 bbls. Relift pressure is 425 psi. Execute a 12 bbl flush. At 2,800 bbls, set the target to 170 bbls upon arrival at PREVIEW.</li>
+                                    <li><strong>Swing Operations (HUD to CLVN):</strong> Target 70 bbls. Once Valve 1372 opens, flow to HUD drops to 0. Target a shutdown for HUD-AKRO.</li>
+                                    <li><strong>Gravity Monitoring:</strong> Gravity drops occur rapidly; react at the first indication. Failure to respond will cause a station lockout if gas delivery gravity drops below 50.</li>
+                                    <li><strong>Valve Anomalies:</strong> If Valve 2 fails to close while Valve 4 is open, it is recommended to close Valve 4 and cycle Valve 2 open.</li>
+                                    <li><strong>Product Transitions (15MV to 87CB):</strong> Open TRNMX at 100 bbls. Switch to the 87CB tank once gravity is acceptable. The 15MV product requires a spur flush to 100% diesel. Products 93 and 87 route directly to the product tank (manifold volume is deemed negligible by Quality Control).</li>
+                                    <li><strong>Reversal Operations:</strong> Close valves V4320 and V4421 on CV10 at the MGD station. Open V4422 at MGDR_PMTRMIX to HUD (target 200 bbls).</li>
+                                    <li><strong>Opening to CV10 while running FM12:</strong> Target 100-200 bbls. Reduce flow rate or FOS discharge by 50%. Open HUD, then open to CV10 (note: valve may stall). Start up WLLR and back up VANP suction to 120 psi to protect the pump. If PA loses 100 bph, increase the control valve at PITT to maintain HOLL operation. Adjust FOS to the target rate. If HOLL drops to 0 RPM, reduce suction from 490 to 450 psi.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">HUD Pump</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <!-- AKRO with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">AKRO <button class="note-toggle" onclick="toggleNote('note-akro')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-akro" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>AKRO Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Valve Sequences:</strong> Initiate valve sequencing when the Hudson Change of Batch (COB) indicates 30 bbls. At Akron, execute COB immediately upon detecting a gravity change.</li>
+                                    <li><strong>Product Transition (15 to 87):</strong> Open the gas tank valve at the first indication of a gravity jump. The diesel valve must be completely closed by the time gravity stabilizes for gas.</li>
+                                    <li><strong>Diesel Delivery:</strong> The station will automatically shut down if gravity exceeds 40.</li>
+                                    <li><strong>Tank 5014:</strong> The fill meter only operates when the tank level drops to 80 ft; otherwise, the tank level will continue to rise until overflow.</li>
+                                    <li><strong>Pre-startup (2 Hours Prior):</strong> The Pipeline Controller (PC) must verify batch size and product availability with the Akron Area Pipeliner. The Pipeliner will then coordinate with the Buckeye BRAD Terminal Operator (T.O.) to confirm startup readiness. The PC must also confirm readiness with the CLVN T.O. For pumping from BRAD tankage, the PC handles all CLVN T.O. communications and resolves scheduling issues.</li>
+                                    <li><strong>Line Fill:</strong> Maintain at 2,450 bbls (calculated as Current Bill + Next Bill). Update the current bill if this condition is not met.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">SAGA</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">BRAD RD</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <!-- CLVN with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">CLVN <button class="note-toggle" onclick="toggleNote('note-clvn')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Call T/O"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-clvn" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>CLVN Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Swing Operations (HUB to CLVN):</strong> Minimize the duration both valves remain open to prevent reverse flow from CLVN to HUD, which could contaminate the HUD protective product tank.</li>
+                                    <li><strong>COB Operations:</strong> The PC must manually execute COB for product changes. Cut the batch at the midpoint and notify the terminal upon product arrival.</li>
+                                    <li><strong>Shutdown (S/D) Procedures:</strong> Close CV10 immediately after MGDR storage opens. Close HUDSON and SAGA valves (monitor pressure until it reaches 180-190 psi; the relief valve is set at 250 psi). Close the VLVN valve and attempt to maintain pressure in the line.</li>
+                                    <li><strong>Brad Rd Product Change:</strong> Set the current batch to 2,450 bbls and notify CLVN of the estimated arrival time and target gravity.</li>
+                                    <li><strong>TR16:</strong> Contact TR16 at startup and confirm the settling gravity.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- MGDR with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">MGDR <button class="note-toggle" onclick="toggleNote('note-mgdr')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Call T/O"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
+                    </tr>
+                    <tr id="note-mgdr" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>MGDR DEL Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Relief Settings (MADB):</strong> Low Alarm at 1,075 psi; High Alarm at 1,125 psi.</li>
+                                    <li><strong>Communications:</strong> Provide a 2-minute warning call before swinging to storage. Notification is not required for completing delivery to storage or for swinging in/out of CV10 and ALL.</li>
+                                    <li><strong>Swing Operations (CV10 to Storage):</strong> Increase WLLR suction to 150 psi (to suction control mode) to prevent triggering a high discharge alarm.</li>
+                                    <li><strong>Valve Configuration:</strong> Valve V4421 typically remains open; verify its status before every startup.</li>
+                                    <li><strong>MGDR PMP Operations:</strong> COB is managed locally by station personnel. Immediately switch between V4 and V5 when COB transitions to COP.</li>
+                                    <li><strong>MGDR & MGDR 3:</strong> Tickets should auto-roll during tank switches. Execute COB at the midpoint.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- MGDR-PM2 with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">MGDR-PM2 <button class="note-toggle" onclick="toggleNote('note-mgdrpm2')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-mgdrpm2" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>MGDR_PMP Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Tank switches:</strong> Executed by field personnel. The PC's role is to verify the alignment and ensure the manual COB is executed by the T.O.</li>
+                                    <li>Notify both CNTN T.O.s upon completion of delivery.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- CNTN with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">CNTN <button class="note-toggle" onclick="toggleNote('note-cntn')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-cntn" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>CNTN Station Notes:</strong>
+                                <ul>
+                                    <li><strong>COB Operations:</strong> For continuous product, the PC manually executes COB. For product changes requiring a tank switch, CNTN will roll the ticket.</li>
+                                    <li><strong>Pump Coordination:</strong> PC controls the start and shutdown of the MGDR pump. Notify CNTN when the product reaches HART and specify the exact time gravity stabilizes. Alert CNTN at the first indication of a gravity change and execute COB at mid-gravity.</li>
+                                    <li><strong>Valve Sequencing:</strong> When closing the valve at MGDR PMP, allow a 5-minute delay before closing the CANTON valve due to the age of the piping infrastructure.</li>
+                                    <li><strong>Delivery Timing:</strong> Diesel behind Gas runs approximately 10 minutes late. Gas behind Diesel runs approximately 10 minutes early.</li>
+                                    <li><strong>Valve 4111:</strong> Contact CNTN to confirm proper tank alignment before cycling Valve 4111.</li>
+                                    <li><strong>Completion:</strong> Notify both MGDR and CNTN T.O.s upon delivery completion.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">ALL ACCES</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <!-- BOARD with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">BOARD <button class="note-toggle" onclick="toggleNote('note-board')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
+                    </tr>
+                    <tr id="note-board" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>BOARD Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Flush Procedures:</strong> Set station pressure higher than line pressure before opening valves to prevent excessive diesel displacement (exceeding 12 bbls) into the gas tank. Execute the flush well ahead of the scheduled time. Pressure can be returned to a level higher than line pressure to safely leave the valve open.</li>
+                                    <li><strong>Control Mode:</strong> Switch to flow control during delivery to BOARD.</li>
+                                    <li><strong>Diesel to Gas Transition:</strong> If starting with gas while diesel is in the line, no flush is required. Open directly to the gas tank and roll the ticket (this will generate an incompatible ticket).</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- YOUN with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">YOUN <button class="note-toggle" onclick="toggleNote('note-youn')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-youn" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>YOUN Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Line Fills:</strong> If filling with gas: Perform a regular flush and switch to diesel upon achieving 100% gravity. If filling with diesel: Perform a regular flush and switch to gas when gravity reaches 50 degrees.</li>
+                                    <li><strong>Tank Fill Calculations:</strong> To calculate ticket volumes for a full tank: (Volume to fill) - (100 bbls line fill) - (35 bbls safety margin) = Barrels to add to both tickets. The target barrel amount should maintain a 35 bbl differential from the absolute tank capacity.</li>
+                                    <li><strong>Power Failure:</strong> Immediately close valve V11 in the event of a power loss.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- VANP with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">VANP <button class="note-toggle" onclick="toggleNote('note-vanp')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="SUC - Control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="DIS-Control"></td>
+                    </tr>
+                    <tr id="note-vanp" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>VANP Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Control Mode Transition:</strong> To switch from suction (SUC) control to discharge (DIS) control, lower DIS by 100 psi and hold for 3 minutes.</li>
+                                    <li><strong>Alarms:</strong> The downstream valve triggers a High Alarm at 995 psi to coordinate with the ALLE relief valve (Warning at 995 psi; High Alarm at 1,017 psi).</li>
+                                    <li><strong>Set Points:</strong> Standard VANP set points are SUC at 60 psi and DISC at 1,020 psi. The downstream meter set point is 930-940 psi. Once DIS stabilizes at 1,020 psi, gradually increase to 1,030 psi to slowly bleed out pressure.</li>
+                                    <li><strong>Swing Operations (ALLE to DELM):</strong> Adjust SUCT to 200 psi and DISC to 950 psi to force the system into DISC control rather than SUCT control.</li>
+                                    <li><strong>Power Failure Recovery:</strong> To restore the pump to READY status after a power loss: Open V2331, then open V2341. Execute a facility reset, set suction to 120 psi, and initiate pump startup.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- ALLE with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">ALLE <button class="note-toggle" onclick="toggleNote('note-alle')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Relief: 995 psi"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-alle" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>ALLE Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Relief Valve Setpoints:</strong> Low Alarm at 995 psi; High Alarm at 1,045 psi.</li>
+                                    <li><strong>End of Line Operations:</strong> Maintain pressure >450 psi; dropping below this threshold will trip the VANP station. Maintain high suction (SUC) at VANP. If restarting VANP, set SUC to 120 psi.</li>
+                                    <li><strong>COB Execution:</strong> Delay COB until gravity indicates on-spec diesel (35) or transmix at 50 degrees. Note: Opening the valve at the first indication requires approximately 20 minutes to reach 50 degrees.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">ALJT</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <!-- PITT with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">PITT <button class="note-toggle" onclick="toggleNote('note-pitt')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
+                    </tr>
+                    <tr id="note-pitt" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>PITT Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Line Fill:</strong> Maintain at 1,600 bbls.</li>
+                                    <li><strong>Valve Operations:</strong> Valves can only operate if differential pressure is under 300 psi. Verify visually/electronically that the valve is 100% open.</li>
+                                    <li><strong>Startup:</strong> Pumps and VANP will fail to start without sufficient inlet pressure.</li>
+                                    <li><strong>Control Valve Instability:</strong> The control valve exhibits instability, slowly drifting from 15% to 30% open over 1-2 hours, followed by a sharp drop from 35% to 15% open within 10 minutes.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">HAJT</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <!-- DELM-DEL with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">DELM-DEL <button class="note-toggle" onclick="toggleNote('note-delmdel')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
+                    </tr>
+                    <tr id="note-delmdel" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>DELM Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Product Transition (Gas to Premium):</strong> Monitor gravity at PREVIEW to determine the differential, then apply this offset to the STATION gravity at DELM.</li>
+                                    <li><strong>Product Transition (15MV to 87CB):</strong> Base gravity is 35.5; cut out at +0.5 degrees. Note: Tank level alarms may clear and return immediately during this process.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- EPJT-DEL with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">EPJT-DEL <button class="note-toggle" onclick="toggleNote('note-epjt')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-epjt" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>EPJT Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Line Fill:</strong> Verify matching product line fill with both stations.</li>
+                                    <li><strong>Ticket Settings:</strong> For new products (Diesel or 93CB), set the ticket to 1,800 bbls (200 bbls allocated to transmix). For 93/87 transitions to 87, set the ticket to 1,900 bbls (100 bbls to transmix).</li>
+                                    <li><strong>COB (87 to TNMX):</strong> Execute COB at 50 degrees. If gravity is &lt; 42 degrees, no spur flush is required. If &gt; 42 degrees, a manual spur flush is required at the first indication or at 1,800 bbls (125 net) while the line is shut down.</li>
+                                    <li><strong>Valve Target Settings:</strong> Open valves based on barrel counts (target 200 bbls to open valve). Target settings: Premium/Gas to Diesel = 1,800 bbls; Diesel to Gas = 1,900 bbls; Premium to Gas = 1,800 bbls.</li>
+                                    <li><strong>Line Velocity Precautions:</strong> Due to high line velocity, auto-flush is disabled. The DELM valve can be opened early with prior notification.</li>
+                                    <li><strong>Line Alignment:</strong> Verify tank alignment (SPL = Sunoco/ET; BPL = Buckeye).</li>
+                                    <li><strong>Gravity Stability:</strong> Pressure fluctuations cause erratic gravity readings, so valves should be opened early. Gravity spikes up to 100 may trigger an auto-closure of the tank, requiring tickets to be placed in split mode. This line requires strict monitoring; if an auto-closure occurs, contact Buckeye immediately to initiate a shutdown.</li>
+                                    <li><strong>Delivery Conflicts (DEL):</strong> Avoid line conflicts when delivering from both the main line and export junction simultaneously, particularly due to the single 93CB tank limitation (87 octane has two tanks and allows simultaneous use). If external station gravity reaches 155, diverting flow to the transmix tank can help reduce pressure and normalize gravity readings.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- PA Access with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">PA Access <button class="note-toggle" onclick="toggleNote('note-paaccess')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-paaccess" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>P.A. Access Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Suction (SUCT) Parameters:</strong> Maintain a minimum of 490 psi at HOLL to support elevation heads. Optimally, HOLL SUCT should remain above 500 psi to keep the operational profile (green line) above the minimum threshold (purple line).</li>
+                                    <li><strong>PLAI Readiness:</strong> To achieve READY status, reduce line fill pressure below 700 psi by dropping MNTL pressure to 0 psi. Slightly increase HOLL suction to lower discharge pressure.</li>
+                                    <li><strong>Flow Profile (600 bph):</strong> An optimal profile consists of: HOLL SUC at 460 psi/1,500 RPM; PLAI SUC at 660 psi/1,500 RPM; LNGS at 1,032 psi; MNTL at 500 psi. Avoid running in adverse conditions; if necessary, shut down the PLAI pump.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">EBEN</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">HOLL</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="SUC - Control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="DIS-Control"></td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">PLAI</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="SUC - Control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="DIS-Control"></td>
+                    </tr>
+                    <!-- MNTL with Dropdown Notes -->
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">MNTL <button class="note-toggle" onclick="toggleNote('note-mntl')">▼</button></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Call T/O"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                    <tr id="note-mntl" class="note-row" style="display: none;">
+                        <td colspan="7">
+                            <div class="note-content">
+                                <strong>MNTL Station Notes:</strong>
+                                <ul>
+                                    <li><strong>Product Transition (Diesel to Gas):</strong> Contact the T.O. following shutdown. Notify MNTL when a gravity change occurs. Note that opening and closing valves will cause gravity to fluctuate (drop and spike). Notify MNTL to fulfill their confirmation requests. Execute COB at 5 bbls.</li>
+                                    <li><strong>Pump Operations:</strong> The HOLL pump (and all other similar pumps) must operate above 1,800 RPM.</li>
+                                    <li><strong>Rolling Tickets:</strong> Account for 100 bbls of line fill originating from the densitometer, resulting in an estimated 20-minute delay for the T.O. to complete tank switches.</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
+                        <td class="row-label">JOB PLAN</td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                        <td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Print Wrapper for Page 2 -->
+    <div class="print-page-2">
+        <h2 class="section-title">Rate Change Schedule</h2>
+        <div class="table-responsive">
+            <table id="rate-table">
+                <thead>
+                    <tr>
+                        <th style="width: 90px; text-align: left; padding-left: 12px;">Job</th>
+                        <th style="width: 85px;">Time</th>
+                        <th>FOST</th>
+                        <th>CV10</th>
+                        <th>HUDS</th>
+                        <th>CLVN</th>
+                        <th>MGDR</th>
+                        <th>A.A.</th>
+                        <th>BOARD</th>
+                        <th>ALLE</th>
+                        <th>PITT</th>
+                        <th>DELM</th>
+                        <th>MNTL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script>
+                        const standardTimes = ["0600", "0800", "1000", "1200", "1400", "1600", "1800"];
+                        for (let i = 1; i <= 7; i++) {
+                            document.write(`
+                            <tr data-row="${i}" class="data-grid-row">
+                                <td class="row-label">Job ${i}</td>
+                                <td><input type="text" maxlength="4" class="grid-text-input time-input" placeholder="${standardTimes[i-1]}"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input fost-in" placeholder="-" oninput="calculateRow(${i}, 'fost')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input cv10-in" placeholder="-" oninput="calculateRow(${i}, 'cv10')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input huds-in" placeholder="-" oninput="calculateRow(${i}, 'huds')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input clvn-in" placeholder="-" readonly></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input mgdr-in" placeholder="-" oninput="calculateRow(${i}, 'mgdr')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input aa-in" placeholder="-" oninput="calculateRow(${i}, 'aa')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input board-in" placeholder="-" oninput="calculateRow(${i}, 'board')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input alle-in" placeholder="-" oninput="calculateRow(${i}, 'alle')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input pitt-in" placeholder="-" oninput="calculateRow(${i}, 'pitt')"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input delm-in" placeholder="-" oninput="calculateRow(${i}, 'delm')" onkeydown="handleDelmKey(event, ${i})"></td>
+                                <td><input type="number" step="100" class="grid-text-input rate-input mntl-in" placeholder="-" oninput="calculateRow(${i}, 'mntl')"></td>
+                            </tr>
+                            `);
+                        }
+                    </script>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-</div>
-<div>
-<h2 class="section-title">Shift Started Check List</h2>
-<div class="checklist-container">
-<table class="checklist-table">
-<thead>
-<tr>
-<th class="col-status">Status</th>
-<th class="col-terminal">Terminal</th>
-<th>Product</th>
-<th>Tank</th>
-<th>Ticket2</th>
-<th>Flow control</th>
-<th>Control</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">ALARM/LEAK</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">MACRON</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<!-- Fostoria with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">Fostoria <button class="note-toggle" onclick="toggleNote('note-fostoria')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product/Butane"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Manifold pressure"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Discharge control: psi"></td>
-</tr>
-<tr id="note-fostoria" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>Fostoria Station Notes:</strong>
-<ul>
-<li><strong>Butane Tank:</strong> Required only for gas batches; update total batch size and batch number accordingly.</li>
-<li><strong>MGDR BCK Startup & MGD3 INP Shutdown:</strong> Executed by field technicians; PC's role is strictly observation and confirmation. Manual COB required when indicated.</li>
-<li><strong>Simultaneous Pumping (Alleghany Access & Mogadore Tank):</strong> Initiate delivery to PAA first. Increase flow at FOS and wait for pressure (approx. 200 bbls or 5 minutes) to reach WLLR. Open the WLLR valve to prevent pressure loss at PAA.</li>
-<li><strong>Manifold (MANI) Pressure Drops:</strong> If MANI drops to -6 PSI (due to low tank level), both the DRA and pump will shut down. The booster pump requires 6 minutes to rebuild pressure and return to READY status. Preventative measures include lowering discharge (DIS) pressure to 500-600 psi, switching to a full tank, or reducing flow rate.</li>
-<li><strong>SANE Constraints:</strong> High Alarm triggers at 950 psi. Exceeding 1,020 psi will cause FOS to shut down.</li>
-<li><strong>Operational Limits (Rate 3,800 bph):</strong> Maximum operating parameters are DIS @ 1,347 psi with the Motor Operated Valve (MOV) at 1,350 psi.</li>
-<li><strong>Startup Procedure:</strong> Set DIS 50 psi above the current line pressure to prevent pump cavitation/crashes.</li>
-</ul>
-</div>
-</td>
-</tr>
-<!-- SANE with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">SANE <button class="note-toggle" onclick="toggleNote('note-sane')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Pressure: H-950 psi"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-sane" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>SANE Station Notes:</strong>
-<ul>
-<li>950 psi High; 1000 psi High-High* (will Shutdown FOST Unit if running).</li>
-</ul>
-</div>
-</td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">SR19</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<!-- WLLR (WILLARD) with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">WLLR <button class="note-toggle" onclick="toggleNote('note-wllr')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="SUC"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="DIS"></td>
-</tr>
-<tr id="note-wllr" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>WILLARD Station Notes:</strong>
-<ul>
-<li><strong>Pre-startup:</strong> Review the Batch Track report to determine line contents at the previous shutdown time. The WILL pump must run if SANE pressure reaches 900 psi.</li>
-<li><strong>Pump Operations:</strong> Only one valve can be open at a time; the pump is not sequenced. Discharge (DISC) pressure must be kept very low (approx. 600 psi) with suction (SUC) at 120 psi.</li>
-<li><strong>Startup Sequence:</strong> The booster and main pump must start simultaneously. To prevent a High-High alarm, start the pump and immediately start the booster within the pump interval window.</li>
-</ul>
-</div>
-</td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">CV10</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
-</tr>
-<!-- HUD Tank with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">HUD Tank <button class="note-toggle" onclick="toggleNote('note-huds')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
-</tr>
-<tr id="note-huds" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>HUDS Station Notes:</strong>
-<ul>
-<li><strong>Standard Settings:</strong> Set ticket to 5,500 bbls. Relift pressure is 425 psi. Execute a 12 bbl flush. At 2,800 bbls, set the target to 170 bbls upon arrival at PREVIEW.</li>
-<li><strong>Swing Operations (HUD to CLVN):</strong> Target 70 bbls. Once Valve 1372 opens, flow to HUD drops to 0. Target a shutdown for HUD-AKRO.</li>
-<li><strong>Gravity Monitoring:</strong> Gravity drops occur rapidly; react at the first indication. Failure to respond will cause a station lockout if gas delivery gravity drops below 50.</li>
-<li><strong>Valve Anomalies:</strong> If Valve 2 fails to close while Valve 4 is open, it is recommended to close Valve 4 and cycle Valve 2 open.</li>
-<li><strong>Product Transitions (15MV to 87CB):</strong> Open TRNMX at 100 bbls. Switch to the 87CB tank once gravity is acceptable. The 15MV product requires a spur flush to 100% diesel. Products 93 and 87 route directly to the product tank (manifold volume is deemed negligible by Quality Control).</li>
-<li><strong>Reversal Operations:</strong> Close valves V4320 and V4421 on CV10 at the MGD station. Open V4422 at MGDR_PMTRMIX to HUD (target 200 bbls).</li>
-<li><strong>Opening to CV10 while running FM12:</strong> Target 100-200 bbls. Reduce flow rate or FOS discharge by 50%. Open HUD, then open to CV10 (note: valve may stall). Start up WLLR and back up VANP suction to 120 psi to protect the pump. If PA loses 100 bph, increase the control valve at PITT to maintain HOLL operation. Adjust FOS to the target rate. If HOLL drops to 0 RPM, reduce suction from 490 to 450 psi.</li>
-</ul>
-</div>
-</td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">HUD Pump</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<!-- AKRO with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">AKRO <button class="note-toggle" onclick="toggleNote('note-akro')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-akro" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>AKRO Station Notes:</strong>
-<ul>
-<li><strong>Valve Sequences:</strong> Initiate valve sequencing when the Hudson Change of Batch (COB) indicates 30 bbls. At Akron, execute COB immediately upon detecting a gravity change.</li>
-<li><strong>Product Transition (15 to 87):</strong> Open the gas tank valve at the first indication of a gravity jump. The diesel valve must be completely closed by the time gravity stabilizes for gas.</li>
-<li><strong>Diesel Delivery:</strong> The station will automatically shut down if gravity exceeds 40.</li>
-<li><strong>Tank 5014:</strong> The fill meter only operates when the tank level drops to 80 ft; otherwise, the tank level will continue to rise until overflow.</li>
-<li><strong>Pre-startup (2 Hours Prior):</strong> The Pipeline Controller (PC) must verify batch size and product availability with the Akron Area Pipeliner. The Pipeliner will then coordinate with the Buckeye BRAD Terminal Operator (T.O.) to confirm startup readiness. The PC must also confirm readiness with the CLVN T.O. For pumping from BRAD tankage, the PC handles all CLVN T.O. communications and resolves scheduling issues.</li>
-<li><strong>Line Fill:</strong> Maintain at 2,450 bbls (calculated as Current Bill + Next Bill). Update the current bill if this condition is not met.</li>
-</ul>
-</div>
-</td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">SAGA</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">BRAD RD</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<!-- CLVN with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">CLVN <button class="note-toggle" onclick="toggleNote('note-clvn')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Call T/O"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-clvn" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>CLVN Station Notes:</strong>
-<ul>
-<li><strong>Swing Operations (HUB to CLVN):</strong> Minimize the duration both valves remain open to prevent reverse flow from CLVN to HUD, which could contaminate the HUD protective product tank.</li>
-<li><strong>COB Operations:</strong> The PC must manually execute COB for product changes. Cut the batch at the midpoint and notify the terminal upon product arrival.</li>
-<li><strong>Shutdown (S/D) Procedures:</strong> Close CV10 immediately after MGDR storage opens. Close HUDSON and SAGA valves (monitor pressure until it reaches 180-190 psi; the relief valve is set at 250 psi). Close the VLVN valve and attempt to maintain pressure in the line.</li>
-<li><strong>Brad Rd Product Change:</strong> Set the current batch to 2,450 bbls and notify CLVN of the estimated arrival time and target gravity.</li>
-<li><strong>TR16:</strong> Contact TR16 at startup and confirm the settling gravity.</li>
-</ul>
-</div>
-</td>
-</tr>
-<!-- MGDR with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">MGDR <button class="note-toggle" onclick="toggleNote('note-mgdr')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Call T/O"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
-</tr>
-<tr id="note-mgdr" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>MGDR DEL Station Notes:</strong>
-<ul>
-<li><strong>Relief Settings (MADB):</strong> Low Alarm at 1,075 psi; High Alarm at 1,125 psi.</li>
-<li><strong>Communications:</strong> Provide a 2-minute warning call before swinging to storage. Notification is not required for completing delivery to storage or for swinging in/out of CV10 and ALL.</li>
-<li><strong>Swing Operations (CV10 to Storage):</strong> Increase WLLR suction to 150 psi (to suction control mode) to prevent triggering a high discharge alarm.</li>
-<li><strong>Valve Configuration:</strong> Valve V4421 typically remains open; verify its status before every startup.</li>
-<li><strong>MGDR PMP Operations:</strong> COB is managed locally by station personnel. Immediately switch between V4 and V5 when COB transitions to COP.</li>
-<li><strong>MGDR & MGDR 3:</strong> Tickets should auto-roll during tank switches. Execute COB at the midpoint.</li>
-</ul>
-</div>
-</td>
-</tr>
-<!-- MGDR-PM2 with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">MGDR-PM2 <button class="note-toggle" onclick="toggleNote('note-mgdrpm2')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-mgdrpm2" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>MGDR_PMP Station Notes:</strong>
-<ul>
-<li><strong>Tank switches:</strong> Executed by field personnel. The PC's role is to verify the alignment and ensure the manual COB is executed by the T.O.</li>
-<li>Notify both CNTN T.O.s upon completion of delivery.</li>
-</ul>
-</div>
-</td>
-</tr>
-<!-- CNTN with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">CNTN <button class="note-toggle" onclick="toggleNote('note-cntn')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-cntn" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>CNTN Station Notes:</strong>
-<ul>
-<li><strong>COB Operations:</strong> For continuous product, the PC manually executes COB. For product changes requiring a tank switch, CNTN will roll the ticket.</li>
-<li><strong>Pump Coordination:</strong> PC controls the start and shutdown of the MGDR pump. Notify CNTN when the product reaches HART and specify the exact time gravity stabilizes. Alert CNTN at the first indication of a gravity change and execute COB at mid-gravity.</li>
-<li><strong>Valve Sequencing:</strong> When closing the valve at MGDR PMP, allow a 5-minute delay before closing the CANTON valve due to the age of the piping infrastructure.</li>
-<li><strong>Delivery Timing:</strong> Diesel behind Gas runs approximately 10 minutes late. Gas behind Diesel runs approximately 10 minutes early.</li>
-<li><strong>Valve 4111:</strong> Contact CNTN to confirm proper tank alignment before cycling Valve 4111.</li>
-<li><strong>Completion:</strong> Notify both MGDR and CNTN T.O.s upon delivery completion.</li>
-</ul>
-</div>
-</td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">ALL ACCES</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<!-- BOARD with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">BOARD <button class="note-toggle" onclick="toggleNote('note-board')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
-</tr>
-<tr id="note-board" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>BOARD Station Notes:</strong>
-<ul>
-<li><strong>Flush Procedures:</strong> Set station pressure higher than line pressure before opening valves to prevent excessive diesel displacement (exceeding 12 bbls) into the gas tank. Execute the flush well ahead of the scheduled time. Pressure can be returned to a level higher than line pressure to safely leave the valve open.</li>
-<li><strong>Control Mode:</strong> Switch to flow control during delivery to BOARD.</li>
-<li><strong>Diesel to Gas Transition:</strong> If starting with gas while diesel is in the line, no flush is required. Open directly to the gas tank and roll the ticket (this will generate an incompatible ticket).</li>
-</ul>
-</div>
-</td>
-</tr>
-<!-- YOUN with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">YOUN <button class="note-toggle" onclick="toggleNote('note-youn')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-youn" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>YOUN Station Notes:</strong>
-<ul>
-<li><strong>Line Fills:</strong> If filling with gas: Perform a regular flush and switch to diesel upon achieving 100% gravity. If filling with diesel: Perform a regular flush and switch to gas when gravity reaches 50 degrees.</li>
-<li><strong>Tank Fill Calculations:</strong> To calculate ticket volumes for a full tank: (Volume to fill) - (100 bbls line fill) - (35 bbls safety margin) = Barrels to add to both tickets. The target barrel amount should maintain a 35 bbl differential from the absolute tank capacity.</li>
-<li><strong>Power Failure:</strong> Immediately close valve V11 in the event of a power loss.</li>
-</ul>
-</div>
-</td>
-</tr>
-<!-- VANP with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">VANP <button class="note-toggle" onclick="toggleNote('note-vanp')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="SUC - Control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="DIS-Control"></td>
-</tr>
-<tr id="note-vanp" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>VANP Station Notes:</strong>
-<ul>
-<li><strong>Control Mode Transition:</strong> To switch from suction (SUC) control to discharge (DIS) control, lower DIS by 100 psi and hold for 3 minutes.</li>
-<li><strong>Alarms:</strong> The downstream valve triggers a High Alarm at 995 psi to coordinate with the ALLE relief valve (Warning at 995 psi; High Alarm at 1,017 psi).</li>
-<li><strong>Set Points:</strong> Standard VANP set points are SUC at 60 psi and DISC at 1,020 psi. The downstream meter set point is 930-940 psi. Once DIS stabilizes at 1,020 psi, gradually increase to 1,030 psi to slowly bleed out pressure.</li>
-<li><strong>Swing Operations (ALLE to DELM):</strong> Adjust SUCT to 200 psi and DISC to 950 psi to force the system into DISC control rather than SUCT control.</li>
-<li><strong>Power Failure Recovery:</strong> To restore the pump to READY status after a power loss: Open V2331, then open V2341. Execute a facility reset, set suction to 120 psi, and initiate pump startup.</li>
-</ul>
-</div>
-</td>
-</tr>
-<!-- ALLE with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">ALLE <button class="note-toggle" onclick="toggleNote('note-alle')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Relief: 995 psi"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-alle" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>ALLE Station Notes:</strong>
-<ul>
-<li><strong>Relief Valve Setpoints:</strong> Low Alarm at 995 psi; High Alarm at 1,045 psi.</li>
-<li><strong>End of Line Operations:</strong> Maintain pressure >450 psi; dropping below this threshold will trip the VANP station. Maintain high suction (SUC) at VANP. If restarting VANP, set SUC to 120 psi.</li>
-<li><strong>COB Execution:</strong> Delay COB until gravity indicates on-spec diesel (35) or transmix at 50 degrees. Note: Opening the valve at the first indication requires approximately 20 minutes to reach 50 degrees.</li>
-</ul>
-</div>
-</td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">ALJT</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<!-- PITT with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">PITT <button class="note-toggle" onclick="toggleNote('note-pitt')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
-</tr>
-<tr id="note-pitt" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>PITT Station Notes:</strong>
-<ul>
-<li><strong>Line Fill:</strong> Maintain at 1,600 bbls.</li>
-<li><strong>Valve Operations:</strong> Valves can only operate if differential pressure is under 300 psi. Verify visually/electronically that the valve is 100% open.</li>
-<li><strong>Startup:</strong> Pumps and VANP will fail to start without sufficient inlet pressure.</li>
-<li><strong>Control Valve Instability:</strong> The control valve exhibits instability, slowly drifting from 15% to 30% open over 1-2 hours, followed by a sharp drop from 35% to 15% open within 10 minutes.</li>
-</ul>
-</div>
-</td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">HAJT</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<!-- DELM-DEL with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">DELM-DEL <button class="note-toggle" onclick="toggleNote('note-delmdel')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Flow control"></td>
-</tr>
-<tr id="note-delmdel" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>DELM Station Notes:</strong>
-<ul>
-<li><strong>Product Transition (Gas to Premium):</strong> Monitor gravity at PREVIEW to determine the differential, then apply this offset to the STATION gravity at DELM.</li>
-<li><strong>Product Transition (15MV to 87CB):</strong> Base gravity is 35.5; cut out at +0.5 degrees. Note: Tank level alarms may clear and return immediately during this process.</li>
-</ul>
-</div>
-</td>
-</tr>
-<!-- EPJT-DEL with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">EPJT-DEL <button class="note-toggle" onclick="toggleNote('note-epjt')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Tank level/LUP"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-epjt" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>EPJT Station Notes:</strong>
-<ul>
-<li><strong>Line Fill:</strong> Verify matching product line fill with both stations.</li>
-<li><strong>Ticket Settings:</strong> For new products (Diesel or 93CB), set the ticket to 1,800 bbls (200 bbls allocated to transmix). For 93/87 transitions to 87, set the ticket to 1,900 bbls (100 bbls to transmix).</li>
-<li><strong>COB (87 to TNMX):</strong> Execute COB at 50 degrees. If gravity is &lt; 42 degrees, no spur flush is required. If &gt; 42 degrees, a manual spur flush is required at the first indication or at 1,800 bbls (125 net) while the line is shut down.</li>
-<li><strong>Valve Target Settings:</strong> Open valves based on barrel counts (target 200 bbls to open valve). Target settings: Premium/Gas to Diesel = 1,800 bbls; Diesel to Gas = 1,900 bbls; Premium to Gas = 1,800 bbls.</li>
-<li><strong>Line Velocity Precautions:</strong> Due to high line velocity, auto-flush is disabled. The DELM valve can be opened early with prior notification.</li>
-<li><strong>Line Alignment:</strong> Verify tank alignment (SPL = Sunoco/ET; BPL = Buckeye).</li>
-<li><strong>Gravity Stability:</strong> Pressure fluctuations cause erratic gravity readings, so valves should be opened early. Gravity spikes up to 100 may trigger an auto-closure of the tank, requiring tickets to be placed in split mode. This line requires strict monitoring; if an auto-closure occurs, contact Buckeye immediately to initiate a shutdown.</li>
-<li><strong>Delivery Conflicts (DEL):</strong> Avoid line conflicts when delivering from both the main line and export junction simultaneously, particularly due to the single 93CB tank limitation (87 octane has two tanks and allows simultaneous use). If external station gravity reaches 155, diverting flow to the transmix tank can help reduce pressure and normalize gravity readings.</li>
-</ul>
-</div>
-</td>
-</tr>
-<!-- PA Access with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">PA Access <button class="note-toggle" onclick="toggleNote('note-paaccess')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-paaccess" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>P.A. Access Station Notes:</strong>
-<ul>
-<li><strong>Suction (SUCT) Parameters:</strong> Maintain a minimum of 490 psi at HOLL to support elevation heads. Optimally, HOLL SUCT should remain above 500 psi to keep the operational profile (green line) above the minimum threshold (purple line).</li>
-<li><strong>PLAI Readiness:</strong> To achieve READY status, reduce line fill pressure below 700 psi by dropping MNTL pressure to 0 psi. Slightly increase HOLL suction to lower discharge pressure.</li>
-<li><strong>Flow Profile (600 bph):</strong> An optimal profile consists of: HOLL SUC at 460 psi/1,500 RPM; PLAI SUC at 660 psi/1,500 RPM; LNGS at 1,032 psi; MNTL at 500 psi. Avoid running in adverse conditions; if necessary, shut down the PLAI pump.</li>
-</ul>
-</div>
-</td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">EBEN</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">HOLL</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="SUC - Control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="DIS-Control"></td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">PLAI</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="SUC - Control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="DIS-Control"></td>
-</tr>
-<!-- MNTL with Dropdown Notes -->
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">MNTL <button class="note-toggle" onclick="toggleNote('note-mntl')">▼</button></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Product"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Call T/O"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Ticket"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="Press control"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-<tr id="note-mntl" class="note-row" style="display: none;">
-<td colspan="7">
-<div class="note-content">
-<strong>MNTL Station Notes:</strong>
-<ul>
-<li><strong>Product Transition (Diesel to Gas):</strong> Contact the T.O. following shutdown. Notify MNTL when a gravity change occurs. Note that opening and closing valves will cause gravity to fluctuate (drop and spike). Notify MNTL to fulfill their confirmation requests. Execute COB at 5 bbls.</li>
-<li><strong>Pump Operations:</strong> The HOLL pump (and all other similar pumps) must operate above 1,800 RPM.</li>
-<li><strong>Rolling Tickets:</strong> Account for 100 bbls of line fill originating from the densitometer, resulting in an estimated 20-minute delay for the T.O. to complete tank switches.</li>
-</ul>
-</div>
-</td>
-</tr>
-<tr>
-<td class="chk-cell"><input type="checkbox" class="shift-status-chk"></td>
-<td class="row-label">JOB PLAN</td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-<td><input type="text" class="grid-text-input shift-field" placeholder="-"></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- Print Wrapper for Page 2 -->
-<div class="print-page-2">
-<h2 class="section-title">Rate Change Schedule</h2>
-<div class="table-responsive">
-<table id="rate-table">
-<thead>
-<tr>
-<th style="width: 90px; text-align: left; padding-left: 12px;">Job</th>
-<th style="width: 85px;">Time</th>
-<th>FOST</th>
-<th>CV10</th>
-<th>HUDS</th>
-<th>CLVN</th>
-<th>MGDR</th>
-<th>A.A.</th>
-<th>BOARD</th>
-<th>ALLE</th>
-<th>PITT</th>
-<th>DELM</th>
-<th>MNTL</th>
-</tr>
-</thead>
-<tbody>
+
 <script>
-const standardTimes = ["0600", "0800", "1000", "1200", "1400", "1600", "1800"];
-for (let i = 1; i <= 7; i++) {
-document.write(`
-<tr data-row="${i}" class="data-grid-row">
-<td class="row-label">Job ${i}</td>
-<td><input type="text" maxlength="4" class="grid-text-input time-input" placeholder="${standardTimes[i-1]}"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input fost-in" placeholder="-" oninput="calculateRow(${i}, 'fost')"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input cv10-in" placeholder="-" oninput="calculateRow(${i}, 'cv10')"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input huds-in" placeholder="-" oninput="calculateRow(${i}, 'huds')"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input clvn-in" placeholder="-" readonly></td>
-<td><input type="number" step="100" class="grid-text-input rate-input mgdr-in" placeholder="-" oninput="calculateRow(${i}, 'mgdr')"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input aa-in" placeholder="-" oninput="calculateRow(${i}, 'aa')"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input board-in" placeholder="-" oninput="calculateRow(${i}, 'board')"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input alle-in" placeholder="-" oninput="calculateRow(${i}, 'alle')"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input pitt-in" placeholder="-" oninput="calculateRow(${i}, 'pitt')"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input delm-in" placeholder="-" oninput="calculateRow(${i}, 'delm')" onkeydown="handleDelmKey(event, ${i})"></td>
-<td><input type="number" step="100" class="grid-text-input rate-input mntl-in" placeholder="-" oninput="calculateRow(${i}, 'mntl')"></td>
-</tr>
-`);
-}
-</script>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<script>
-// General Listener: Add visual highlight to ANY field when a user manually enters data
-document.addEventListener('input', function(e) {
-if (e.target.classList.contains('grid-text-input')) {
-if (e.target.value.trim() !== "") {
-e.target.classList.add('user-entered');
-} else {
-e.target.classList.remove('user-entered');
-}
-}
-});
-// Toggle the expanding Notes rows
-function toggleNote(noteId) {
-const noteRow = document.getElementById(noteId);
-if (noteRow.style.display === "none" || noteRow.style.display === "") {
-noteRow.style.display = "table-row";
-} else {
-noteRow.style.display = "none";
-}
-}
-function handleDelmKey(event, rowId) {
-if (event.key === "Delete" || event.key === "Backspace") {
-setTimeout(() => {
-calculateRow(rowId, 'delm');
-}, 10);
-}
-}
-function clearAllFields() {
-const shiftChks = document.querySelectorAll('.shift-status-chk');
-shiftChks.forEach(chk => chk.checked = false);
-const shiftFields = document.querySelectorAll('.shift-field');
-shiftFields.forEach(field => {
-field.value = "";
-field.classList.remove('user-entered');
-});
-const rateInputs = document.querySelectorAll('.rate-input');
-rateInputs.forEach(input => {
-input.value = "";
-input.placeholder = "-";
-input.classList.remove('input-error');
-input.classList.remove('formula-filled');
-input.classList.remove('user-entered');
-});
-const timeInputs = document.querySelectorAll('.time-input');
-timeInputs.forEach(input => {
-input.value = "";
-input.classList.remove('user-entered');
-});
-for (let i = 1; i <= 7; i++) {
-calculateRow(i, 'clear');
-}
-}
-function calculateRow(rowId, triggerSource) {
-const row = document.querySelector(`tr[data-row="${rowId}"]`);
-if (!row) return;
-const fostInput = row.querySelector('.fost-in');
-const cv10Input = row.querySelector('.cv10-in');
-const hudsInput = row.querySelector('.huds-in');
-const clvnInput = row.querySelector('.clvn-in');
-const mgdrInput = row.querySelector('.mgdr-in');
-const aaInput = row.querySelector('.aa-in');
-const boardInput = row.querySelector('.board-in');
-const alleInput = row.querySelector('.alle-in');
-const pittInput = row.querySelector('.pitt-in');
-const delmInput = row.querySelector('.delm-in');
-const mntlInput = row.querySelector('.mntl-in');
-// NEW CASCADE LOGIC: Pull values downwards into the placeholders of the current row if rowId > 1
-if (rowId > 1 && triggerSource !== 'clear') {
-const prevRow = document.querySelector(`tr[data-row="${rowId - 1}"]`);
-if (prevRow) {
-const manualCols = ['fost', 'cv10', 'huds', 'clvn', 'mgdr', 'board', 'alle', 'pitt'];
-manualCols.forEach(col => {
-const prevIn = prevRow.querySelector(`.${col}-in`);
-const currIn = row.querySelector(`.${col}-in`);
-if (prevIn && currIn) {
-// Check if the previous row has an explicitly typed value, OR a cascaded placeholder
-const prevEff = prevIn.value.trim() !== "" ? prevIn.value : prevIn.placeholder;
-currIn.placeholder = (prevEff && prevEff !== "-") ? prevEff : "-";
-}
-});
-}
-}
-// Get effective values for the math (Checking explicitly entered .value first, then checking cascaded .placeholder)
-const fostVal = fostInput.value.trim() !== "" ? parseFloat(fostInput.value) : (fostInput.placeholder !== "-" ? parseFloat(fostInput.placeholder) : 0);
-const cv10Val = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : (cv10Input.placeholder !== "-" ? parseFloat(cv10Input.placeholder) : 0);
-const mgdrVal = mgdrInput.value.trim() !== "" ? parseFloat(mgdrInput.value) : (mgdrInput.placeholder !== "-" ? parseFloat(mgdrInput.placeholder) : 0);
-// Clear error styles for recalculation
-if (triggerSource !== 'cascade') {
-cv10Input.classList.remove('input-error');
-mgdrInput.classList.remove('input-error');
-aaInput.classList.remove('input-error');
-boardInput.classList.remove('input-error');
-alleInput.classList.remove('input-error');
-pittInput.classList.remove('input-error');
-delmInput.classList.remove('input-error');
-}
-if (triggerSource !== 'clear' && triggerSource !== 'cascade') {
-if (cv10Input.value.trim() !== "" && fostInput.value.trim() !== "") {
-if (parseFloat(cv10Input.value) > fostVal) {
-cv10Input.classList.add('input-error');
-alert(`Validation Error on Job ${rowId}: CV10 value must be less than or equal to FOST.`);
-cv10Input.value = "";
-return;
-}
-}
-if (mgdrInput.value.trim() !== "") {
-const sumLimit = fostVal + cv10Val;
-if (parseFloat(mgdrInput.value) > sumLimit) {
-mgdrInput.classList.add('input-error');
-alert(`Validation Error on Job ${rowId}: MGDR value must be smaller than or equal to FOST + CV10 (${sumLimit}).`);
-mgdrInput.value = "";
-return;
-}
-}
-}
-if (triggerSource === 'cv10') {
-hudsInput.value = cv10Input.value;
-hudsInput.classList.add('user-entered');
-}
-// NEW CLVN MATH LOGIC
-const safeCv10 = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : 0;
-const safeHuds = hudsInput.value.trim() !== "" ? parseFloat(hudsInput.value) : 0;
-if (cv10Input.value.trim() !== "" || hudsInput.value.trim() !== "") {
-clvnInput.value = Number((safeCv10 - safeHuds).toFixed(4));
-} else {
-clvnInput.value = "";
-clvnInput.classList.remove('user-entered');
-}
-// Auto-math for A.A. using cascaded values
-if (fostInput.value.trim() !== "" || cv10Input.value.trim() !== "" || mgdrInput.value.trim() !== "" ||
-fostInput.placeholder !== "-" || cv10Input.placeholder !== "-" || mgdrInput.placeholder !== "-") {
-aaInput.placeholder = Number((fostVal - cv10Val - mgdrVal).toFixed(4));
-} else {
-aaInput.placeholder = "-";
-}
-const effectiveAA = aaInput.value.trim() !== "" ? parseFloat(aaInput.value) : (aaInput.placeholder !== "-" ? parseFloat(aaInput.placeholder) : NaN);
-if (triggerSource !== 'clear' && triggerSource !== 'cascade' && !isNaN(effectiveAA)) {
-if (boardInput.value.trim() !== "" && parseFloat(boardInput.value) > effectiveAA) {
-boardInput.classList.add('input-error');
-alert(`Validation Error on Job ${rowId}: BOARD value cannot be greater than A.A. (${effectiveAA}).`);
-boardInput.value = "";
-return;
-}
-if (alleInput.value.trim() !== "" && parseFloat(alleInput.value) > effectiveAA) {
-alleInput.classList.add('input-error');
-alert(`Validation Error on Job ${rowId}: ALLE value cannot be greater than A.A. (${effectiveAA}).`);
-alleInput.value = "";
-return;
-}
-if (pittInput.value.trim() !== "" && parseFloat(pittInput.value) > effectiveAA) {
-pittInput.classList.add('input-error');
-alert(`Validation Error on Job ${rowId}: PITT value cannot be greater than A.A. (${effectiveAA}).`);
-pittInput.value = "";
-return;
-}
-if (delmInput.value.trim() !== "" && parseFloat(delmInput.value) > effectiveAA) {
-delmInput.classList.add('input-error');
-alert(`Validation Error on Job ${rowId}: DELM value cannot be greater than A.A. (${effectiveAA}).`);
-delmInput.value = "";
-return;
-}
-}
-const boardVal = boardInput.value.trim() !== "" ? parseFloat(boardInput.value) : (boardInput.placeholder !== "-" ? parseFloat(boardInput.placeholder) : 0);
-const alleVal = alleInput.value.trim() !== "" ? parseFloat(alleInput.value) : (alleInput.placeholder !== "-" ? parseFloat(alleInput.placeholder) : 0);
-const pittVal = pittInput.value.trim() !== "" ? parseFloat(pittInput.value) : (pittInput.placeholder !== "-" ? parseFloat(pittInput.placeholder) : 0);
-// Math constraints: Prevents DELM and MNTL placeholders from dropping below zero
-if (!isNaN(effectiveAA)) {
-let calcDelm = Number((effectiveAA - boardVal - alleVal - pittVal).toFixed(4));
-delmInput.placeholder = calcDelm < 0 ? 0 : calcDelm;
-} else {
-delmInput.placeholder = "-";
-}
-const effectiveDELM = delmInput.value.trim() !== "" ? parseFloat(delmInput.value) : (delmInput.placeholder !== "-" ? parseFloat(delmInput.placeholder) : 0);
-if (!isNaN(effectiveAA)) {
-let calcMntl = Number((effectiveAA - boardVal - alleVal - pittVal - effectiveDELM).toFixed(4));
-mntlInput.placeholder = calcMntl < 0 ? 0 : calcMntl;
-} else {
-mntlInput.placeholder = "-";
-}
-[hudsInput, clvnInput].forEach(input => {
-if (input.value !== "") {
-input.classList.add('formula-filled');
-} else {
-input.classList.remove('formula-filled');
-}
-});
-// CHAIN REACTION: Automatically recalculate and cascade to the row underneath it
-if (rowId < 7 && triggerSource !== 'clear') {
-calculateRow(rowId + 1, 'cascade');
-}
-}
+    // --- LOCAL STORAGE AUTO-SAVE LOGIC ---
+    const STORAGE_KEY = 'main_dashboard_data_v1';
+
+    function saveDashboardData() {
+        const inputs = document.querySelectorAll('input:not([type="file"]), select');
+        const data = {};
+        inputs.forEach((input, index) => {
+            if (input.type === 'checkbox') {
+                data[index] = input.checked;
+            } else {
+                data[index] = input.value;
+            }
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // Auto-load data immediately when page boots up
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedData = localStorage.getItem(STORAGE_KEY);
+        if (savedData) {
+            try {
+                const data = JSON.parse(savedData);
+                const inputs = document.querySelectorAll('input:not([type="file"]), select');
+                inputs.forEach((input, index) => {
+                    if (data[index] !== undefined) {
+                        if (input.type === 'checkbox') {
+                            input.checked = data[index];
+                        } else {
+                            input.value = data[index];
+                            if (input.value !== "" && input.classList.contains('grid-text-input')) {
+                                input.classList.add('user-entered');
+                            }
+                        }
+                    }
+                });
+                
+                // Recalculate all formulas to restore green highlighting WITHOUT triggering alerts on load
+                for (let i = 1; i <= 7; i++) {
+                    calculateRow(i, 'init');
+                }
+            } catch (e) {
+                console.error("Could not load saved data from localStorage", e);
+            }
+        }
+    });
+
+    // General Listener: Add visual highlight to ANY field when a user manually enters data and auto-save
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('grid-text-input')) {
+            if (e.target.value.trim() !== "") {
+                e.target.classList.add('user-entered');
+            } else {
+                e.target.classList.remove('user-entered');
+            }
+        }
+        saveDashboardData(); // Save text inputs
+    });
+
+    document.addEventListener('change', function(e) {
+        saveDashboardData(); // Save checkboxes and dropdowns
+    });
+
+    // Toggle the expanding Notes rows
+    function toggleNote(noteId) {
+        const noteRow = document.getElementById(noteId);
+        if (noteRow.style.display === "none" || noteRow.style.display === "") {
+            noteRow.style.display = "table-row";
+        } else {
+            noteRow.style.display = "none";
+        }
+    }
+
+    function handleDelmKey(event, rowId) {
+        if (event.key === "Delete" || event.key === "Backspace") {
+            setTimeout(() => {
+                calculateRow(rowId, 'delm');
+            }, 10);
+        }
+    }
+
+    function clearAllFields() {
+        const shiftChks = document.querySelectorAll('.shift-status-chk');
+        shiftChks.forEach(chk => chk.checked = false);
+
+        const shiftFields = document.querySelectorAll('.shift-field');
+        shiftFields.forEach(field => {
+            field.value = "";
+            field.classList.remove('user-entered');
+        });
+
+        const rateInputs = document.querySelectorAll('.rate-input');
+        rateInputs.forEach(input => {
+            input.value = "";
+            input.placeholder = "-";
+            input.classList.remove('input-error');
+            input.classList.remove('formula-filled');
+            input.classList.remove('user-entered');
+        });
+
+        const timeInputs = document.querySelectorAll('.time-input');
+        timeInputs.forEach(input => {
+            input.value = "";
+            input.classList.remove('user-entered');
+        });
+
+        for (let i = 1; i <= 7; i++) {
+            calculateRow(i, 'clear');
+        }
+        
+        // Wipe local storage data so memory is completely clean
+        localStorage.removeItem(STORAGE_KEY);
+    }
+
+    function calculateRow(rowId, triggerSource) {
+        const row = document.querySelector(`tr[data-row="${rowId}"]`);
+        if (!row) return;
+
+        const fostInput = row.querySelector('.fost-in');
+        const cv10Input = row.querySelector('.cv10-in');
+        const hudsInput = row.querySelector('.huds-in');
+        const clvnInput = row.querySelector('.clvn-in');
+        const mgdrInput = row.querySelector('.mgdr-in');
+        const aaInput = row.querySelector('.aa-in');
+        const boardInput = row.querySelector('.board-in');
+        const alleInput = row.querySelector('.alle-in');
+        const pittInput = row.querySelector('.pitt-in');
+        const delmInput = row.querySelector('.delm-in');
+        const mntlInput = row.querySelector('.mntl-in');
+
+        // NEW CASCADE LOGIC: Pull values downwards into the placeholders of the current row if rowId > 1
+        if (rowId > 1 && triggerSource !== 'clear') {
+            const prevRow = document.querySelector(`tr[data-row="${rowId - 1}"]`);
+            if (prevRow) {
+                const manualCols = ['fost', 'cv10', 'huds', 'clvn', 'mgdr', 'board', 'alle', 'pitt'];
+                manualCols.forEach(col => {
+                    const prevIn = prevRow.querySelector(`.${col}-in`);
+                    const currIn = row.querySelector(`.${col}-in`);
+                    if (prevIn && currIn) {
+                        const prevEff = prevIn.value.trim() !== "" ? prevIn.value : prevIn.placeholder;
+                        currIn.placeholder = (prevEff && prevEff !== "-") ? prevEff : "-";
+                    }
+                });
+            }
+        }
+
+        const fostVal = fostInput.value.trim() !== "" ? parseFloat(fostInput.value) : (fostInput.placeholder !== "-" ? parseFloat(fostInput.placeholder) : 0);
+        const cv10Val = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : (cv10Input.placeholder !== "-" ? parseFloat(cv10Input.placeholder) : 0);
+        const mgdrVal = mgdrInput.value.trim() !== "" ? parseFloat(mgdrInput.value) : (mgdrInput.placeholder !== "-" ? parseFloat(mgdrInput.placeholder) : 0);
+
+        // Clear error styles for recalculation
+        if (triggerSource !== 'cascade' && triggerSource !== 'init') {
+            cv10Input.classList.remove('input-error');
+            mgdrInput.classList.remove('input-error');
+            aaInput.classList.remove('input-error');
+            boardInput.classList.remove('input-error');
+            alleInput.classList.remove('input-error');
+            pittInput.classList.remove('input-error');
+            delmInput.classList.remove('input-error');
+        }
+
+        if (triggerSource !== 'clear' && triggerSource !== 'cascade' && triggerSource !== 'init') {
+            if (cv10Input.value.trim() !== "" && fostInput.value.trim() !== "") {
+                if (parseFloat(cv10Input.value) > fostVal) {
+                    cv10Input.classList.add('input-error');
+                    alert(`Validation Error on Job ${rowId}: CV10 value must be less than or equal to FOST.`);
+                    cv10Input.value = "";
+                    return;
+                }
+            }
+            if (mgdrInput.value.trim() !== "") {
+                const sumLimit = fostVal + cv10Val;
+                if (parseFloat(mgdrInput.value) > sumLimit) {
+                    mgdrInput.classList.add('input-error');
+                    alert(`Validation Error on Job ${rowId}: MGDR value must be smaller than or equal to FOST + CV10 (${sumLimit}).`);
+                    mgdrInput.value = "";
+                    return;
+                }
+            }
+        }
+
+        if (triggerSource === 'cv10') {
+            hudsInput.value = cv10Input.value;
+            hudsInput.classList.add('user-entered');
+        }
+
+        const safeCv10 = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : 0;
+        const safeHuds = hudsInput.value.trim() !== "" ? parseFloat(hudsInput.value) : 0;
+
+        if (cv10Input.value.trim() !== "" || hudsInput.value.trim() !== "") {
+            clvnInput.value = Number((safeCv10 - safeHuds).toFixed(4));
+        } else {
+            clvnInput.value = "";
+            clvnInput.classList.remove('user-entered');
+        }
+
+        if (fostInput.value.trim() !== "" || cv10Input.value.trim() !== "" || mgdrInput.value.trim() !== "" ||
+            fostInput.placeholder !== "-" || cv10Input.placeholder !== "-" || mgdrInput.placeholder !== "-") {
+            aaInput.placeholder = Number((fostVal - cv10Val - mgdrVal).toFixed(4));
+        } else {
+            aaInput.placeholder = "-";
+        }
+
+        const effectiveAA = aaInput.value.trim() !== "" ? parseFloat(aaInput.value) : (aaInput.placeholder !== "-" ? parseFloat(aaInput.placeholder) : NaN);
+
+        if (triggerSource !== 'clear' && triggerSource !== 'cascade' && triggerSource !== 'init' && !isNaN(effectiveAA)) {
+            if (boardInput.value.trim() !== "" && parseFloat(boardInput.value) > effectiveAA) {
+                boardInput.classList.add('input-error');
+                alert(`Validation Error on Job ${rowId}: BOARD value cannot be greater than A.A. (${effectiveAA}).`);
+                boardInput.value = "";
+                return;
+            }
+            if (alleInput.value.trim() !== "" && parseFloat(alleInput.value) > effectiveAA) {
+                alleInput.classList.add('input-error');
+                alert(`Validation Error on Job ${rowId}: ALLE value cannot be greater than A.A. (${effectiveAA}).`);
+                alleInput.value = "";
+                return;
+            }
+            if (pittInput.value.trim() !== "" && parseFloat(pittInput.value) > effectiveAA) {
+                pittInput.classList.add('input-error');
+                alert(`Validation Error on Job ${rowId}: PITT value cannot be greater than A.A. (${effectiveAA}).`);
+                pittInput.value = "";
+                return;
+            }
+            if (delmInput.value.trim() !== "" && parseFloat(delmInput.value) > effectiveAA) {
+                delmInput.classList.add('input-error');
+                alert(`Validation Error on Job ${rowId}: DELM value cannot be greater than A.A. (${effectiveAA}).`);
+                delmInput.value = "";
+                return;
+            }
+        }
+
+        const boardVal = boardInput.value.trim() !== "" ? parseFloat(boardInput.value) : (boardInput.placeholder !== "-" ? parseFloat(boardInput.placeholder) : 0);
+        const alleVal = alleInput.value.trim() !== "" ? parseFloat(alleInput.value) : (alleInput.placeholder !== "-" ? parseFloat(alleInput.placeholder) : 0);
+        const pittVal = pittInput.value.trim() !== "" ? parseFloat(pittInput.value) : (pittInput.placeholder !== "-" ? parseFloat(pittInput.placeholder) : 0);
+
+        if (!isNaN(effectiveAA)) {
+            let calcDelm = Number((effectiveAA - boardVal - alleVal - pittVal).toFixed(4));
+            delmInput.placeholder = calcDelm < 0 ? 0 : calcDelm;
+        } else {
+            delmInput.placeholder = "-";
+        }
+
+        const effectiveDELM = delmInput.value.trim() !== "" ? parseFloat(delmInput.value) : (delmInput.placeholder !== "-" ? parseFloat(delmInput.placeholder) : 0);
+
+        if (!isNaN(effectiveAA)) {
+            let calcMntl = Number((effectiveAA - boardVal - alleVal - pittVal - effectiveDELM).toFixed(4));
+            mntlInput.placeholder = calcMntl < 0 ? 0 : calcMntl;
+        } else {
+            mntlInput.placeholder = "-";
+        }
+
+        [hudsInput, clvnInput].forEach(input => {
+            if (input.value !== "") {
+                input.classList.add('formula-filled');
+            } else {
+                input.classList.remove('formula-filled');
+            }
+        });
+
+        // CHAIN REACTION: Automatically recalculate and cascade to the row underneath it
+        if (rowId < 7 && triggerSource !== 'clear') {
+            calculateRow(rowId + 1, 'cascade');
+        }
+    }
 </script>
 </body>
 </html>
