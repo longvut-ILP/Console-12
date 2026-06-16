@@ -5,24 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Time Calculator - Console 12</title>
 
-<!-- Favicon -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230f172a'/><path d='M50 15 L75 55 A 30 30 0 1 1 25 55 Z' fill='%23f59e0b'/></svg>">
-
 <style>
 :root {
-    /* Oil & Gas Theme Colors */
-    --bg-body: #cbd5e1; 
-    --bg-card: #ffffff; 
-    --primary-color: #0f172a; 
-    --accent-color: #f59e0b; 
+    --bg-body: #cbd5e1;
+    --bg-card: #ffffff;
+    --primary-color: #0f172a;
+    --accent-color: #f59e0b;
     --accent-hover: #d97706;
     --text-dark: #1e293b;
-    --border-color: #94a3b8; 
+    --border-color: #94a3b8;
     --zebra-color: #f8fafc;
-    --hover-color: #fffbeb; 
-    
-    /* Functional Colors */
-    --btn-clear-bg: #dc2626; 
+    --hover-color: #fffbeb;
+    --btn-clear-bg: #dc2626;
     --btn-clear-hover: #991b1b;
 }
 
@@ -255,16 +250,17 @@ tbody tr:hover {
 
 .highlight-time {
     font-weight: 800;
-    color: #166534; /* Green */
+    color: #166534; 
 }
 
 .highlight-rem {
     font-weight: 800;
-    color: #b91c1c; /* Red */
+    color: #b91c1c; 
 }
 </style>
 </head>
 <body>
+
 <div class="container">
     <div class="header-section">
         <h1>Time Calculator</h1>
@@ -273,218 +269,263 @@ tbody tr:hover {
             <a href="Board_Young.html" class="btn-nav">Board & Young</a>
         </div>
     </div>
-    
+
     <div id="calculator-container"></div>
 </div>
 
 <script>
-// Auto-adds a colon after typing the first two digits
-function autoFormatTime(input, event) {
-    if (event && (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward')) {
-        return;
-    }
-    if (input.value.length === 2 && !input.value.includes(':')) {
-        input.value += ':';
-    }
-}
-
-function toMins(timeStr) {
-    const [h, m] = timeStr.split(':').map(Number);
-    return (h * 60) + m;
-}
-
-function toStr(totalMins) {
-    const h = Math.floor(totalMins / 60) % 24;
-    const m = Math.round(totalMins % 60);
-    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-}
-
-function getPrevRemaining(row) {
-    const prevRow = row.previousElementSibling;
-    if (prevRow && prevRow.querySelector('.st')) {
-        const prevRemainText = prevRow.querySelector('.rem').innerText;
-        return prevRemainText !== '-' ? parseFloat(prevRemainText) : 0;
-    }
-    return 0;
-}
-
-function getPrevRate2(row) {
-    const prevRow = row.previousElementSibling;
-    if (prevRow && prevRow.querySelector('.st')) {
-        const prevR2 = parseFloat(prevRow.querySelector('.r2').value) || 0;
-        return prevR2;
-    }
-    return 0;
-}
-
-function calculateRow(el) {
-    const row = el.closest('tr');
-    const st = row.querySelector('.st').value;
-    const r1 = parseFloat(row.querySelector('.r1').value) || 0;
-    
-    // Check if the user manually entered a Total Bbl
-    const totalGoalStr = row.querySelector('.goal').value.trim();
-    const totalGoal = parseFloat(totalGoalStr) || 0;
-    
-    const isSplit = row.querySelector('.split-box').classList.contains('visible');
-    
-    if (st.includes(':')) {
-        let finalEndStr = "";
-        let currentSplitTimeStr = "";
-        
-        if (!isSplit) {
-            // Normal Mode
-            const dur = (r1 > 0) ? (totalGoal / r1) : 0;
-            finalEndStr = toStr(toMins(st) + (dur * 60));
-            row.querySelector('.et').innerText = finalEndStr;
-            row.querySelector('.rem').innerText = '-';
-            
-        } else {
-            // Split Mode
-            currentSplitTimeStr = row.querySelector('.split-time').value;
-            const r2 = parseFloat(row.querySelector('.r2').value) || 0;
-            
-            if (currentSplitTimeStr.includes(':')) {
-                const startMins = toMins(st);
-                const splitMins = toMins(currentSplitTimeStr);
-                const elapsedMins = splitMins - startMins;
-                
-                const prevRemaining = getPrevRemaining(row);
-                const prevRate2 = getPrevRate2(row);
-                
-                // NEW LOGIC: Only pull previous remaining balance if current Total Bbl is blank
-                const actualTotal = (totalGoalStr === "" && prevRemaining > 0) ? prevRemaining : totalGoal;
-                const actualRate = (totalGoalStr === "" && prevRemaining > 0) ? prevRate2 : r1;
-                
-                const batchDone = (elapsedMins / 60) * actualRate;
-                const batchRem = actualTotal - batchDone;
-                row.querySelector('.rem').innerText = batchRem.toFixed(2);
-                
-                const dur2 = (r2 > 0) ? (batchRem / r2) : 0;
-                finalEndStr = toStr(splitMins + (dur2 * 60));
-                row.querySelector('.et').innerText = finalEndStr;
-            }
+    // Auto-adds a colon after typing the first two digits
+    function autoFormatTime(input, event) {
+        if (event && (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward')) {
+            return;
         }
+        if (input.value.length === 2 && !input.value.includes(':')) {
+            input.value += ':';
+        }
+    }
+
+    function toMins(timeStr) {
+        const [h, m] = timeStr.split(':').map(Number);
+        return (h * 60) + m;
+    }
+
+    function toStr(totalMins) {
+        const h = Math.floor(totalMins / 60) % 24;
+        const m = Math.round(totalMins % 60);
+        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    }
+
+    function getPrevRemaining(row) {
+        const prevRow = row.previousElementSibling;
+        if (prevRow && prevRow.querySelector('.st')) {
+            const prevRemainText = prevRow.querySelector('.rem').innerText;
+            return prevRemainText !== '-' ? parseFloat(prevRemainText) : 0;
+        }
+        return 0;
+    }
+
+    function getPrevRate2(row) {
+        const prevRow = row.previousElementSibling;
+        if (prevRow && prevRow.querySelector('.st')) {
+            const prevR2 = parseFloat(prevRow.querySelector('.r2').value) || 0;
+            return prevR2;
+        }
+        return 0;
+    }
+
+    function calculateRow(el) {
+        const row = el.closest('tr');
+        const st = row.querySelector('.st').value;
+        const r1 = parseFloat(row.querySelector('.r1').value) || 0;
+        const totalGoal = parseFloat(row.querySelector('.goal').value) || 0;
+        const isSplit = row.querySelector('.split-box').classList.contains('visible');
         
-        const nextRow = row.nextElementSibling;
-        if (nextRow && nextRow.querySelector('.st')) {
-            const nextIsSplit = nextRow.querySelector('.split-box').classList.contains('visible');
-            const nextGoalStr = nextRow.querySelector('.goal').value.trim();
-            let timeToPass = "";
+        if (st.includes(':')) {
+            let finalEndStr = "";
+            let currentSplitTimeStr = "";
             
-            // Determine which time to pass based on the NEXT row's split status AND goal input
             if (!isSplit) {
-                timeToPass = finalEndStr;
+                // Normal Mode
+                const dur = (r1 > 0) ? (totalGoal / r1) : 0;
+                finalEndStr = toStr(toMins(st) + (dur * 60));
+                row.querySelector('.et').innerText = finalEndStr;
+                row.querySelector('.rem').innerText = '-';
             } else {
-                // NEW LOGIC: Don't pass Split Time if the next row has its own Total Bbl typed in
-                if (nextIsSplit && nextGoalStr === "") {
-                    timeToPass = currentSplitTimeStr; 
-                } else {
-                    timeToPass = finalEndStr; 
+                // Split Mode
+                currentSplitTimeStr = row.querySelector('.split-time').value;
+                const r2 = parseFloat(row.querySelector('.r2').value) || 0;
+                
+                if (currentSplitTimeStr.includes(':')) {
+                    const startMins = toMins(st);
+                    const splitMins = toMins(currentSplitTimeStr);
+                    const elapsedMins = splitMins - startMins;
+                    
+                    const prevRemaining = getPrevRemaining(row);
+                    const actualTotal = prevRemaining > 0 ? prevRemaining : totalGoal;
+                    
+                    const prevRate2 = getPrevRate2(row);
+                    const actualRate = prevRemaining > 0 ? prevRate2 : r1;
+                    
+                    const batchDone = (elapsedMins / 60) * actualRate;
+                    const batchRem = actualTotal - batchDone;
+                    
+                    row.querySelector('.rem').innerText = batchRem.toFixed(2);
+                    
+                    const dur2 = (r2 > 0) ? (batchRem / r2) : 0;
+                    finalEndStr = toStr(splitMins + (dur2 * 60));
+                    row.querySelector('.et').innerText = finalEndStr;
                 }
             }
-            
-            if (timeToPass !== "") {
-                nextRow.querySelector('.st').value = timeToPass;
-            }
-            
-            // Carry the appropriate rate down
-            if (isSplit) {
-                const currentR2 = row.querySelector('.r2').value;
-                if (currentR2) {
-                    nextRow.querySelector('.r1').value = currentR2;
+
+            const nextRow = row.nextElementSibling;
+            if (nextRow && nextRow.querySelector('.st')) {
+                const nextIsSplit = nextRow.querySelector('.split-box').classList.contains('visible');
+                let timeToPass = "";
+                
+                // Determine which time to pass based on the NEXT row's split status
+                if (!isSplit) {
+                    timeToPass = finalEndStr;
                 } else {
-                    nextRow.querySelector('.r1').value = "";
+                    if (nextIsSplit) {
+                        timeToPass = currentSplitTimeStr; 
+                    } else {
+                        timeToPass = finalEndStr; 
+                    }
                 }
-            } else {
-                const currentR1 = row.querySelector('.r1').value;
-                if (currentR1) {
-                    nextRow.querySelector('.r1').value = currentR1;
+                
+                if (timeToPass !== "") {
+                    nextRow.querySelector('.st').value = timeToPass;
+                }
+                
+                // Carry the appropriate rate down
+                if (isSplit) {
+                    const currentR2 = row.querySelector('.r2').value;
+                    if (currentR2) {
+                        nextRow.querySelector('.r1').value = currentR2;
+                    } else {
+                        nextRow.querySelector('.r1').value = "";
+                    }
                 } else {
-                    nextRow.querySelector('.r1').value = "";
+                    const currentR1 = row.querySelector('.r1').value;
+                    if (currentR1) {
+                        nextRow.querySelector('.r1').value = currentR1;
+                    } else {
+                        nextRow.querySelector('.r1').value = "";
+                    }
                 }
+                
+                calculateRow(nextRow.querySelector('.st'));
             }
-            calculateRow(nextRow.querySelector('.st'));
         }
     }
-}
 
-function toggleSplit(btn) {
-    const row = btn.closest('tr');
-    const box = row.querySelector('.split-box');
-    box.classList.toggle('visible');
-    
-    btn.innerText = box.classList.contains('visible') ? "Remove Split" : "Split Rate";
-    
-    if (!box.classList.contains('visible')) {
-        // When split is removed, clear the Remain BBL
-        row.querySelector('.rem').innerText = '-';
+    function toggleSplit(btn) {
+        const row = btn.closest('tr');
+        const box = row.querySelector('.split-box');
+        box.classList.toggle('visible');
+        btn.innerText = box.classList.contains('visible') ? "Remove Split" : "Split Rate";
+        
+        if (!box.classList.contains('visible')) {
+            row.querySelector('.rem').innerText = '-';
+        }
+        
+        const prevRow = row.previousElementSibling;
+        if (prevRow && prevRow.querySelector('.st') && prevRow.querySelector('.st').value !== "") {
+            calculateRow(prevRow.querySelector('.st'));
+        } else {
+            calculateRow(btn);
+        }
+        saveDashboardData(); // Save split box state
     }
-    
-    // Trigger calculation from the previous row so it pushes the newly correct Start Time down
-    const prevRow = row.previousElementSibling;
-    if (prevRow && prevRow.querySelector('.st') && prevRow.querySelector('.st').value !== "") {
-        calculateRow(prevRow.querySelector('.st'));
-    } else {
-        calculateRow(btn);
+
+    function resetTable(btn) {
+        const container = btn.parentElement.nextElementSibling;
+        container.querySelectorAll('input').forEach(i => i.value = '');
+        container.querySelectorAll('.et').forEach(c => c.innerText = '-');
+        container.querySelectorAll('.rem').forEach(c => c.innerText = '-');
+        
+        saveDashboardData(); // Erases the local storage cache for this specific block
     }
-}
 
-function resetTable(btn) {
-    const container = btn.parentElement.nextElementSibling;
-    container.querySelectorAll('input').forEach(i => i.value = '');
-    container.querySelectorAll('.et').forEach(c => c.innerText = '-');
-    container.querySelectorAll('.rem').forEach(c => c.innerText = '-');
-}
-
-const container = document.getElementById('calculator-container');
-
-['FOST', 'MGD1', 'MGD2', 'MGDR3'].forEach((term, index) => {
-    // Add margin-top: 0 to the first header to align cleanly
-    const mt = index === 0 ? 'margin-top: 0;' : '';
-    
-    container.innerHTML += `
-    <div class="terminal-header" style="${mt}">
-        <h2>${term} Terminal</h2>
-        <button class="btn-clear" onclick="resetTable(this)">Reset Table</button>
-    </div>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th>Start</th>
-                    <th>Rate 1 (Bph)</th>
-                    <th>Total Bbl</th>
-                    <th>End</th>
-                    <th>Options</th>
-                    <th>Remain Bbl</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${Array.from({length: 10}, () => `<tr>
-                    <td><input type="text" maxlength="5" class="grid-text-input st" oninput="autoFormatTime(this, event); calculateRow(this)" placeholder="HH:MM"></td>
-                    <td><input type="number" class="grid-text-input r1" oninput="calculateRow(this)" placeholder="R1"></td>
-                    <td><input type="number" class="grid-text-input goal" oninput="calculateRow(this)" placeholder="Total"></td>
-                    <td class="et highlight-time">-</td>
-                    <td style="width: 180px;">
-                        <button class="btn-action" onclick="toggleSplit(this)">Split Rate</button>
-                        <div class="split-box">
-                            <div class="split-input-row">
-                                <span>Split Time:</span>
-                                <input type="text" maxlength="5" class="split-time" oninput="autoFormatTime(this, event); calculateRow(this)" placeholder="HH:MM">
+    const container = document.getElementById('calculator-container');
+    ['FOST', 'MGD1', 'MGD2', 'MGDR3'].forEach((term, index) => {
+        const mt = index === 0 ? 'margin-top: 0;' : '';
+        container.innerHTML += `
+        <div class="terminal-header" style="${mt}">
+            <h2>${term} Terminal</h2>
+            <button class="btn-clear" onclick="resetTable(this)">Reset Table</button>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Start</th>
+                        <th>Rate 1 (Bph)</th>
+                        <th>Total Bbl</th>
+                        <th>End</th>
+                        <th>Options</th>
+                        <th>Remain Bbl</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${Array.from({length: 10}, () => `<tr>
+                        <td><input type="text" maxlength="5" class="grid-text-input st" oninput="autoFormatTime(this, event); calculateRow(this)" placeholder="HH:MM"></td>
+                        <td><input type="number" class="grid-text-input r1" oninput="calculateRow(this)" placeholder="R1"></td>
+                        <td><input type="number" class="grid-text-input goal" oninput="calculateRow(this)" placeholder="Total"></td>
+                        <td class="et highlight-time">-</td>
+                        <td style="width: 180px;">
+                            <button class="btn-action" onclick="toggleSplit(this)">Split Rate</button>
+                            <div class="split-box">
+                                <div class="split-input-row">
+                                    <span>Split Time:</span>
+                                    <input type="text" maxlength="5" class="split-time" oninput="autoFormatTime(this, event); calculateRow(this)" placeholder="HH:MM">
+                                </div>
+                                <div class="split-input-row">
+                                    <span>Rate 2:</span>
+                                    <input type="number" class="r2" oninput="calculateRow(this)" placeholder="R2">
+                                </div>
                             </div>
-                            <div class="split-input-row">
-                                <span>Rate 2:</span>
-                                <input type="number" class="r2" oninput="calculateRow(this)" placeholder="R2">
-                            </div>
-                        </div>
-                    </td>
-                    <td class="rem highlight-rem">-</td>
-                </tr>`).join('')}
-            </tbody>
-        </table>
-    </div>`;
-});
+                        </td>
+                        <td class="rem highlight-rem">-</td>
+                    </tr>`).join('')}
+                </tbody>
+            </table>
+        </div>`;
+    });
+
+    // --- LOCAL STORAGE AUTO-SAVE LOGIC ---
+    const STORAGE_KEY = 'time_calculator_session_v1';
+
+    function saveDashboardData() {
+        const inputs = document.querySelectorAll('input:not([type="file"]), select');
+        const data = {};
+        inputs.forEach((input, index) => {
+            data[index] = input.value;
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // Auto-load data when page boots up
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedData = localStorage.getItem(STORAGE_KEY);
+        if (savedData) {
+            try {
+                const data = JSON.parse(savedData);
+                const inputs = document.querySelectorAll('input:not([type="file"]), select');
+                inputs.forEach((input, index) => {
+                    if (data[index] !== undefined && data[index] !== "") {
+                        input.value = data[index];
+                        
+                        // Automatically open Split boxes if they have saved data
+                        if (input.classList.contains('split-time') || input.classList.contains('r2')) {
+                            const splitBox = input.closest('.split-box');
+                            if (splitBox) {
+                                splitBox.classList.add('visible');
+                                const btn = splitBox.previousElementSibling;
+                                if (btn) btn.innerText = "Remove Split";
+                            }
+                        }
+                    }
+                });
+                
+                // Recalculate all formulas to restore output fields
+                const startInputs = document.querySelectorAll('.st');
+                startInputs.forEach(st => {
+                    if(st.value !== "") calculateRow(st);
+                });
+            } catch (e) {
+                console.error("Could not load saved data from localStorage", e);
+            }
+        }
+    });
+
+    document.addEventListener('input', function(e) {
+        saveDashboardData(); // Auto-save on type
+    });
+
+    document.addEventListener('change', function(e) {
+        saveDashboardData(); // Auto-save on dropdown/checkbox change
+    });
 </script>
 </body>
 </html>
