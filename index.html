@@ -1050,15 +1050,17 @@ tbody tr:hover {
             }
         });
 
-        // Send to Google Sheets Apps Script
+        // CHANGED: Pack the data exactly like a standard HTML Form submission
+        const formData = new URLSearchParams();
+        formData.append("data", JSON.stringify(data));
+
         fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', 
+            mode: 'no-cors', // Bypasses the strict security block
             headers: {
-                // CHANGED: Sending as plain text bypasses Google's strict security preflight block
-                'Content-Type': 'text/plain',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify(data)
+            body: formData
         })
         .then(() => {
             btn.innerText = "✅ Saved to Cloud";
