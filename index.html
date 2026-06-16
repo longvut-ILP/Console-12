@@ -358,9 +358,10 @@ tbody tr:hover {
     <div class="header-section">
         <h1>Pipeline Operations - Console 12</h1>
         <div class="header-buttons">
-            <a href="batch-log.html" target="_blank" class="btn-nav">Batch Log</a>
+            <a href="Batch_Log.html" target="_blank" class="btn-nav">Batch Log</a>
             <a href="Time_Calculator.html" target="_blank" class="btn-nav">Time Calculator</a>
             <a href="Board_Young.html" target="_blank" class="btn-nav">Board & Young</a>
+            <button id="cloud-save-btn" class="btn-nav" style="background-color: #3b82f6; color: white;" onclick="saveToCloud()">☁️ Save to Cloud</button>
             <button class="btn-clear" onclick="clearAllFields()">Clear All Fields</button>
             <button class="btn-print" onclick="window.print()">Print PDF</button>
         </div>
@@ -1030,7 +1031,54 @@ tbody tr:hover {
         }
     });
 
-    // General Listener: Add visual highlight to ANY field when a user manually enters data and auto-save
+    // --- CLOUD SAVE LOGIC (Google Sheets API) ---
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwK-_gAiWlt0K4_d6ujDDoUHzZUTMbBjc2d0kXJzUuWTypYbt2dcJo6JVneqzqS8OVa/exec';
+
+    function saveToCloud() {
+        const btn = document.getElementById('cloud-save-btn');
+        btn.innerText = "⏳ Saving...";
+        btn.style.backgroundColor = "#94a3b8";
+
+        // Scrape all inputs across the board
+        const inputs = document.querySelectorAll('input:not([type="file"]), select');
+        const data = {};
+        inputs.forEach((input, index) => {
+            if (input.type === 'checkbox') {
+                data[index] = input.checked;
+            } else {
+                data[index] = input.value;
+            }
+        });
+
+        // Send to Google Sheets Apps Script
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Required to bypass CORS security on static pages
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            btn.innerText = "✅ Saved to Cloud";
+            btn.style.backgroundColor = "#166534";
+            setTimeout(() => {
+                btn.innerText = "☁️ Save to Cloud";
+                btn.style.backgroundColor = "#3b82f6"; // Original Blue
+            }, 4000);
+        })
+        .catch(error => {
+            console.error('Error!', error.message);
+            btn.innerText = "❌ Error Saving";
+            btn.style.backgroundColor = "#b91c1c";
+            setTimeout(() => {
+                btn.innerText = "☁️ Save to Cloud";
+                btn.style.backgroundColor = "#3b82f6";
+            }, 4000);
+        });
+    }
+
+    // General Listener: Add visual highlight to ANY field when a user manually enters data and auto-save locally
     document.addEventListener('input', function(e) {
         if (e.target.classList.contains('grid-text-input')) {
             if (e.target.value.trim() !== "") {
@@ -1039,11 +1087,11 @@ tbody tr:hover {
                 e.target.classList.remove('user-entered');
             }
         }
-        saveDashboardData(); // Save text inputs
+        saveDashboardData(); // Save local memory
     });
 
     document.addEventListener('change', function(e) {
-        saveDashboardData(); // Save checkboxes and dropdowns
+        saveDashboardData(); // Save local memory
     });
 
     // Toggle the expanding Notes rows
