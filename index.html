@@ -1053,9 +1053,10 @@ tbody tr:hover {
         // Send to Google Sheets Apps Script
         fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // Required to bypass CORS security on static pages
+            mode: 'no-cors', 
             headers: {
-                'Content-Type': 'application/json',
+                // CHANGED: Sending as plain text bypasses Google's strict security preflight block
+                'Content-Type': 'text/plain',
             },
             body: JSON.stringify(data)
         })
@@ -1077,7 +1078,6 @@ tbody tr:hover {
             }, 4000);
         });
     }
-
     // General Listener: Add visual highlight to ANY field when a user manually enters data and auto-save locally
     document.addEventListener('input', function(e) {
         if (e.target.classList.contains('grid-text-input')) {
