@@ -3,14 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Batch Log Tracking - Console 12</title>
-
+<title>Batch Interface Tracking - Console 12</title>
 <!-- Favicon -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230f172a'/><path d='M50 15 L75 55 A 30 30 0 1 1 25 55 Z' fill='%23f59e0b'/></svg>">
-
 <style>
 :root {
-    /* Oil & Gas Theme Colors */
     --bg-body: #cbd5e1;
     --bg-card: #ffffff;
     --primary-color: #0f172a;
@@ -20,11 +17,6 @@
     --border-color: #94a3b8;
     --zebra-color: #f8fafc;
     --hover-color: #fffbeb;
-    
-    /* Functional Colors */
-    --formula-bg: #dcfce7;
-    --error-bg: #fee2e2;
-    --error-border: #ef4444;
     --btn-clear-bg: #dc2626;
     --btn-clear-hover: #991b1b;
 }
@@ -68,10 +60,7 @@ h1 {
     font-weight: 700;
 }
 
-.header-buttons {
-    display: flex;
-    align-items: center;
-}
+.header-buttons { display: flex; align-items: center; }
 
 .btn-nav {
     background-color: var(--accent-color);
@@ -90,10 +79,7 @@ h1 {
     transition: background-color 0.2s;
 }
 
-.btn-nav:hover {
-    background-color: var(--accent-hover);
-    color: #ffffff;
-}
+.btn-nav:hover { background-color: var(--accent-hover); color: #ffffff; }
 
 .btn-clear {
     background-color: var(--btn-clear-bg);
@@ -110,9 +96,7 @@ h1 {
     margin-right: 12px;
 }
 
-.btn-clear:hover {
-    background-color: var(--btn-clear-hover);
-}
+.btn-clear:hover { background-color: var(--btn-clear-hover); }
 
 .btn-print {
     background-color: #166534;
@@ -128,10 +112,6 @@ h1 {
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.btn-print:hover {
-    background-color: #14532d;
-}
-
 .table-responsive {
     width: 100%;
     overflow-x: auto;
@@ -145,7 +125,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.88rem;
-    min-width: 2100px;
+    min-width: 1350px;
 }
 
 th {
@@ -165,16 +145,10 @@ th {
 td {
     padding: 3px;
     border: 1px solid var(--border-color);
-    vertical-align: middle;
 }
 
-tbody tr:nth-child(even) {
-    background-color: var(--zebra-color);
-}
-
-tbody tr:hover {
-    background-color: var(--hover-color);
-}
+tbody tr:nth-child(even) { background-color: var(--zebra-color); }
+tbody tr:hover { background-color: var(--hover-color); }
 
 .grid-text-input {
     width: 100%;
@@ -195,7 +169,6 @@ tbody tr:hover {
     box-shadow: inset 0 0 0 1px var(--accent-color);
 }
 
-/* User-Entered Highlight State */
 .user-entered {
     background-color: #cbd5e1 !important;
     color: #0f172a !important;
@@ -203,81 +176,110 @@ tbody tr:hover {
     border: 1px solid #94a3b8 !important;
 }
 
-.batch-input {
-    text-align: center;
-    font-weight: 700;
-    color: var(--primary-color);
+/* REFINED STACKED INPUT STYLES (BATCH, GRAV, IMAGE) */
+.dual-input-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 4px;
+    margin-bottom: 4px;
 }
 
-.rate-input {
-    text-align: center;
-    font-family: "Courier New", Courier, monospace;
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-.formula-filled {
-    background-color: var(--formula-bg) !important;
-    font-weight: 700;
-    color: #166534 !important;
-}
-
-.input-error {
-    background-color: var(--error-bg) !important;
-    border: 1px solid var(--error-border) !important;
-    color: #b91c1c !important;
-}
-
-/* Specific button style for the toggle images */
-.btn-action {
-    background-color: #475569;
-    color: white;
-    border: none;
+.dual-input-row input, .prefill-container {
+    width: 50%;
+    box-sizing: border-box;
+    border: 1px solid #cbd5e1;
     border-radius: 3px;
-    cursor: pointer;
-    text-transform: uppercase;
+    background-color: #f8fafc;
+    transition: all 0.2s;
+}
+
+.dual-input-row input {
+    padding: 4px 2px;
+    font-size: 0.8rem;
     font-weight: bold;
-    transition: background 0.2s;
+    text-align: center;
+    outline: none;
 }
 
-.btn-action:hover {
-    background-color: var(--accent-color);
-    color: #0f172a;
+.dual-input-row input:focus, .prefill-container:focus-within {
+    border-color: var(--accent-color);
+    background-color: #ffffff;
+    box-shadow: inset 0 0 0 1px var(--accent-color);
 }
 
-/* Styles for Gravity Change Image Rows */
+/* Specific styling for the inputs WITH embedded prefixes */
+.prefill-container {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.prefill-prefix {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    padding-left: 4px;
+    padding-right: 2px;
+    cursor: default;
+    user-select: none;
+}
+
+.prefill-container .batch-input-mini {
+    border: none !important;
+    background: transparent !important;
+    width: 100%;
+    padding: 4px 2px 4px 0px;
+    box-shadow: none !important;
+    outline: none;
+    border-radius: 0;
+}
+
+.grav-input { color: #b91c1c; }
+.batch-input-mini { color: var(--primary-color); }
+
+.image-upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40px;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+}
+
 .img-upload-label {
     cursor: pointer;
     font-size: 1.2rem;
     color: #64748b;
     transition: color 0.2s;
-    display: inline-block;
+    display: block;
 }
 
-.img-upload-label:hover {
-    color: var(--accent-color);
-}
+.img-upload-label:hover { color: var(--accent-color); }
 
 .img-preview {
-    max-width: 60px;
+    max-width: 80px;
     max-height: 40px;
     display: none;
-    margin: 4px auto 0 auto;
-    border: 1px solid var(--border-color);
     border-radius: 2px;
     object-fit: cover;
     cursor: zoom-in;
 }
 
-.image-row {
-    background-color: #f1f5f9;
+.grav-hint {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #b91c1c;
+    background-color: #fee2e2;
+    padding: 2px 4px;
+    border-radius: 2px;
+    display: inline-block;
+    border: 1px solid #ef4444;
+    text-align: center;
 }
 
-.image-row td {
-    padding: 6px;
-}
-
-/* GLOBAL HOVER PREVIEW (Pop-out style) */
 #global-preview {
     display: none;
     position: fixed;
@@ -294,40 +296,13 @@ tbody tr:hover {
     object-fit: contain;
 }
 
-/* Print PDF Overrides */
 @media print {
-    @page {
-        size: landscape;
-        margin: 10mm;
-    }
-    body {
-        background-color: #ffffff;
-        zoom: 0.75;
-    }
-    .container {
-        box-shadow: none;
-        border: none;
-        padding: 0;
-        margin: 0;
-    }
-    .header-buttons, .btn-action, .img-upload-label {
-        display: none !important;
-    }
-    .table-responsive {
-        max-height: none !important;
-        overflow: visible !important;
-        border: 1px solid #94a3b8;
-        box-shadow: none;
-    }
-    /* Ensure uploaded pictures are large enough to read on the PDF */
-    .img-preview {
-        max-width: 140px !important;
-        max-height: 90px !important;
-        border: 2px solid #0f172a !important;
-    }
-    .image-row {
-        background-color: #ffffff !important;
-    }
+    @page { size: landscape; margin: 10mm; }
+    body { background-color: #ffffff; zoom: 0.75; }
+    .container { box-shadow: none; border: none; padding: 0; margin: 0; }
+    .header-buttons, .img-upload-label { display: none !important; }
+    .table-responsive { max-height: none !important; overflow: visible !important; border: 1px solid #94a3b8; box-shadow: none; }
+    .img-preview { max-width: 100px !important; max-height: 60px !important; border: 2px solid #0f172a !important; }
 }
 </style>
 </head>
@@ -335,7 +310,7 @@ tbody tr:hover {
 
 <div class="container">
     <div class="header-section">
-        <h1>Batch Log Tracking - Console 12</h1>
+        <h1>Batch Interface Tracking - Console 12</h1>
         <div class="header-buttons">
             <a href="index.html" class="btn-nav">Main Dashboard</a>
             <button class="btn-clear" onclick="clearAllFields()">Clear All Fields</button>
@@ -348,234 +323,102 @@ tbody tr:hover {
             <table id="rate-table">
                 <thead>
                     <tr>
-                        <th style="width: 100px; text-align: center;">Products</th>
-                        <th style="width: 105px;">Batch ID</th>
+                        <th style="width: 140px; text-align: center;">Interface Transition</th>
                         <th>FOST</th>
-                        <th style="width: 105px;">Batch ID</th>
                         <th>CV10</th>
-                        <th>HUD Prev</th>
                         <th>HUDS</th>
-                        <th>AKRO</th>
                         <th>CLVN</th>
-                        <th>MGDR PREV</th>
                         <th>MGDR</th>
-                        <th style="width: 105px;">Batch ID</th>
                         <th>A.A.</th>
                         <th>BOARD</th>
                         <th>ALLE</th>
                         <th>PITT</th>
-                        <th>DELM Prev</th>
                         <th>DELM</th>
-                        <th style="width: 105px;">Batch ID</th>
                         <th>MNTL</th>
                     </tr>
                 </thead>
                 <tbody>
                     <script>
+                        // Setup the terminal mapping with requested prefill variables
+                        const terms = [
+                            { id: 'fost', hint: '', prefill: 'FSMG-' },
+                            { id: 'cv10', hint: '', prefill: 'BDMG-' },
+                            { id: 'huds', hint: 'Lockout < 50', prefill: 'BDMG-' },
+                            { id: 'clvn', hint: '', prefill: 'BDMG-' },
+                            { id: 'mgdr', hint: '', prefill: 'FSMG-' },
+                            { id: 'aa',   hint: '', prefill: 'MGDE-' },
+                            { id: 'board',hint: '', prefill: 'MGDE-' },
+                            { id: 'alle', hint: 'Diesel=35 | TM=50', prefill: 'MGDE-' },
+                            { id: 'pitt', hint: '', prefill: 'MGDE-' },
+                            { id: 'delm', hint: 'Cut @ +0.5', prefill: 'MGDE-' },
+                            { id: 'mntl', hint: 'COB @ 5 bbls', prefill: 'DLMN-' }
+                        ];
+
                         for (let i = 1; i <= 7; i++) {
-                            // Sub-component injected into the specific Terminal columns with Cur before Next
-                            const apiBoxes = `
-                            <div style="display: flex; gap: 2px; margin-top: 4px; width: 100%;">
-                                <input type="number" step="0.1" class="grid-text-input api-input" placeholder="Cur" title="Current API Gravity" style="font-size: 0.65rem; padding: 2px; text-align: center; font-weight: 700; width: 50%; min-width: 0;">
-                                <input type="number" step="0.1" class="grid-text-input api-input" placeholder="Next" title="Next API Gravity" style="font-size: 0.65rem; padding: 2px; text-align: center; font-weight: 700; width: 50%; min-width: 0;">
-                            </div>`;
 
-                            document.write(`
+                            // --- MAIN DATA ROW ---
+                            let mainRowHtml = `
                             <tr data-row="${i}" class="data-grid-row">
-                                <td style="border-right: 2px solid #94a3b8; padding: 4px;">
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-                                        <select class="grid-text-input product-dropdown" style="font-weight: 700; cursor: pointer; text-align: center; appearance: auto;">
-                                            <option value="" disabled selected>Select...</option>
-                                            <option value="87CB">87CB</option>
-                                            <option value="15MV">15MV</option>
-                                            <option value="93CB">93CB</option>
-                                        </select>
-                                        <button class="btn-action" style="font-size: 0.65rem; padding: 4px 12px; width: 100%;" onclick="toggleImgRow(${i})">📷 Grav Track</button>
-                                    </div>
-                                </td>
-                                <td style="padding: 0;">
-                                    <div style="display: flex; align-items: center; justify-content: center;">
-                                        <span style="font-weight: 700; color: var(--primary-color); padding-left: 6px;">FSMG-</span>
-                                        <input type="text" maxlength="3" class="grid-text-input batch-input" placeholder="000" style="width: 45px; text-align: left; padding-left: 4px;">
-                                    </div>
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input fost-in" placeholder="-" oninput="calculateRow(${i}, 'fost')">
-                                    ${apiBoxes}
-                                </td>
-                                <td style="padding: 0;">
-                                    <div style="display: flex; align-items: center; justify-content: center;">
-                                        <span style="font-weight: 700; color: var(--primary-color); padding-left: 6px;">BDMG-</span>
-                                        <input type="text" maxlength="3" class="grid-text-input batch-input" placeholder="000" style="width: 45px; text-align: left; padding-left: 4px;">
-                                    </div>
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input cv10-in" placeholder="-" oninput="calculateRow(${i}, 'cv10')">
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input hud-prev-in" placeholder="-" oninput="calculateRow(${i}, 'hud-prev')">
-                                    ${apiBoxes}
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input huds-in" placeholder="-" oninput="calculateRow(${i}, 'huds')">
-                                    ${apiBoxes}
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input akro-in" placeholder="-" oninput="calculateRow(${i}, 'akro')">
-                                    ${apiBoxes}
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input clvn-in" placeholder="-" readonly>
-                                    ${apiBoxes}
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input mgdr-prev-in" placeholder="-" oninput="calculateRow(${i}, 'mgdr-prev')">
-                                    ${apiBoxes}
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input mgdr-in" placeholder="-" oninput="calculateRow(${i}, 'mgdr')">
-                                    ${apiBoxes}
-                                </td>
-                                <td style="padding: 0;">
-                                    <div style="display: flex; align-items: center; justify-content: center;">
-                                        <span style="font-weight: 700; color: var(--primary-color); padding-left: 6px;">MGDE-</span>
-                                        <input type="text" maxlength="3" class="grid-text-input batch-input" placeholder="000" style="width: 45px; text-align: left; padding-left: 4px;">
-                                    </div>
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input aa-in" placeholder="-" oninput="calculateRow(${i}, 'aa')">
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input board-in" placeholder="-" oninput="calculateRow(${i}, 'board')">
-                                    ${apiBoxes}
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input alle-in" placeholder="-" oninput="calculateRow(${i}, 'alle')">
-                                    ${apiBoxes}
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input pitt-in" placeholder="-" oninput="calculateRow(${i}, 'pitt')">
-                                    ${apiBoxes}
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input delm-prev-in" placeholder="-" oninput="calculateRow(${i}, 'delm-prev')">
-                                    ${apiBoxes}
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input delm-in" placeholder="-" oninput="calculateRow(${i}, 'delm')" onkeydown="handleDelmKey(event, ${i})">
-                                    ${apiBoxes}
-                                </td>
-                                <td style="padding: 0;">
-                                    <div style="display: flex; align-items: center; justify-content: center;">
-                                        <span style="font-weight: 700; color: var(--primary-color); padding-left: 6px;">DLMN-</span>
-                                        <input type="text" maxlength="3" class="grid-text-input batch-input" placeholder="000" style="width: 45px; text-align: left; padding-left: 4px;">
-                                    </div>
-                                </td>
-                                <td>
-                                    <input type="number" step="100" class="grid-text-input rate-input mntl-in" placeholder="-" oninput="calculateRow(${i}, 'mntl')">
-                                    ${apiBoxes}
-                                </td>
-                            </tr>
+                                <td style="border-right: 2px solid #94a3b8; padding: 8px; vertical-align: middle;">
+                                    <select class="grid-text-input product-dropdown" style="font-weight: 700; cursor: pointer; text-align: center; appearance: auto; padding: 6px; width: 100%;">
+                                        <option value="" disabled selected>Interface...</option>
+                                        <option value="15MV_87CB">15MV ➔ 87CB</option>
+                                        <option value="Gas_Diesel">Gas ➔ Diesel</option>
+                                        <option value="Diesel_Gas">Diesel ➔ Gas</option>
+                                        <option value="Prem_Gas">Premium ➔ Gas</option>
+                                        <option value="87CB_TNMX">87CB ➔ TNMX</option>
+                                    </select>
+                                </td>`;
 
-                            <!-- COLLAPSIBLE GRAVITY IMAGE ROW WITH HOVER EFFECTS -->
-                            <tr id="img-row-${i}" class="image-row" style="display: none;">
-                                <td style="border-right: 2px solid #94a3b8; font-size: 0.75rem; font-weight: 700; text-align: center; color: #475569;">Image Evidence</td>
-                                <td></td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-fost-${i}')">
-                                    </label>
-                                    <img id="img-fost-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td></td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-cv10-${i}')">
-                                    </label>
-                                    <img id="img-cv10-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-hud-prev-${i}')">
-                                    </label>
-                                    <img id="img-hud-prev-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-huds-${i}')">
-                                    </label>
-                                    <img id="img-huds-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-akro-${i}')">
-                                    </label>
-                                    <img id="img-akro-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-clvn-${i}')">
-                                    </label>
-                                    <img id="img-clvn-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-mgdr-prev-${i}')">
-                                    </label>
-                                    <img id="img-mgdr-prev-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-mgdr-${i}')">
-                                    </label>
-                                    <img id="img-mgdr-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td></td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-aa-${i}')">
-                                    </label>
-                                    <img id="img-aa-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-board-${i}')">
-                                    </label>
-                                    <img id="img-board-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-alle-${i}')">
-                                    </label>
-                                    <img id="img-alle-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-pitt-${i}')">
-                                    </label>
-                                    <img id="img-pitt-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-delm-prev-${i}')">
-                                    </label>
-                                    <img id="img-delm-prev-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-delm-${i}')">
-                                    </label>
-                                    <img id="img-delm-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                                <td></td>
-                                <td style="text-align: center;">
-                                    <label class="img-upload-label" title="Upload Gravity Image">
-                                        📥 <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-mntl-${i}')">
-                                    </label>
-                                    <img id="img-mntl-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
-                                </td>
-                            </tr>
-                            `);
+                            // Generate each of the 11 terminal columns, dynamically inserting the dual inputs & image block
+                            terms.forEach(term => {
+                                // Generate the Dual Batch Row Structure
+                                let batchRowHtml = '';
+                                if (term.prefill) {
+                                    batchRowHtml = `
+                                        <div class="dual-input-row">
+                                            <div class="prefill-container" title="Current Batch">
+                                                <span class="prefill-prefix">${term.prefill}</span>
+                                                <input type="text" maxlength="3" class="batch-input-mini" placeholder="1">
+                                            </div>
+                                            <div class="prefill-container" title="Next Batch">
+                                                <span class="prefill-prefix">${term.prefill}</span>
+                                                <input type="text" maxlength="3" class="batch-input-mini" placeholder="2">
+                                            </div>
+                                        </div>`;
+                                } else {
+                                    batchRowHtml = `
+                                        <div class="dual-input-row">
+                                            <input type="text" class="batch-input-mini" placeholder="Bch 1" title="Current Batch ID">
+                                            <input type="text" class="batch-input-mini" placeholder="Bch 2" title="Next Batch ID">
+                                        </div>`;
+                                }
+
+                                let hintHtml = term.hint ? `<div class="grav-hint">${term.hint}</div>` : '';
+
+                                mainRowHtml += `
+                                <td style="vertical-align: bottom; padding: 6px 8px;">
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                                        ${batchRowHtml}
+                                        <div class="dual-input-row">
+                                            <input type="number" step="0.1" class="grav-input" placeholder="Grv 1" title="Current Gravity">
+                                            <input type="number" step="0.1" class="grav-input" placeholder="Grv 2" title="Next Gravity">
+                                        </div>
+
+                                        <!-- DIRECT IMAGE UPLOAD SLOT (Replaced Rate Input) -->
+                                        <div class="image-upload-container">
+                                            <label class="img-upload-label" title="Upload Gravity Image">📥
+                                                <input type="file" accept="image/*" class="img-upload-input" style="display:none;" onchange="previewImg(this, 'img-${term.id}-${i}')">
+                                            </label>
+                                            <img id="img-${term.id}-${i}" class="img-preview" onmouseover="showLargePreview(this.src)" onmouseout="hideLargePreview()">
+                                        </div>
+                                        ${hintHtml}
+                                    </div>
+                                </td>`;
+                            });
+
+                            mainRowHtml += `</tr>`;
+                            document.write(mainRowHtml);
                         }
                     </script>
                 </tbody>
@@ -588,124 +431,39 @@ tbody tr:hover {
 <img id="global-preview" alt="Full Size Image Preview">
 
 <script>
-    // --- LOCAL STORAGE AUTO-SAVE LOGIC ---
-    const STORAGE_KEY = 'batchLog_session_data_v1';
-
-    // Function to scrape and save inputs to the browser cache
-    function saveDashboardData() {
-        const inputs = document.querySelectorAll('input:not([type="file"]), select');
-        const data = {};
-        inputs.forEach((input, index) => {
-            data[index] = input.value;
-        });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    }
-
-    // Auto-load data immediately when page boots up
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedData = localStorage.getItem(STORAGE_KEY);
-        if (savedData) {
-            try {
-                const data = JSON.parse(savedData);
-                const inputs = document.querySelectorAll('input:not([type="file"]), select');
-                inputs.forEach((input, index) => {
-                    if (data[index] !== undefined && data[index] !== "") {
-                        input.value = data[index];
-                        // If it's a text input and has a value, mark it visually
-                        if (input.classList.contains('grid-text-input') || input.classList.contains('batch-input')) {
-                            input.classList.add('user-entered');
-                        }
-                    }
-                });
-                
-                // Recalculate all formulas to restore green formula highlighting and error checking
-                for (let i = 1; i <= 7; i++) {
-                    calculateRow(i, 'init');
-                }
-            } catch (e) {
-                console.error("Could not load saved data from localStorage", e);
-            }
-        }
-    });
-
-    // --- INTERACTIVE EVENT LISTENERS ---
-
-    // Add visual highlight and trigger auto-save for typing in inputs
+    // General Listener: Add visual highlight to ANY field when a user manually enters data
     document.addEventListener('input', function(e) {
-        if (e.target.classList.contains('grid-text-input')) {
+        if (e.target.classList.contains('grid-text-input') ||
+            e.target.classList.contains('grav-input') ||
+            e.target.classList.contains('batch-input-mini')) {
             if (e.target.value.trim() !== "") {
                 e.target.classList.add('user-entered');
             } else {
                 e.target.classList.remove('user-entered');
             }
-            saveDashboardData(); // Auto-save on type
         }
     });
-
-    // Trigger auto-save when selecting a product from a dropdown
-    document.addEventListener('change', function(e) {
-        if (e.target.tagName === 'SELECT') {
-            saveDashboardData(); // Auto-save on select change
-        }
-    });
-
-    // BEFORE PRINT: Automatically expand any rows that contain uploaded pictures
-    window.addEventListener('beforeprint', function() {
-        for (let i = 1; i <= 7; i++) {
-            const imgRow = document.getElementById(`img-row-${i}`);
-            const images = imgRow.querySelectorAll('.img-preview');
-            let hasImage = false;
-            
-            images.forEach(img => {
-                if (img.src && img.src.length > 50 && img.style.display === 'block') {
-                    hasImage = true;
-                }
-            });
-
-            imgRow.setAttribute('data-pre-print-state', imgRow.style.display);
-            if (hasImage) {
-                imgRow.style.display = 'table-row';
-            }
-        }
-        hideLargePreview();
-    });
-
-    // AFTER PRINT: Collapse rows back down if they were closed before
-    window.addEventListener('afterprint', function() {
-        for (let i = 1; i <= 7; i++) {
-            const imgRow = document.getElementById(`img-row-${i}`);
-            if (imgRow.hasAttribute('data-pre-print-state')) {
-                imgRow.style.display = imgRow.getAttribute('data-pre-print-state');
-                imgRow.removeAttribute('data-pre-print-state');
-            }
-        }
-    });
-
-    // Toggle Visibility of the Image Row manually
-    function toggleImgRow(rowId) {
-        const imgRow = document.getElementById(`img-row-${rowId}`);
-        if (imgRow.style.display === "none" || imgRow.style.display === "") {
-            imgRow.style.display = "table-row";
-        } else {
-            imgRow.style.display = "none";
-        }
-    }
 
     // Load and Display Image Preview Function
     function previewImg(input, imgId) {
         const file = input.files.item(0);
         const imgElement = document.getElementById(imgId);
 
+        // Hide the "📥" upload icon when an image is successfully loaded to keep the UI clean
+        const labelElement = input.parentElement;
+
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 imgElement.src = e.target.result;
                 imgElement.style.display = 'block';
+                labelElement.style.display = 'none';
             }
             reader.readAsDataURL(file);
         } else {
             imgElement.src = '';
             imgElement.style.display = 'none';
+            labelElement.style.display = 'block';
         }
     }
 
@@ -721,14 +479,7 @@ tbody tr:hover {
         document.getElementById('global-preview').style.display = 'none';
     }
 
-    function handleDelmKey(event, rowId) {
-        if (event.key === "Delete" || event.key === "Backspace") {
-            setTimeout(() => {
-                calculateRow(rowId, 'delm');
-            }, 10);
-        }
-    }
-
+    // Complete Reset
     function clearAllFields() {
         const productSelects = document.querySelectorAll('.product-dropdown');
         productSelects.forEach(select => {
@@ -736,23 +487,8 @@ tbody tr:hover {
             select.classList.remove('user-entered');
         });
 
-        const rateInputs = document.querySelectorAll('.rate-input');
-        rateInputs.forEach(input => {
-            input.value = "";
-            input.placeholder = "-";
-            input.classList.remove('input-error');
-            input.classList.remove('formula-filled');
-            input.classList.remove('user-entered');
-        });
-
-        const batchInputs = document.querySelectorAll('.batch-input');
-        batchInputs.forEach(input => {
-            input.value = "";
-            input.classList.remove('user-entered');
-        });
-
-        const apiInputs = document.querySelectorAll('.api-input');
-        apiInputs.forEach(input => {
+        const miniInputs = document.querySelectorAll('.grav-input, .batch-input-mini');
+        miniInputs.forEach(input => {
             input.value = "";
             input.classList.remove('user-entered');
         });
@@ -766,170 +502,11 @@ tbody tr:hover {
             img.style.display = "none";
         });
 
-        const imageRows = document.querySelectorAll('.image-row');
-        imageRows.forEach(row => row.style.display = "none");
+        // Bring back the upload labels
+        const labels = document.querySelectorAll('.img-upload-label');
+        labels.forEach(label => label.style.display = "block");
 
         hideLargePreview();
-
-        for (let i = 1; i <= 7; i++) {
-            calculateRow(i, 'clear');
-        }
-        
-        // Wipe local storage data so memory is completely clean
-        localStorage.removeItem(STORAGE_KEY);
-    }
-
-    function calculateRow(rowId, triggerSource) {
-        const row = document.querySelector(`tr[data-row="${rowId}"]`);
-        if (!row) return;
-
-        const fostInput = row.querySelector('.fost-in');
-        const cv10Input = row.querySelector('.cv10-in');
-        const hudPrevInput = row.querySelector('.hud-prev-in');
-        const hudsInput = row.querySelector('.huds-in');
-        const akroInput = row.querySelector('.akro-in');
-        const clvnInput = row.querySelector('.clvn-in');
-        const mgdrPrevInput = row.querySelector('.mgdr-prev-in');
-        const mgdrInput = row.querySelector('.mgdr-in');
-        const aaInput = row.querySelector('.aa-in');
-        const boardInput = row.querySelector('.board-in');
-        const alleInput = row.querySelector('.alle-in');
-        const pittInput = row.querySelector('.pitt-in');
-        const delmPrevInput = row.querySelector('.delm-prev-in');
-        const delmInput = row.querySelector('.delm-in');
-        const mntlInput = row.querySelector('.mntl-in');
-
-        if (rowId > 1 && triggerSource !== 'clear') {
-            const prevRow = document.querySelector(`tr[data-row="${rowId - 1}"]`);
-            if (prevRow) {
-                const manualCols = ['fost', 'cv10', 'hud-prev', 'huds', 'akro', 'clvn', 'mgdr-prev', 'mgdr', 'board', 'alle', 'pitt', 'delm-prev'];
-                manualCols.forEach(col => {
-                    const prevIn = prevRow.querySelector(`.${col}-in`);
-                    const currIn = row.querySelector(`.${col}-in`);
-                    if (prevIn && currIn) {
-                        const prevEff = prevIn.value.trim() !== "" ? prevIn.value : prevIn.placeholder;
-                        currIn.placeholder = (prevEff && prevEff !== "-") ? prevEff : "-";
-                    }
-                });
-            }
-        }
-
-        const fostVal = fostInput.value.trim() !== "" ? parseFloat(fostInput.value) : (fostInput.placeholder !== "-" ? parseFloat(fostInput.placeholder) : 0);
-        const cv10Val = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : (cv10Input.placeholder !== "-" ? parseFloat(cv10Input.placeholder) : 0);
-        const mgdrVal = mgdrInput.value.trim() !== "" ? parseFloat(mgdrInput.value) : (mgdrInput.placeholder !== "-" ? parseFloat(mgdrInput.placeholder) : 0);
-
-        if (triggerSource !== 'cascade' && triggerSource !== 'init') {
-            cv10Input.classList.remove('input-error');
-            mgdrInput.classList.remove('input-error');
-            aaInput.classList.remove('input-error');
-            boardInput.classList.remove('input-error');
-            alleInput.classList.remove('input-error');
-            pittInput.classList.remove('input-error');
-            delmInput.classList.remove('input-error');
-        }
-
-        if (triggerSource !== 'clear' && triggerSource !== 'cascade' && triggerSource !== 'init') {
-            if (cv10Input.value.trim() !== "" && fostInput.value.trim() !== "") {
-                if (parseFloat(cv10Input.value) > fostVal) {
-                    cv10Input.classList.add('input-error');
-                    alert(`Validation Error on Product ${rowId}: CV10 value must be less than or equal to FOST.`);
-                    cv10Input.value = "";
-                    return;
-                }
-            }
-            if (mgdrInput.value.trim() !== "") {
-                const sumLimit = fostVal + cv10Val;
-                if (parseFloat(mgdrInput.value) > sumLimit) {
-                    mgdrInput.classList.add('input-error');
-                    alert(`Validation Error on Product ${rowId}: MGDR value must be smaller than or equal to FOST + CV10 (${sumLimit}).`);
-                    mgdrInput.value = "";
-                    return;
-                }
-            }
-        }
-
-        if (triggerSource === 'cv10') {
-            hudsInput.value = cv10Input.value;
-            hudsInput.classList.add('user-entered');
-        }
-
-        const safeCv10 = cv10Input.value.trim() !== "" ? parseFloat(cv10Input.value) : 0;
-        const safeHuds = hudsInput.value.trim() !== "" ? parseFloat(hudsInput.value) : 0;
-
-        if (cv10Input.value.trim() !== "" || hudsInput.value.trim() !== "") {
-            clvnInput.value = Number((safeCv10 - safeHuds).toFixed(4));
-        } else {
-            clvnInput.value = "";
-            clvnInput.classList.remove('user-entered');
-        }
-
-        if (fostInput.value.trim() !== "" || cv10Input.value.trim() !== "" || mgdrInput.value.trim() !== "" ||
-            fostInput.placeholder !== "-" || cv10Input.placeholder !== "-" || mgdrInput.placeholder !== "-") {
-            aaInput.placeholder = Number((fostVal - cv10Val - mgdrVal).toFixed(4));
-        } else {
-            aaInput.placeholder = "-";
-        }
-
-        const effectiveAA = aaInput.value.trim() !== "" ? parseFloat(aaInput.value) : (aaInput.placeholder !== "-" ? parseFloat(aaInput.placeholder) : NaN);
-
-        if (triggerSource !== 'clear' && triggerSource !== 'cascade' && triggerSource !== 'init' && !isNaN(effectiveAA)) {
-            if (boardInput.value.trim() !== "" && parseFloat(boardInput.value) > effectiveAA) {
-                boardInput.classList.add('input-error');
-                alert(`Validation Error on Product ${rowId}: BOARD value cannot be greater than A.A. (${effectiveAA}).`);
-                boardInput.value = "";
-                return;
-            }
-            if (alleInput.value.trim() !== "" && parseFloat(alleInput.value) > effectiveAA) {
-                alleInput.classList.add('input-error');
-                alert(`Validation Error on Product ${rowId}: ALLE value cannot be greater than A.A. (${effectiveAA}).`);
-                alleInput.value = "";
-                return;
-            }
-            if (pittInput.value.trim() !== "" && parseFloat(pittInput.value) > effectiveAA) {
-                pittInput.classList.add('input-error');
-                alert(`Validation Error on Product ${rowId}: PITT value cannot be greater than A.A. (${effectiveAA}).`);
-                pittInput.value = "";
-                return;
-            }
-            if (delmInput.value.trim() !== "" && parseFloat(delmInput.value) > effectiveAA) {
-                delmInput.classList.add('input-error');
-                alert(`Validation Error on Product ${rowId}: DELM value cannot be greater than A.A. (${effectiveAA}).`);
-                delmInput.value = "";
-                return;
-            }
-        }
-
-        const boardVal = boardInput.value.trim() !== "" ? parseFloat(boardInput.value) : (boardInput.placeholder !== "-" ? parseFloat(boardInput.placeholder) : 0);
-        const alleVal = alleInput.value.trim() !== "" ? parseFloat(alleInput.value) : (alleInput.placeholder !== "-" ? parseFloat(alleInput.placeholder) : 0);
-        const pittVal = pittInput.value.trim() !== "" ? parseFloat(pittInput.value) : (pittInput.placeholder !== "-" ? parseFloat(pittInput.placeholder) : 0);
-
-        if (!isNaN(effectiveAA)) {
-            let calcDelm = Number((effectiveAA - boardVal - alleVal - pittVal).toFixed(4));
-            delmInput.placeholder = calcDelm < 0 ? 0 : calcDelm;
-        } else {
-            delmInput.placeholder = "-";
-        }
-
-        const effectiveDELM = delmInput.value.trim() !== "" ? parseFloat(delmInput.value) : (delmInput.placeholder !== "-" ? parseFloat(delmInput.placeholder) : 0);
-
-        if (!isNaN(effectiveAA)) {
-            let calcMntl = Number((effectiveAA - boardVal - alleVal - pittVal - effectiveDELM).toFixed(4));
-            mntlInput.placeholder = calcMntl < 0 ? 0 : calcMntl;
-        } else {
-            mntlInput.placeholder = "-";
-        }
-
-        [hudsInput, clvnInput].forEach(input => {
-            if (input.value !== "") {
-                input.classList.add('formula-filled');
-            } else {
-                input.classList.remove('formula-filled');
-            }
-        });
-
-        if (rowId < 7 && triggerSource !== 'clear') {
-            calculateRow(rowId + 1, 'cascade');
-        }
     }
 </script>
 </body>
