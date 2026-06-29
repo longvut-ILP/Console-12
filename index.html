@@ -280,6 +280,43 @@ line-height: 1.6;
 .note-content li {
 margin-bottom: 4px;
 }
+.interlock-box {
+background-color: #fef2f2;
+border: 1px solid #fecaca;
+border-left: 4px solid #dc2626;
+border-radius: 4px;
+padding: 8px 12px;
+margin: 6px 0 12px 0;
+}
+.interlock-box .interlock-title {
+display: block;
+font-size: 0.78rem;
+font-weight: 800;
+text-transform: uppercase;
+letter-spacing: 0.04em;
+color: #b91c1c;
+margin-bottom: 4px;
+}
+.interlock-box ul {
+margin: 0 0 0 18px !important;
+padding: 0;
+line-height: 1.5;
+}
+.interlock-box li {
+font-size: 0.82rem;
+color: #1e293b;
+margin-bottom: 2px;
+}
+.interlock-box .valve {
+font-weight: 700;
+color: #0f172a;
+}
+.interlock-box .lockout {
+font-weight: 800;
+color: #dc2626;
+text-transform: uppercase;
+font-size: 0.78rem;
+}
 @media print {
 @page {
 size: landscape;
@@ -462,6 +499,13 @@ margin-top: 20px;
 <td colspan="7">
 <div class="note-content">
 <strong>HUDS Station Notes:</strong>
+<div class="interlock-box">
+<span class="interlock-title">⚠ Gravity Interlock Thresholds</span>
+<ul>
+<li><span class="valve">Gas Tanks T1/V7301, T2/V7302:</span> valves close if gravity &gt; 48 or &lt; 45. <span class="lockout">Station lockout if gas delivery gravity &lt; 50</span> — react at first indication of a drop.</li>
+<li><span class="valve">ULSD Tank T3/V7303:</span> valve closes if gravity &lt; 42 or &gt; 44.</li>
+</ul>
+</div>
 <ul>
 <li><strong>Standard Settings:</strong> Set ticket to 5,500 bbls. Relift pressure is 425 psi. Execute a 12 bbl flush. At 2,800 bbls, set the target to 170 bbls upon arrival at PREVIEW.</li>
 <li><strong>Swing Operations (HUD to CLVN):</strong> Target 70 bbls. Once Valve 1372 opens, flow to HUD drops to 0. Target a shutdown for HUD-AKRO.</li>
@@ -497,6 +541,13 @@ margin-top: 20px;
 <td colspan="7">
 <div class="note-content">
 <strong>AKRO Station Notes:</strong>
+<div class="interlock-box">
+<span class="interlock-title">⚠ Gravity Interlock Thresholds</span>
+<ul>
+<li><span class="valve">Gas Valve V7002:</span> closes if gravity drops below 44.</li>
+<li><span class="valve">ULSD Valves V7004, V7005:</span> close if gravity drops below 42.5. <span class="lockout">Full station shutdown if gravity exceeds 40 during a diesel delivery.</span></li>
+</ul>
+</div>
 <ul>
 <li><strong>Valve Sequences:</strong> Initiate valve sequencing when the Hudson Change of Batch (COB) indicates 30 bbls. At Akron, execute COB immediately upon detecting a gravity change.</li>
 <li><strong>Product Transition (15 to 87):</strong> Open the gas tank valve at the first indication of a gravity jump. The diesel valve must be completely closed by the time gravity stabilizes for gas.</li>
@@ -644,6 +695,12 @@ margin-top: 20px;
 <td colspan="7">
 <div class="note-content">
 <strong>BOARD Station Notes:</strong>
+<div class="interlock-box">
+<span class="interlock-title">⚠ Gravity Interlock Thresholds</span>
+<ul>
+<li><span class="valve">BOAR ULSD V7103:</span> valve closes if gravity &lt; 42 or &gt; 44.</li>
+</ul>
+</div>
 <ul>
 <li><strong>Flush Procedures:</strong> Set station pressure higher than line pressure before opening valves to prevent excessive diesel displacement (exceeding 12 bbls) into the gas tank. Execute the flush well ahead of the scheduled time. Pressure can be returned to a level higher than line pressure to safely leave the valve open.</li>
 <li><strong>Control Mode:</strong> Switch to flow control during delivery to BOARD.</li>
@@ -666,6 +723,13 @@ margin-top: 20px;
 <td colspan="7">
 <div class="note-content">
 <strong>YOUN Station Notes:</strong>
+<div class="interlock-box">
+<span class="interlock-title">⚠ Gravity Interlock Thresholds</span>
+<ul>
+<li><span class="valve">YOUN Gas V2/T12:</span> valve closes if gravity &lt; 47 or &gt; 47.</li>
+<li><span class="valve">YOUN ULSD V3/T1 &amp; T2:</span> valve closes if gravity &lt; 42 or &gt; 44.</li>
+</ul>
+</div>
 <ul>
 <li><strong>Line Fills:</strong> If filling with gas: Perform a regular flush and switch to diesel upon achieving 100% gravity. If filling with diesel: Perform a regular flush and switch to gas when gravity reaches 50 degrees.</li>
 <li><strong>Tank Fill Calculations:</strong> To calculate ticket volumes for a full tank: (Volume to fill) - (100 bbls line fill) - (35 bbls safety margin) = Barrels to add to both tickets. The target barrel amount should maintain a 35 bbl differential from the absolute tank capacity.</li>
@@ -688,6 +752,13 @@ margin-top: 20px;
 <td colspan="7">
 <div class="note-content">
 <strong>VANP Station Notes:</strong>
+<div class="interlock-box">
+<span class="interlock-title">⚠ Gravity Interlock Thresholds</span>
+<ul>
+<li><span class="valve">Gas Valves V7313, V7314, V7316:</span> close if gravity &gt; 46.6 or &lt; 45.</li>
+<li><span class="valve">ULSD Valve V7312:</span> closes if gravity &lt; 42 or &gt; 44.</li>
+</ul>
+</div>
 <ul>
 <li><strong>Control Mode Transition:</strong> To switch from suction (SUC) control to discharge (DIS) control, lower DIS by 100 psi and hold for 3 minutes.</li>
 <li><strong>Alarms:</strong> The downstream valve triggers a High Alarm at 995 psi to coordinate with the ALLE relief valve (Warning at 995 psi; High Alarm at 1,017 psi).</li>
@@ -712,6 +783,12 @@ margin-top: 20px;
 <td colspan="7">
 <div class="note-content">
 <strong>ALLE Station Notes:</strong>
+<div class="interlock-box">
+<span class="interlock-title">⚠ Gravity Interlock Thresholds</span>
+<ul>
+<li><span class="valve">ULSD Valves V7138, V7139, V7146:</span> close if gravity &lt; 42 or &gt; 44.</li>
+</ul>
+</div>
 <ul>
 <li><strong>Relief Valve Setpoints:</strong> Low Alarm at 995 psi; High Alarm at 1,045 psi.</li>
 <li><strong>End of Line Operations:</strong> Maintain pressure >450 psi; dropping below this threshold will trip the VANP station. Maintain high suction (SUC) at VANP. If restarting VANP, set SUC to 120 psi.</li>
@@ -743,6 +820,12 @@ margin-top: 20px;
 <td colspan="7">
 <div class="note-content">
 <strong>PITT Station Notes:</strong>
+<div class="interlock-box">
+<span class="interlock-title">⚠ Gravity Interlock Thresholds</span>
+<ul>
+<li><span class="valve">Permissive Gas Valves V101, V103, V106:</span> close if gravity &gt; 45 or &lt; 45.</li>
+</ul>
+</div>
 <ul>
 <li><strong>Line Fill:</strong> Maintain at 1,600 bbls.</li>
 <li><strong>Valve Operations:</strong> Valves can only operate if differential pressure is under 300 psi. Verify visually/electronically that the valve is 100% open.</li>
@@ -775,6 +858,15 @@ margin-top: 20px;
 <td colspan="7">
 <div class="note-content">
 <strong>DELM Station Notes:</strong>
+<div class="interlock-box">
+<span class="interlock-title">⚠ Gravity Interlock / Permissive Thresholds</span>
+<ul>
+<li><span class="valve">ET Manifold Gas V206, V207, V702:</span> close if gravity &lt; 45 or &gt; 47.</li>
+<li><span class="valve">ET Manifold ULSD V205, V701, V703:</span> close if gravity &lt; 44.1 or &gt; 45.</li>
+<li><span class="valve">Buckeye Manifold Gas V26, V27, V72:</span> tighter margin — close if gravity &lt; 44 or &gt; 44.3.</li>
+<li><span class="valve">Buckeye Manifold ULSD V25, V71, V73:</span> close if gravity &lt; 44.1 or &gt; 45.</li>
+</ul>
+</div>
 <ul>
 <li><strong>Product Transition (Gas to Premium):</strong> Monitor gravity at PREVIEW to determine the differential, then apply this offset to the STATION gravity at DELM.</li>
 <li><strong>Product Transition (15MV to 87CB):</strong> Base gravity is 35.5; cut out at +0.5 degrees. Note: Tank level alarms may clear and return immediately during this process.</li>
