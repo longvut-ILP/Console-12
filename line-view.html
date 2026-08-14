@@ -159,7 +159,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 
 <h2 class="section-title">Pipeline Schematic &mdash; MGDR Three-Way Split</h2>
 <div class="panel">
-<svg id="schem" viewBox="0 0 1780 385" role="img" aria-label="Pipeline schematic in ISA symbols: FOST, WLLR and VANP centrifugal pumps set the flow rate; MGDR splits three ways to the CV10 branch, a storage vessel, and the Alleghany Access branch, with control valves at each delivery">
+<svg id="schem" viewBox="0 0 1780 410" role="img" aria-label="Pipeline schematic in ISA symbols: FOST, WLLR and VANP centrifugal pumps set the flow rate; MGDR splits three ways to the CV10 branch, a storage vessel, and the Alleghany Access branch, with control valves at each delivery">
 <g id="pipes"></g><g id="flows"></g><g id="arrows"></g><g id="gauges"></g><g id="stations"></g>
 </svg>
 </div>
@@ -236,9 +236,11 @@ var PUMPS = [
 ];
 /* delivery take-offs */
 var SP = [
-  { k: 'cv10',  node: 'CV10',         label: 'MGDR &rarr; CV10',    br: 'Top branch',    def: 1200 },
+  { k: 'cv10',  node: 'CV10',         label: 'MGDR &rarr; CV10',    br: 'Top branch feed', def: 1200 },
+  { k: 'hud',   node: 'HUD',          label: 'HUD',                 br: 'Top branch tank farm', def: 400 },
   { k: 'stor',  node: 'MGDR STORAGE', label: 'MGDR &rarr; Storage', br: 'Middle',        def: 0    },
-  { k: 'board', node: 'BOAR',         label: 'BOARD Tank',          br: 'Bottom, before VANP', def: 400 },
+  { k: 'board', node: 'BOAR',         label: 'BOARD',               br: 'Bottom tank farm, before VANP', def: 400 },
+  { k: 'vanptk',node: 'VANP',         label: 'VANP tank',           br: 'VANP tank farm take-off', def: 0 },
   { k: 'alle',  node: 'ALLE',         label: 'ALLE',                br: 'Bottom, after VANP',  def: 400 },
   { k: 'pitt',  node: 'PITT',         label: 'PITT',                br: 'Bottom, after VANP',  def: 200 },
   { k: 'delm',  node: 'DELM',         label: 'DELM',                br: 'Bottom, after VANP',  def: 200 },
@@ -256,10 +258,10 @@ var PROF = {
   'MGDR': { nom: 1100, c: 1.0,  fd: 60,  qn: 2600 },
   'CV10': { nom: 1020, c: 0.9,  fd: 80,  qn: 1200 },
   'HUD':  { nom: 900,  c: 0.8,  fd: 120, qn: 1200 },
-  'SAGA': { nom: 800,  c: 0.7,  fd: 150, qn: 1200 },
-  'BRAD': { nom: 700,  c: 0.6,  fd: 180, qn: 1200 },
-  'TR16': { nom: 600,  c: 0.5,  fd: 200, qn: 1200 },
-  'CLVN': { nom: 480,  c: 0.45, fd: 220, qn: 1200 },
+  'SAGA': { nom: 800,  c: 0.7,  fd: 150, qn: 800 },
+  'BRAD': { nom: 700,  c: 0.6,  fd: 180, qn: 800 },
+  'TR16': { nom: 600,  c: 0.5,  fd: 200, qn: 800 },
+  'CLVN': { nom: 480,  c: 0.45, fd: 220, qn: 800 },
   'MGDR STORAGE': { nom: 900, c: 0.8, fd: 80, qn: 600 },
   'A.A.': { nom: 1000, c: 0.9,  fd: 90,  qn: 1400 },
   'BOAR': { nom: 900,  c: 0.8,  fd: 130, qn: 1400 },
@@ -296,11 +298,11 @@ function spread(names, y, x0, x1, kinds) {
   return out;
 }
 var TOP = spread(['CV10', 'HUD', 'SAGA', 'BRAD', 'TR16', 'CLVN'], TOP_Y, 580, 1720,
-                 { CV10: 'delivery', CLVN: 'delivery' });
+                 { CV10: 'delivery', HUD: 'farm', CLVN: 'delivery' });
 var MID = [{ k: 'MGDR STORAGE', x: 620, y: TRUNK_Y, kind: 'tank', idx: 0 }];
 var BOT = spread(['A.A.', 'BOAR', 'VANP', 'ALLE', 'PITT', 'DELM', 'MNTL'], BOT_Y, 580, 1720,
-                 { BOAR: 'delivery', VANP: 'pump', ALLE: 'delivery', PITT: 'delivery',
-                   DELM: 'delivery', MNTL: 'delivery' });
+                 { BOAR: 'farm', VANP: 'pumpfarm', ALLE: 'farm', PITT: 'farm',
+                   DELM: 'farm', MNTL: 'farm' });
 var ALL = TRUNK.concat(TOP, MID, BOT);
 
 /* ================= model ================= */
@@ -357,11 +359,11 @@ function solve(s) {
   var qV = pumpFlow(s, pumpOf.vanp, P2, P3, s.q.vanp);
   // metered deliveries, capped by available pressure and by what the pumps bring
   var eff = {}, fBefore = deliveryFactor(P2), fAfter = deliveryFactor(P3);
-  ['cv10', 'stor', 'board'].forEach(function (k) { eff[k] = Math.round(s.sp[k] * fBefore); });
+  ['cv10', 'hud', 'stor', 'board', 'vanptk'].forEach(function (k) { eff[k] = Math.round(s.sp[k] * fBefore); });
   AFTER_VANP.forEach(function (k) { eff[k] = Math.round(s.sp[k] * fAfter); });
-  var demandBefore = s.sp.cv10 + s.sp.stor + s.sp.board;
+  var demandBefore = s.sp.cv10 + s.sp.stor + s.sp.board + s.sp.vanptk;   // HUD draws inside the CV10 branch
   var demandAfter = AFTER_VANP.reduce(function (a, k) { return a + s.sp[k]; }, 0);
-  var effBefore = eff.cv10 + eff.stor + eff.board;
+  var effBefore = eff.cv10 + eff.stor + eff.board + eff.vanptk;
   var effAfter = AFTER_VANP.reduce(function (a, k) { return a + eff[k]; }, 0);
   var delivered = effBefore + effAfter;
   // pump discharge pressures, consistent with the flow each is moving
@@ -381,21 +383,25 @@ function solve(s) {
 }
 function segFlows(s, f) {
   var e = f.eff;
-  var botIn = e.board + AFTER_VANP.reduce(function (a, k) { return a + e[k]; }, 0);
-  return { trunk: f.wllrPass, top: e.cv10, mid: e.stor, bot: botIn };
+  var botIn = e.board + e.vanptk + f.vanpPass;   // BOARD + VANP tankage + what the pump sends on
+  return { trunk: f.wllrPass, top: e.cv10, mid: e.stor, bot: botIn, past: f.vanpPass };
 }
 var BOT_TAKES = ['board', 'vanp', 'alle', 'pitt', 'delm', 'mntl'];
 function segFlowFor(n, sf, f) {
-  if (TOP.indexOf(n) > -1) return sf.top;
+  var e = f.eff;
+  if (TOP.indexOf(n) > -1) {
+    // CV10 feeds the branch, HUD's tank farm draws off it, the rest carries on
+    return n.idx <= 1 ? sf.top : Math.max(0, sf.top - (e.hud || 0));
+  }
   if (MID.indexOf(n) > -1) return sf.mid;
   if (BOT.indexOf(n) > -1) {
-    if (n.idx === 0) return sf.bot;
-    var used = 0;
-    for (var i = 0; i < n.idx - 1; i++) {
-      var k = BOT_TAKES[i];
-      used += k === 'vanp' ? 0 : (f.eff[k] || 0);   // VANP is a pump, it takes nothing
-    }
-    return sf.bot - used;
+    if (n.idx <= 1) return sf.bot;                       // A.A., BOAR
+    if (n.idx === 2) return sf.bot - (e.board || 0);     // VANP, before its own take
+    var left = sf.past;                                  // downstream of the pump
+    if (n.idx >= 4) left -= (e.alle || 0);
+    if (n.idx >= 5) left -= (e.pitt || 0);
+    if (n.idx >= 6) left -= (e.delm || 0);
+    return Math.max(0, left);
   }
   return sf.trunk;
 }
@@ -512,7 +518,7 @@ function buildSchematic() {
     flows += '<path id="fl-' + p[0] + '" d="' + p[1] + '" fill="none" stroke="#0369a1" stroke-width="4" stroke-dasharray="14 12" stroke-linecap="round"/>';
   });
   st += '<text x="580" y="' + (TOP_Y - 62) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">TOP &#8212; CV10 BRANCH</text>' +
-        '<text x="700" y="' + (TRUNK_Y - 56) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">MIDDLE &#8212; MGDR STORAGE</text>' +
+        '<text x="780" y="' + (TRUNK_Y - 34) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">MIDDLE &#8212; MGDR STORAGE</text>' +
         '<text x="580" y="' + (BOT_Y - 62) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">BOTTOM &#8212; A.A. BRANCH</text>';
   // flow-direction arrowheads on the straight runs
   [[130, TRUNK_Y], [250, TRUNK_Y], [380, TRUNK_Y], [694, TOP_Y], [1150, TOP_Y], [1606, TOP_Y], [675, BOT_Y], [1055, BOT_Y], [1435, BOT_Y]]
@@ -520,27 +526,37 @@ function buildSchematic() {
       st += '<path d="M' + (a[0] - 5) + ' ' + (a[1] - 6) + ' L' + (a[0] + 6) + ' ' + a[1] +
             ' L' + (a[0] - 5) + ' ' + (a[1] + 6) + ' Z" fill="#64748b"/>';
     });
+  // a tank farm: the run valve (or pump) on the line, with a vessel hung under it
+  function vessel(x, y) {
+    return '<line x1="' + x + '" y1="' + (y + 9) + '" x2="' + x + '" y2="' + (y + 16) + '" stroke="#0f172a" stroke-width="2"/>' +
+      '<path d="M' + (x - 9) + ' ' + (y + 19) + ' L' + (x - 9) + ' ' + (y + 28) +
+      ' A9 3 0 0 0 ' + (x + 9) + ' ' + (y + 28) + ' L' + (x + 9) + ' ' + (y + 19) +
+      ' A9 3 0 0 0 ' + (x - 9) + ' ' + (y + 19) + ' Z" stroke="#0f172a" stroke-width="1.6"/>';
+  }
+  function valveBody(x, y) {
+    return '<rect x="' + (x - 7) + '" y="' + (y - 24) + '" width="14" height="8" rx="2" stroke="#0f172a" stroke-width="1.5"/>' +
+      '<line x1="' + x + '" y1="' + (y - 16) + '" x2="' + x + '" y2="' + y + '" stroke="#0f172a" stroke-width="2"/>' +
+      '<path d="M' + (x - 11) + ' ' + (y - 9) + ' L' + (x - 11) + ' ' + (y + 9) + ' L' + x + ' ' + y + ' Z" stroke="#0f172a" stroke-width="1.5"/>' +
+      '<path d="M' + (x + 11) + ' ' + (y - 9) + ' L' + (x + 11) + ' ' + (y + 9) + ' L' + x + ' ' + y + ' Z" stroke="#0f172a" stroke-width="1.5"/>';
+  }
+  function pumpBody(x, y) {
+    return '<path d="M' + (x - 9) + ' ' + (y - 7) + ' L' + (x + 9) + ' ' + (y - 7) + ' L' + x + ' ' + (y - 23) + ' Z" stroke="#0f172a" stroke-width="1.5"/>' +
+      '<circle cx="' + x + '" cy="' + y + '" r="11" stroke="#0f172a" stroke-width="2"/>' +
+      '<path d="M' + (x - 5) + ' ' + (y + 4) + ' L' + x + ' ' + (y - 3) + ' L' + (x + 5) + ' ' + (y + 4) +
+      '" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>';
+  }
   ALL.forEach(function (n) {
     var y = n.y || TRUNK_Y, shape;
     // ISA symbols. Status-coloured parts live in <g id="nd-KEY">: children omit fill so they
     // inherit the group's fill, which updateSchematic repaints.
     if (n.kind === 'pump') {
-      // centrifugal pump: circle body + discharge volute wedge + impeller chevron
-      shape = '<g id="nd-' + n.k + '" fill="#1d4ed8">' +
-        '<path d="M' + (n.x - 9) + ' ' + (y - 7) + ' L' + (n.x + 9) + ' ' + (y - 7) +
-          ' L' + n.x + ' ' + (y - 23) + ' Z" stroke="#0f172a" stroke-width="1.5"/>' +
-        '<circle cx="' + n.x + '" cy="' + y + '" r="11" stroke="#0f172a" stroke-width="2"/>' +
-        '<path d="M' + (n.x - 5) + ' ' + (y + 4) + ' L' + n.x + ' ' + (y - 3) + ' L' + (n.x + 5) + ' ' + (y + 4) +
-          '" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/></g>';
+      shape = '<g id="nd-' + n.k + '" fill="#1d4ed8">' + pumpBody(n.x, y) + '</g>';
+    } else if (n.kind === 'pumpfarm') {            // pump station with its own tankage
+      shape = '<g id="nd-' + n.k + '" fill="#1d4ed8">' + pumpBody(n.x, y) + vessel(n.x, y) + '</g>';
     } else if (n.kind === 'delivery') {
-      // control valve: bowtie body + stem + actuator
-      shape = '<g id="nd-' + n.k + '" fill="#475569">' +
-        '<rect x="' + (n.x - 7) + '" y="' + (y - 24) + '" width="14" height="8" rx="2" stroke="#0f172a" stroke-width="1.5"/>' +
-        '<line x1="' + n.x + '" y1="' + (y - 16) + '" x2="' + n.x + '" y2="' + y + '" stroke="#0f172a" stroke-width="2"/>' +
-        '<path d="M' + (n.x - 11) + ' ' + (y - 9) + ' L' + (n.x - 11) + ' ' + (y + 9) + ' L' + n.x + ' ' + y +
-          ' Z" stroke="#0f172a" stroke-width="1.5"/>' +
-        '<path d="M' + (n.x + 11) + ' ' + (y - 9) + ' L' + (n.x + 11) + ' ' + (y + 9) + ' L' + n.x + ' ' + y +
-          ' Z" stroke="#0f172a" stroke-width="1.5"/></g>';
+      shape = '<g id="nd-' + n.k + '" fill="#475569">' + valveBody(n.x, y) + '</g>';
+    } else if (n.kind === 'farm') {                // tank farm: run valve + vessel
+      shape = '<g id="nd-' + n.k + '" fill="#475569">' + valveBody(n.x, y) + vessel(n.x, y) + '</g>';
     } else if (n.kind === 'tank') {
       // vertical storage vessel: domed top and bottom, with a level fill
       shape = '<g id="nd-' + n.k + '" fill="#475569">' +
@@ -555,7 +571,7 @@ function buildSchematic() {
       shape = '<circle cx="' + n.x + '" cy="' + y + '" r="10" fill="#ffffff" stroke="#475569" stroke-width="1.8"/>' +
         '<text x="' + n.x + '" y="' + (y + 3.5) + '" text-anchor="middle" font-size="8" font-weight="700" fill="#475569">PI</text>';
     }
-    var lblY = y + 26;
+    var lblY = y + (n.kind === 'farm' || n.kind === 'pumpfarm' ? 45 : 26);
     st += shape +
       '<text x="' + n.x + '" y="' + lblY + '" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">' + n.k + '</text>' +
       '<text x="' + n.x + '" y="' + (lblY + 13) + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#64748b" id="pv-' + n.k + '">- psi</text>';
@@ -601,9 +617,12 @@ function updateSchematic(s, f) {
     if (pk) {                                    // pump station: show the rate it is moving
       var moved = pk === 'fost' ? f.fostIn : pk === 'wllr' ? f.wllrPass : f.vanpPass;
       var m = s.pump[pk].mode;
-      rt.textContent = m === 'off'
+      // a pump station that also has tankage shows both: pumped on, and taken off
+      var tk = sk ? (f.eff[sk] || 0) : null;
+      rt.textContent = (m === 'off'
         ? (pk === 'wllr' ? '↻ OFF · bypass ' + moved.toLocaleString('en-US') : '↻ OFF')
-        : '↻ ' + moved.toLocaleString('en-US') + ' bph · ' + m.toUpperCase();
+        : '↻ ' + moved.toLocaleString('en-US') + ' · ' + m.toUpperCase())
+        + (tk ? ' · ▼ ' + tk.toLocaleString('en-US') : '');
       var off = m === 'off';
       rt.setAttribute('fill', off ? '#b91c1c' : '#1d4ed8');
       if (nd) nd.setAttribute('fill', off ? '#dc2626' : '#1d4ed8');
