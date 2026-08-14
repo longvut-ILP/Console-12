@@ -29,13 +29,9 @@ margin: 0;
 padding: 20px;
 }
 .container {
-max-width: 1320px;
-margin: 0 auto;
-background-color: var(--bg-card);
-border-radius: 4px;
-box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
-padding: 24px;
-border: 1px solid #64748b;
+max-width: 1320px; margin: 0 auto; background-color: var(--bg-card);
+border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+padding: 24px; border: 1px solid #64748b;
 }
 .header-section {
 display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
@@ -65,26 +61,38 @@ border-bottom: 2px solid var(--border-color); padding-bottom: 5px; font-weight: 
 .tile .val { font-size: 1.6rem; font-weight: 800; color: var(--primary-color); font-variant-numeric: tabular-nums; line-height: 1.2; }
 .tile .val .unit { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
 .tile.hero .val { color: var(--series); }
+.tile .sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
 .chip { display: inline-block; font-size: 0.8rem; font-weight: 800; border-radius: 999px; padding: 3px 12px; margin-top: 4px; }
 .chip.ok   { color: var(--ok);   background: rgba(22,163,74,0.1);  border: 1px solid rgba(22,163,74,0.4); }
 .chip.warn { color: var(--warn); background: rgba(217,119,6,0.1);  border: 1px solid rgba(217,119,6,0.4); }
 .chip.crit { color: var(--crit); background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.4); }
-.controls {
-display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;
-border: 1px solid var(--border-color); border-radius: 4px; padding: 12px 16px; background: #f8fafc;
-}
+/* controls */
+.controls { border: 1px solid var(--border-color); border-radius: 4px; padding: 14px 16px; background: #f8fafc; }
+.row1 { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; margin-bottom: 14px;
+        padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); }
 .ctl { min-width: 150px; }
 .ctl label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; }
 .ctl input[type="range"] { width: 100%; accent-color: var(--accent-color); }
 .ctl .rate-val { font-weight: 800; color: var(--primary-color); font-variant-numeric: tabular-nums; }
-.toggle {
-border: 1px solid var(--border-color); background: #fff; border-radius: 3px;
-padding: 7px 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase;
+.sp-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 800; margin-bottom: 8px; }
+.setpoints { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 12px; }
+.sp { background: #fff; border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 10px; }
+.sp .nm { font-size: 0.74rem; font-weight: 800; color: var(--primary-color); text-transform: uppercase; letter-spacing: 0.03em; }
+.sp .br { font-size: 0.66rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
+.sp input {
+width: 100%; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 3px;
+padding: 6px 8px; font-size: 0.95rem; font-weight: 700; font-family: "Courier New", monospace;
+text-align: right; color: var(--primary-color); font-variant-numeric: tabular-nums;
 }
+.sp input:focus { outline: none; border-color: var(--accent-color); box-shadow: inset 0 0 0 1px var(--accent-color); }
+.sp .unit { font-size: 0.66rem; color: var(--text-muted); font-weight: 600; float: right; margin-top: 3px; }
+.toggle { border: 1px solid var(--border-color); background: #fff; border-radius: 3px;
+  padding: 7px 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; }
 .toggle.on  { background: rgba(22,163,74,0.12); border-color: var(--ok); color: #14532d; }
 .toggle.off { background: #fee2e2; border-color: var(--crit); color: #7f1d1d; }
 .btn-run { background: #166534; color: #fff; border: none; padding: 9px 18px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
 .btn-reset { background: #475569; color: #fff; border: none; padding: 9px 18px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
+.btn-bal { background: #0369a1; color: #fff; border: none; padding: 9px 14px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
 #banner { display: none; margin: 14px 0 0; padding: 10px 16px; border-radius: 4px; font-weight: 800; font-size: 0.95rem; }
 #banner.warn { display: block; background: #fffbeb; border: 1px solid var(--warn); color: #92400e; }
 #banner.crit { display: block; background: #fef2f2; border: 1px solid var(--crit); color: #991b1b; animation: flash 1s step-end infinite; }
@@ -95,17 +103,15 @@ svg { display: block; width: 100%; height: auto; min-width: 900px; }
 .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.78rem; color: var(--text-muted); padding: 8px 4px 0; }
 .legend .key { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
 .swatch { width: 14px; height: 4px; border-radius: 2px; display: inline-block; }
-#tip {
-position: fixed; display: none; pointer-events: none; z-index: 50;
-background: #0f172a; color: #f1f5f9; font-size: 0.76rem; padding: 6px 9px;
-border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-variant-numeric: tabular-nums;
-}
+#tip { position: fixed; display: none; pointer-events: none; z-index: 50;
+  background: #0f172a; color: #f1f5f9; font-size: 0.76rem; padding: 6px 9px;
+  border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-variant-numeric: tabular-nums; }
 #log { list-style: none; margin: 0; padding: 0; font-size: 0.82rem; max-height: 150px; overflow-y: auto; }
 #log li { padding: 5px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
 #log li.warn { color: #92400e; } #log li.crit { color: #991b1b; font-weight: 700; }
 details { margin-top: 14px; font-size: 0.82rem; }
 details table { border-collapse: collapse; margin-top: 8px; }
-details th, details td { border: 1px solid var(--border-color); padding: 4px 12px; font-variant-numeric: tabular-nums; }
+details th, details td { border: 1px solid var(--border-color); padding: 4px 10px; font-variant-numeric: tabular-nums; }
 details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; text-transform: uppercase; }
 </style>
 </head>
@@ -118,14 +124,13 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <a href="Terminal_Notes.html" class="btn-nav">Terminal Notes</a>
 </div>
 </div>
-<p class="disclaimer">Simplified training model &mdash; FOST&rarr;SANE&rarr;WLLR trunk into the three-way MGDR split. Shows how flow divides between branches and how SANE pressure packs toward the alarm limits. Illustration only, <strong>not live SCADA data</strong>.</p>
+<p class="disclaimer">Simplified training model &mdash; FOST&rarr;SANE&rarr;WLLR trunk into the three-way MGDR split. Set a delivery rate at each destination and watch the line balance or pack. Illustration only, <strong>not live SCADA data</strong>.</p>
 
 <div class="tiles">
 <div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">499</span> <span class="unit">psi</span></div></div>
 <div class="tile"><div class="lbl">FOST Rate</div><div class="val"><span id="t-rate">2400</span> <span class="unit">bph</span></div></div>
-<div class="tile"><div class="lbl">CV10 Branch</div><div class="val"><span id="t-top">0</span> <span class="unit">bph</span></div></div>
-<div class="tile"><div class="lbl">MGDR Storage</div><div class="val"><span id="t-mid">0</span> <span class="unit">bph</span></div></div>
-<div class="tile"><div class="lbl">A.A. Branch</div><div class="val"><span id="t-bot">0</span> <span class="unit">bph</span></div></div>
+<div class="tile"><div class="lbl">Total Delivered</div><div class="val"><span id="t-out">2400</span> <span class="unit">bph</span></div></div>
+<div class="tile"><div class="lbl">Balance</div><div class="val"><span id="t-bal">0</span> <span class="unit">bph</span></div><div class="sub" id="t-bal-sub">in = out</div></div>
 <div class="tile"><div class="lbl">Linepack</div><div class="val"><span id="t-pack">0</span> <span class="unit">bbl</span></div></div>
 <div class="tile"><div class="lbl">Status</div><div><span id="t-status" class="chip ok">&#10003; NORMAL</span></div></div>
 </div>
@@ -133,32 +138,32 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 
 <h2 class="section-title">Controls</h2>
 <div class="controls">
-<div class="ctl" style="flex:1 1 200px">
-<label>FOST pump rate &mdash; <span class="rate-val" id="rate-lbl">2,400 bph</span></label>
+<div class="row1">
+<div class="ctl" style="flex:1 1 240px">
+<label>FOST pump rate &mdash; <span class="rate-val" id="rate-lbl">2,400 bph</span> <span style="font-weight:400;text-transform:none">(max 4,200)</span></label>
 <input type="range" id="rate" min="0" max="4200" step="100" value="2400">
 </div>
-<div class="ctl"><label>WLLR booster</label><button class="toggle off" id="wllr">OFF</button></div>
-<div class="ctl"><label>Top &mdash; CV10 branch</label><button class="toggle on" id="top">OPEN</button></div>
-<div class="ctl"><label>Middle &mdash; MGDR storage</label><button class="toggle off" id="mid">CLOSED</button></div>
-<div class="ctl"><label>Bottom &mdash; A.A. branch</label><button class="toggle on" id="bot">OPEN</button></div>
-<div class="ctl"><label>Simulation</label>
+<div class="ctl" style="min-width:120px"><label>WLLR booster</label><button class="toggle off" id="wllr">OFF</button></div>
+<div class="ctl" style="min-width:150px"><label>Match FOST to deliveries</label><button class="btn-bal" id="balance">&#8646; Balance line</button></div>
+<div class="ctl" style="min-width:170px"><label>Simulation</label>
 <button class="btn-run" id="run">Pause</button>
 <button class="btn-reset" id="reset">Reset</button>
 </div>
 </div>
+<div class="sp-title">Delivery rate setpoints &mdash; bph at each destination</div>
+<div class="setpoints" id="setpoints"></div>
+</div>
 
 <h2 class="section-title">Pipeline Schematic &mdash; MGDR Three-Way Split</h2>
 <div class="panel">
-<svg id="schem" viewBox="0 0 1100 430" role="img" aria-label="Pipeline schematic: FOST to SANE to WLLR trunk, splitting three ways at MGDR into the CV10 branch, MGDR storage, and the Alleghany Access branch">
-<g id="pipes"></g>
-<g id="flows"></g>
-<g id="gauges"></g>
-<g id="stations"></g>
+<svg id="schem" viewBox="0 0 1100 430" role="img" aria-label="Pipeline schematic: FOST to SANE to WLLR trunk, splitting three ways at MGDR into the CV10 branch, MGDR storage, and the Alleghany Access branch, with delivery rates at each destination">
+<g id="pipes"></g><g id="flows"></g><g id="gauges"></g><g id="stations"></g>
 </svg>
 </div>
 <div class="legend">
-<span class="key"><span class="swatch" style="background:#0369a1"></span> flow (dash speed &prop; branch rate)</span>
+<span class="key"><span class="swatch" style="background:#0369a1"></span> flow (dash speed &prop; segment rate)</span>
 <span class="key"><span class="swatch" style="background:#94a3b8"></span> bar above node = station pressure</span>
+<span class="key"><span class="swatch" style="background:#166534"></span> green bph = delivery setpoint</span>
 <span class="key">&#9650; pump &nbsp;&#9632; delivery &nbsp;&#9679; point &nbsp;&#11040; junction</span>
 </div>
 
@@ -175,7 +180,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <h2 class="section-title">Event Log</h2>
 <div class="panel"><ul id="log"><li>&mdash; no events yet &mdash;</li></ul></div>
 <details><summary>Data table (10-second readings)</summary>
-<table><thead><tr><th>t (s)</th><th>SANE psi</th><th>FOST bph</th><th>CV10 bph</th><th>Stor bph</th><th>A.A. bph</th></tr></thead><tbody id="tbody"></tbody></table>
+<table><thead><tr><th>t (s)</th><th>SANE psi</th><th>FOST</th><th>CV10</th><th>Stor</th><th>BOARD</th><th>ALLE</th><th>PITT</th><th>DELM</th><th>Bal</th></tr></thead><tbody id="tbody"></tbody></table>
 </details>
 </div>
 <div id="tip"></div>
@@ -187,8 +192,22 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
    Trunk:  FOST -> SANE -> WLLR -> MGDR (three-way split)
    Top:    CV10 -> HUD -> SAGA -> BRAD -> TR16 -> CLVN
    Middle: MGDR Storage
-   Bottom: A.A. -> BOAR -> VANP -> ALLE -> PITT -> DELM -> MNTL          */
+   Bottom: A.A. -> BOAR -> VANP -> ALLE -> PITT -> DELM -> MNTL
+   Delivery setpoints (bph) are taken at CV10, Storage, BOARD, ALLE, PITT, DELM. */
 var TRUNK_Y = 215, TOP_Y = 92, BOT_Y = 338, JX = 350;
+var RATE_MAX = 4200;                       // FOST maximum pump rate, bph
+
+/* delivery setpoints: key -> {label, branch, default} */
+var SP = [
+  { k: 'cv10',  node: 'CV10',          label: 'MGDR &rarr; CV10',    br: 'Top branch',    def: 1200 },
+  { k: 'stor',  node: 'MGDR STORAGE',  label: 'MGDR &rarr; Storage', br: 'Middle',        def: 0    },
+  { k: 'board', node: 'BOAR',          label: 'BOARD Tank',          br: 'Bottom branch', def: 400  },
+  { k: 'alle',  node: 'ALLE',          label: 'ALLE',                br: 'Bottom branch', def: 400  },
+  { k: 'pitt',  node: 'PITT',          label: 'PITT',                br: 'Bottom branch', def: 200  },
+  { k: 'delm',  node: 'DELM',          label: 'DELM',                br: 'Bottom branch', def: 200  }
+];
+var SP_BY_NODE = {}; SP.forEach(function (s) { SP_BY_NODE[s.node] = s.k; });
+
 var TRUNK = [
   { k: 'FOST', x: 62,  kind: 'pump',     off: 0  },
   { k: 'SANE', x: 158, kind: 'point',    off: 0  },
@@ -199,42 +218,54 @@ function spread(names, y, x0, x1, kinds) {
   var n = names.length, out = [];
   for (var i = 0; i < n; i++) {
     out.push({ k: names[i], x: n === 1 ? x0 : x0 + (x1 - x0) * i / (n - 1), y: y,
-               kind: (kinds && kinds[names[i]]) || 'point', off: 90 + (i + 1) * 58 });
+               kind: (kinds && kinds[names[i]]) || 'point', off: 90 + (i + 1) * 58, idx: i });
   }
   return out;
 }
-var TOP = spread(['CV10', 'HUD', 'SAGA', 'BRAD', 'TR16', 'CLVN'], TOP_Y, 462, 1042, { CLVN: 'delivery' });
-var MID = [{ k: 'MGDR STORAGE', x: 486, y: TRUNK_Y, kind: 'tank', off: 130 }];
+var TOP = spread(['CV10', 'HUD', 'SAGA', 'BRAD', 'TR16', 'CLVN'], TOP_Y, 462, 1042,
+                 { CV10: 'delivery', CLVN: 'delivery' });
+var MID = [{ k: 'MGDR STORAGE', x: 486, y: TRUNK_Y, kind: 'tank', off: 130, idx: 0 }];
 var BOT = spread(['A.A.', 'BOAR', 'VANP', 'ALLE', 'PITT', 'DELM', 'MNTL'], BOT_Y, 462, 1042,
-                 { VANP: 'pump', MNTL: 'delivery' });
+                 { BOAR: 'delivery', VANP: 'pump', ALLE: 'delivery', PITT: 'delivery',
+                   DELM: 'delivery', MNTL: 'delivery' });
 var ALL = TRUNK.concat(TOP, MID, BOT);
 
 /* ================= model ================= */
 var HIGH = 1175, HIGHHIGH = 1200;
-var RATE_MAX = 4200;                                  // FOST maximum pump rate, bph
 var BASE = 300, FRICTION = 500 / (3800 * 3800), PACK_PSI_PER_BBL = 6;
-var CAP_TOP = 1800, CAP_MID = 1200, CAP_BOT = 1600, WLLR_RELIEF = 800;
-var TICK = 100;
+var WLLR_RELIEF = 800, TICK = 100;
 
 var S = null;
 function freshState() {
-  return { t: 0, rate: 2400, wllr: false, top: true, mid: false, bot: true,
-           pack: 0, sane: 0, tripped: false, highOn: false,
-           fTop: 0, fMid: 0, fBot: 0, hist: [], events: [], running: true };
+  var s = { t: 0, rate: 2400, wllr: false, pack: 0, sane: 0, tripped: false, highOn: false,
+            sp: {}, hist: [], events: [], running: true };
+  SP.forEach(function (d) { s.sp[d.k] = d.def; });
+  return s;
+}
+function totalDelivery(s) {
+  return SP.reduce(function (a, d) { return a + (s.sp[d.k] || 0); }, 0);
+}
+/* flow remaining in each segment after upstream deliveries are taken off */
+function segFlows(s) {
+  var top = s.sp.cv10;
+  var mid = s.sp.stor;
+  var bot = s.sp.board + s.sp.alle + s.sp.pitt + s.sp.delm;
+  return {
+    trunk: top + mid + bot,
+    top: top, mid: mid, bot: bot,
+    // bottom branch, flow left after each delivery point
+    afterBoard: bot - s.sp.board,
+    afterAlle:  bot - s.sp.board - s.sp.alle,
+    afterPitt:  bot - s.sp.board - s.sp.alle - s.sp.pitt,
+    afterDelm:  bot - s.sp.board - s.sp.alle - s.sp.pitt - s.sp.delm
+  };
 }
 function step(s) {
   s.t += 1;
   var inflow = s.tripped ? 0 : s.rate;
-  var cTop = s.top ? CAP_TOP : 0, cMid = s.mid ? CAP_MID : 0, cBot = s.bot ? CAP_BOT : 0;
-  var cap = cTop + cMid + cBot + (s.wllr ? WLLR_RELIEF : 0);
-  var demand = inflow + (s.pack > 0 ? 600 : 0);       // draining pack adds throughput
-  var outflow = Math.min(cap, demand);
-  // split the outflow across the open branches in proportion to capacity
-  var openCap = cTop + cMid + cBot;
-  s.fTop = openCap ? Math.round(outflow * cTop / openCap) : 0;
-  s.fMid = openCap ? Math.round(outflow * cMid / openCap) : 0;
-  s.fBot = openCap ? Math.round(outflow * cBot / openCap) : 0;
-  s.pack = Math.max(0, s.pack + (inflow - outflow) / 3600 * 4);
+  var demand = totalDelivery(s) + (s.wllr ? WLLR_RELIEF : 0);
+  var balance = inflow - demand;                       // + = packing, - = drawing down
+  s.pack = Math.max(0, s.pack + balance / 3600 * 4);   // bbl, x4 teaching speed
   s.sane = Math.round(BASE + FRICTION * inflow * inflow + s.pack * PACK_PSI_PER_BBL);
   if (s.sane >= HIGHHIGH && !s.tripped) {
     s.tripped = true;
@@ -246,24 +277,25 @@ function step(s) {
     s.highOn = false;
     s.events.push({ t: s.t, lvl: 'ok', msg: '✓ SANE back below 1175 — HIGH alarm cleared' });
   }
-  s.hist.push({ t: s.t, p: s.sane, r: inflow, a: s.fTop, b: s.fMid, c: s.fBot });
+  s.hist.push({ t: s.t, p: s.sane, r: inflow, bal: balance,
+                cv10: s.sp.cv10, stor: s.sp.stor, board: s.sp.board,
+                alle: s.sp.alle, pitt: s.sp.pitt, delm: s.sp.delm });
   if (s.hist.length > 120) s.hist.shift();
-  return { inflow: inflow, outflow: outflow };
+  return { inflow: inflow, demand: demand, balance: balance };
 }
-function branchOf(k) {
-  if (TOP.some(function (n) { return n.k === k; })) return 'top';
-  if (MID.some(function (n) { return n.k === k; })) return 'mid';
-  if (BOT.some(function (n) { return n.k === k; })) return 'bot';
-  return 'trunk';
-}
-function stationPressure(s, inflow, st) {
-  if (st.k === 'FOST') return Math.min(1400, s.sane + 90);
-  if (st.k === 'SANE') return s.sane;
-  var br = branchOf(st.k);
-  var f = br === 'top' ? s.fTop : br === 'mid' ? s.fMid : br === 'bot' ? s.fBot : inflow;
-  var open = br === 'trunk' || (br === 'top' && s.top) || (br === 'mid' && s.mid) || (br === 'bot' && s.bot);
-  if (!open) return 0;
-  var drop = st.off * 1.15 * (f / RATE_MAX + 0.15);
+/* pressure at a station: declines with distance and with the flow in ITS segment */
+function stationPressure(s, inflow, n) {
+  if (n.k === 'FOST') return Math.min(1400, s.sane + 90);
+  if (n.k === 'SANE') return s.sane;
+  var f = segFlows(s), q;
+  if (TOP.indexOf(n) > -1)      q = f.top;
+  else if (MID.indexOf(n) > -1) q = f.mid;
+  else if (BOT.indexOf(n) > -1) {
+    q = n.idx <= 1 ? f.bot : n.idx <= 3 ? f.afterBoard : n.idx <= 4 ? f.afterAlle
+      : n.idx <= 5 ? f.afterPitt : f.afterDelm;
+  } else q = f.trunk;
+  if (q <= 0) return 0;
+  var drop = n.off * 1.15 * (q / RATE_MAX + 0.15);
   return Math.max(40, Math.round(s.sane - drop));
 }
 
@@ -271,20 +303,17 @@ function stationPressure(s, inflow, st) {
 function gaugeH(p) { return Math.max(0, (p / 1400) * 40); }
 function buildSchematic() {
   var pipes = '', flows = '', gg = '', st = '';
-  // trunk + branch pipes
-  var trunkD  = 'M62 ' + TRUNK_Y + ' H' + JX;
-  var topD    = 'M' + JX + ' ' + TRUNK_Y + ' C400 ' + TRUNK_Y + ' 410 ' + TOP_Y + ' 462 ' + TOP_Y + ' H1042';
-  var midD    = 'M' + JX + ' ' + TRUNK_Y + ' H486';
-  var botD    = 'M' + JX + ' ' + TRUNK_Y + ' C400 ' + TRUNK_Y + ' 410 ' + BOT_Y + ' 462 ' + BOT_Y + ' H1042';
+  var trunkD = 'M62 ' + TRUNK_Y + ' H' + JX;
+  var topD   = 'M' + JX + ' ' + TRUNK_Y + ' C400 ' + TRUNK_Y + ' 410 ' + TOP_Y + ' 462 ' + TOP_Y + ' H1042';
+  var midD   = 'M' + JX + ' ' + TRUNK_Y + ' H486';
+  var botD   = 'M' + JX + ' ' + TRUNK_Y + ' C400 ' + TRUNK_Y + ' 410 ' + BOT_Y + ' 462 ' + BOT_Y + ' H1042';
   [['trunk', trunkD], ['top', topD], ['mid', midD], ['bot', botD]].forEach(function (p) {
     pipes += '<path d="' + p[1] + '" fill="none" stroke="#cbd5e1" stroke-width="10" stroke-linecap="round"/>';
-    flows += '<path id="fl-' + p[0] + '" d="' + p[1] + '" fill="none" stroke="#0369a1" stroke-width="4" ' +
-             'stroke-dasharray="14 12" stroke-linecap="round"/>';
+    flows += '<path id="fl-' + p[0] + '" d="' + p[1] + '" fill="none" stroke="#0369a1" stroke-width="4" stroke-dasharray="14 12" stroke-linecap="round"/>';
   });
-  // branch labels
-  st += '<text x="452" y="' + (TOP_Y - 56) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">TOP &#8212; CV10 BRANCH</text>';
-  st += '<text x="452" y="' + (TRUNK_Y - 46) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">MIDDLE &#8212; MGDR STORAGE</text>';
-  st += '<text x="452" y="' + (BOT_Y - 56) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">BOTTOM &#8212; A.A. BRANCH</text>';
+  st += '<text x="452" y="' + (TOP_Y - 56) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">TOP &#8212; CV10 BRANCH</text>' +
+        '<text x="452" y="' + (TRUNK_Y - 46) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">MIDDLE &#8212; MGDR STORAGE</text>' +
+        '<text x="452" y="' + (BOT_Y - 56) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">BOTTOM &#8212; A.A. BRANCH</text>';
   ALL.forEach(function (n) {
     var y = n.y || TRUNK_Y, shape;
     if (n.kind === 'pump')          shape = '<path d="M' + (n.x - 11) + ' ' + (y + 12) + ' L' + (n.x + 11) + ' ' + (y + 12) + ' L' + n.x + ' ' + (y - 12) + ' Z" fill="#0f172a"/>';
@@ -296,6 +325,13 @@ function buildSchematic() {
     st += shape +
       '<text x="' + n.x + '" y="' + lblY + '" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">' + n.k + '</text>' +
       '<text x="' + n.x + '" y="' + (lblY + 15) + '" text-anchor="middle" font-size="10.5" fill="#64748b" id="pv-' + n.k + '">- psi</text>';
+    if (SP_BY_NODE[n.k]) {
+      // storage sits on the trunk row — its setpoint goes to the right of the tank so it
+      // does not collide with the BOTTOM branch title underneath
+      st += n.kind === 'tank'
+        ? '<text x="' + (n.x + 24) + '" y="' + (y + 5) + '" text-anchor="start" font-size="10.5" font-weight="700" fill="#166534" id="sp-' + n.k + '">- bph</text>'
+        : '<text x="' + n.x + '" y="' + (lblY + 29) + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#166534" id="sp-' + n.k + '">- bph</text>';
+    }
     gg += '<rect x="' + (n.x - 5) + '" y="' + (y - 18) + '" width="10" height="0" rx="3" fill="#0369a1" id="bar-' + n.k + '"/>';
     if (n.k === 'SANE') {
       var trip = y - 18 - gaugeH(HIGHHIGH);
@@ -314,22 +350,27 @@ function updateSchematic(s, inflow) {
     var bar = document.getElementById('bar-' + n.k);
     bar.setAttribute('height', h.toFixed(1));
     bar.setAttribute('y', (y - 18 - h).toFixed(1));
-    document.getElementById('pv-' + n.k).textContent = p ? p + ' psi' : 'closed';
-  });
-  [['top', s.top], ['mid', s.mid], ['bot', s.bot]].forEach(function (b) {
-    var end = b[0] === 'top' ? 'CLVN' : b[0] === 'mid' ? 'MGDR STORAGE' : 'MNTL';
-    var el = document.getElementById('nd-' + end);
-    if (el) el.setAttribute('fill', b[1] ? '#166534' : '#dc2626');
+    document.getElementById('pv-' + n.k).textContent = p ? p + ' psi' : 'no flow';
+    var spk = SP_BY_NODE[n.k];
+    if (spk) {
+      var v = s.sp[spk];
+      var el = document.getElementById('sp-' + n.k);
+      el.textContent = v > 0 ? '▼ ' + v.toLocaleString('en-US') + ' bph' : 'closed';
+      el.setAttribute('fill', v > 0 ? '#166534' : '#b91c1c');
+      var nd = document.getElementById('nd-' + n.k);
+      if (nd) nd.setAttribute('fill', v > 0 ? '#166534' : '#dc2626');
+    }
   });
 }
 var off = { trunk: 0, top: 0, mid: 0, bot: 0 };
-function animateFlow(s, inflow) {
-  var f = { trunk: inflow, top: s.fTop, mid: s.fMid, bot: s.fBot };
-  Object.keys(f).forEach(function (k) {
-    off[k] -= f[k] / RATE_MAX * 1.6;
+function animateFlow(s) {
+  var f = segFlows(s);
+  var live = s.tripped ? { trunk: 0, top: f.top, mid: f.mid, bot: f.bot } : f;
+  ['trunk', 'top', 'mid', 'bot'].forEach(function (k) {
+    off[k] -= live[k] / RATE_MAX * 1.6;
     var el = document.getElementById('fl-' + k);
     el.setAttribute('stroke-dashoffset', off[k].toFixed(1));
-    el.setAttribute('opacity', f[k] > 0 ? 1 : 0.12);
+    el.setAttribute('opacity', live[k] > 0 ? 1 : 0.12);
   });
 }
 
@@ -377,7 +418,10 @@ document.getElementById('chart').addEventListener('mousemove', function (ev) {
   tip.style.display = 'block';
   tip.style.left = (ev.clientX + 14) + 'px';
   tip.style.top = (ev.clientY - 10) + 'px';
-  tip.innerHTML = 't=' + d.t + 's &middot; <b>' + d.p + ' psi</b><br>FOST ' + d.r + ' &middot; CV10 ' + d.a + ' &middot; stor ' + d.b + ' &middot; A.A. ' + d.c + ' bph';
+  tip.innerHTML = 't=' + d.t + 's &middot; <b>' + d.p + ' psi</b><br>FOST ' + d.r +
+    ' &middot; balance ' + (d.bal > 0 ? '+' : '') + d.bal + ' bph<br>CV10 ' + d.cv10 +
+    ' &middot; stor ' + d.stor + ' &middot; BOARD ' + d.board + '<br>ALLE ' + d.alle +
+    ' &middot; PITT ' + d.pitt + ' &middot; DELM ' + d.delm;
 });
 document.getElementById('chart').addEventListener('mouseleave', function () {
   tip.style.display = 'none';
@@ -386,20 +430,35 @@ document.getElementById('chart').addEventListener('mouseleave', function () {
 
 /* ================= UI ================= */
 function fmt(n) { return n.toLocaleString('en-US'); }
+function buildSetpoints() {
+  document.getElementById('setpoints').innerHTML = SP.map(function (d) {
+    return '<div class="sp"><div class="nm">' + d.label + '</div><div class="br">' + d.br + '</div>' +
+           '<input type="number" id="sp-in-' + d.k + '" min="0" max="' + RATE_MAX + '" step="100" value="' + d.def + '">' +
+           '<span class="unit">bph</span></div>';
+  }).join('');
+  SP.forEach(function (d) {
+    document.getElementById('sp-in-' + d.k).addEventListener('input', function () {
+      var v = Math.max(0, Math.min(RATE_MAX, +this.value || 0));
+      S.sp[d.k] = v;
+    });
+  });
+}
 function updateUI(s, flows) {
   document.getElementById('t-sane').textContent = fmt(s.sane);
   document.getElementById('t-rate').textContent = fmt(flows.inflow);
-  document.getElementById('t-top').textContent = fmt(s.fTop);
-  document.getElementById('t-mid').textContent = fmt(s.fMid);
-  document.getElementById('t-bot').textContent = fmt(s.fBot);
+  document.getElementById('t-out').textContent = fmt(totalDelivery(s));
   document.getElementById('t-pack').textContent = fmt(Math.round(s.pack));
+  var bal = flows.balance;
+  document.getElementById('t-bal').textContent = (bal > 0 ? '+' : '') + fmt(bal);
+  document.getElementById('t-bal-sub').textContent =
+    bal > 0 ? 'packing the line' : bal < 0 ? 'drawing line down' : 'in = out';
   var st = document.getElementById('t-status'), bn = document.getElementById('banner');
   if (s.tripped) {
     st.className = 'chip crit'; st.innerHTML = '&#9940; TRIPPED';
-    bn.className = 'crit'; bn.innerHTML = '&#9940; HIGH-HIGH &mdash; SANE reached 1200 psi. FOST unit is SHUT DOWN. Open a branch to bleed the pack, then Reset.';
+    bn.className = 'crit'; bn.innerHTML = '&#9940; HIGH-HIGH &mdash; SANE reached 1200 psi. FOST unit is SHUT DOWN. Raise a delivery setpoint to bleed the pack, then Reset.';
   } else if (s.sane >= HIGH) {
     st.className = 'chip warn'; st.innerHTML = '&#9888; HIGH ALARM';
-    bn.className = 'warn'; bn.innerHTML = '&#9888; SANE HIGH alarm (&ge; 1175 psi) &mdash; reduce FOST rate, start WLLR, or open another branch before 1200 psi trips FOST.';
+    bn.className = 'warn'; bn.innerHTML = '&#9888; SANE HIGH alarm (&ge; 1175 psi) &mdash; cut FOST rate, start WLLR, or raise a delivery setpoint before 1200 psi trips FOST.';
   } else {
     st.className = 'chip ok'; st.innerHTML = '&#10003; NORMAL';
     bn.className = ''; bn.innerHTML = '';
@@ -411,25 +470,26 @@ function updateUI(s, flows) {
   }
   document.getElementById('tbody').innerHTML = s.hist.filter(function (d) { return d.t % 10 === 0; })
     .slice(-12).map(function (d) {
-      return '<tr><td>' + d.t + '</td><td>' + d.p + '</td><td>' + d.r + '</td><td>' + d.a + '</td><td>' + d.b + '</td><td>' + d.c + '</td></tr>';
+      return '<tr><td>' + d.t + '</td><td>' + d.p + '</td><td>' + d.r + '</td><td>' + d.cv10 + '</td><td>' +
+             d.stor + '</td><td>' + d.board + '</td><td>' + d.alle + '</td><td>' + d.pitt + '</td><td>' +
+             d.delm + '</td><td>' + (d.bal > 0 ? '+' : '') + d.bal + '</td></tr>';
     }).join('');
-}
-function bindToggle(id, onTxt, offTxt) {
-  var b = document.getElementById(id);
-  b.addEventListener('click', function () {
-    S[id] = !S[id];
-    b.className = 'toggle ' + (S[id] ? 'on' : 'off');
-    b.textContent = S[id] ? onTxt : offTxt;
-  });
 }
 document.getElementById('rate').addEventListener('input', function () {
   S.rate = +this.value;
   document.getElementById('rate-lbl').textContent = fmt(S.rate) + ' bph';
 });
-bindToggle('wllr', 'RUNNING', 'OFF');
-bindToggle('top', 'OPEN', 'CLOSED');
-bindToggle('mid', 'OPEN', 'CLOSED');
-bindToggle('bot', 'OPEN', 'CLOSED');
+document.getElementById('wllr').addEventListener('click', function () {
+  S.wllr = !S.wllr;
+  this.className = 'toggle ' + (S.wllr ? 'on' : 'off');
+  this.textContent = S.wllr ? 'RUNNING' : 'OFF';
+});
+document.getElementById('balance').addEventListener('click', function () {
+  var t = Math.min(RATE_MAX, totalDelivery(S));
+  S.rate = Math.round(t / 100) * 100;
+  document.getElementById('rate').value = S.rate;
+  document.getElementById('rate-lbl').textContent = fmt(S.rate) + ' bph';
+});
 document.getElementById('run').addEventListener('click', function () {
   S.running = !S.running; this.textContent = S.running ? 'Pause' : 'Run';
 });
@@ -437,17 +497,15 @@ document.getElementById('reset').addEventListener('click', function () {
   S = freshState();
   document.getElementById('rate').value = S.rate;
   document.getElementById('rate-lbl').textContent = fmt(S.rate) + ' bph';
-  [['wllr', 'RUNNING', 'OFF'], ['top', 'OPEN', 'CLOSED'], ['mid', 'OPEN', 'CLOSED'], ['bot', 'OPEN', 'CLOSED']]
-    .forEach(function (t) {
-      var b = document.getElementById(t[0]);
-      b.className = 'toggle ' + (S[t[0]] ? 'on' : 'off');
-      b.textContent = S[t[0]] ? t[1] : t[2];
-    });
+  SP.forEach(function (d) { document.getElementById('sp-in-' + d.k).value = d.def; });
+  var w = document.getElementById('wllr');
+  w.className = 'toggle off'; w.textContent = 'OFF';
   document.getElementById('run').textContent = 'Pause';
   document.getElementById('log').innerHTML = '<li>&mdash; no events yet &mdash;</li>';
 });
 
 S = freshState();
+buildSetpoints();
 buildSchematic();
 setInterval(function () {
   if (!S.running) return;
@@ -456,10 +514,7 @@ setInterval(function () {
   drawChart(S);
   updateUI(S, flows);
 }, TICK);
-setInterval(function () {
-  if (!S.running) return;
-  animateFlow(S, S.tripped ? 0 : S.rate);
-}, 40);
+setInterval(function () { if (S.running) animateFlow(S); }, 40);
 })();
 </script>
 </body>
