@@ -123,6 +123,20 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <div id="banner"></div>
 <div id="alarms"></div>
 
+<h2 class="section-title">Pipeline Schematic &mdash; MGDR Three-Way Split</h2>
+<div class="panel">
+<svg id="schem" viewBox="0 0 1100 440" role="img" aria-label="Pipeline schematic: FOST to SANE to WLLR trunk splitting three ways at MGDR, with station pressures, delivery setpoints and alarm limits">
+<g id="pipes"></g><g id="flows"></g><g id="gauges"></g><g id="stations"></g>
+</svg>
+</div>
+<div class="legend">
+<span class="key"><span class="swatch" style="background:#0369a1"></span> flow (dash speed &prop; segment rate)</span>
+<span class="key"><span class="swatch" style="background:#166534"></span> green bph = delivery setpoint</span>
+<span class="key"><span class="swatch" style="background:#d97706"></span> psi turns amber = HIGH</span>
+<span class="key"><span class="swatch" style="background:#dc2626"></span> red = HIGH-HIGH / trip</span>
+<span class="key"><span class="swatch" style="background:#7c3aed"></span> purple = LOW</span>
+</div>
+
 <h2 class="section-title">Controls</h2>
 <div class="controls">
 <div class="row1">
@@ -139,20 +153,6 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 </div>
 <div class="sp-title">Delivery rate setpoints &mdash; bph at each destination</div>
 <div class="setpoints" id="setpoints"></div>
-</div>
-
-<h2 class="section-title">Pipeline Schematic &mdash; MGDR Three-Way Split</h2>
-<div class="panel">
-<svg id="schem" viewBox="0 0 1100 440" role="img" aria-label="Pipeline schematic: FOST to SANE to WLLR trunk splitting three ways at MGDR, with station pressures, delivery setpoints and alarm limits">
-<g id="pipes"></g><g id="flows"></g><g id="gauges"></g><g id="stations"></g>
-</svg>
-</div>
-<div class="legend">
-<span class="key"><span class="swatch" style="background:#0369a1"></span> flow (dash speed &prop; segment rate)</span>
-<span class="key"><span class="swatch" style="background:#166534"></span> green bph = delivery setpoint</span>
-<span class="key"><span class="swatch" style="background:#d97706"></span> psi turns amber = HIGH</span>
-<span class="key"><span class="swatch" style="background:#dc2626"></span> red = HIGH-HIGH / trip</span>
-<span class="key"><span class="swatch" style="background:#7c3aed"></span> purple = LOW</span>
 </div>
 
 <h2 class="section-title">SANE Pressure &mdash; last 2 minutes</h2>
