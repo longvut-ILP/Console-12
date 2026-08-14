@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Line View - Flow & Pressure Simulator - Console 12</title>
+<title>Line View - Flow &amp; Pressure Simulator - Console 12</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230f172a'/><path d='M50 15 L75 55 A 30 30 0 1 1 25 55 Z' fill='%23f59e0b'/></svg>">
 <style>
 :root {
@@ -15,7 +15,7 @@
 --text-dark: #1e293b;
 --text-muted: #64748b;
 --border-color: #94a3b8;
---series: #0369a1;      /* the one data series: pressure */
+--series: #0369a1;
 --ok: #16a34a;
 --warn: #d97706;
 --crit: #dc2626;
@@ -29,7 +29,7 @@ margin: 0;
 padding: 20px;
 }
 .container {
-max-width: 1280px;
+max-width: 1320px;
 margin: 0 auto;
 background-color: var(--bg-card);
 border-radius: 4px;
@@ -38,15 +38,9 @@ padding: 24px;
 border: 1px solid #64748b;
 }
 .header-section {
-display: flex;
-justify-content: space-between;
-align-items: center;
-flex-wrap: wrap;
-gap: 10px;
+display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
 background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
-padding: 16px 24px;
-border-radius: 4px;
-margin-bottom: 8px;
+padding: 16px 24px; border-radius: 4px; margin-bottom: 8px;
 border-bottom: 4px solid var(--accent-color);
 }
 h1 { margin: 0; font-size: 1.35rem; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -65,23 +59,21 @@ margin: 22px 0 10px; font-size: 1.05rem; color: var(--primary-color);
 text-transform: uppercase; letter-spacing: 0.04em;
 border-bottom: 2px solid var(--border-color); padding-bottom: 5px; font-weight: 800;
 }
-/* ---- stat tiles ---- */
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 6px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 6px; }
 .tile { border: 1px solid var(--border-color); border-radius: 4px; padding: 10px 14px; background: #f8fafc; }
 .tile .lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 700; }
-.tile .val { font-size: 1.7rem; font-weight: 800; color: var(--primary-color); font-variant-numeric: tabular-nums; line-height: 1.2; }
-.tile .val .unit { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+.tile .val { font-size: 1.6rem; font-weight: 800; color: var(--primary-color); font-variant-numeric: tabular-nums; line-height: 1.2; }
+.tile .val .unit { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
 .tile.hero .val { color: var(--series); }
 .chip { display: inline-block; font-size: 0.8rem; font-weight: 800; border-radius: 999px; padding: 3px 12px; margin-top: 4px; }
 .chip.ok   { color: var(--ok);   background: rgba(22,163,74,0.1);  border: 1px solid rgba(22,163,74,0.4); }
 .chip.warn { color: var(--warn); background: rgba(217,119,6,0.1);  border: 1px solid rgba(217,119,6,0.4); }
 .chip.crit { color: var(--crit); background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.4); }
-/* ---- controls ---- */
 .controls {
-display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end;
+display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;
 border: 1px solid var(--border-color); border-radius: 4px; padding: 12px 16px; background: #f8fafc;
 }
-.ctl { min-width: 170px; }
+.ctl { min-width: 150px; }
 .ctl label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; }
 .ctl input[type="range"] { width: 100%; accent-color: var(--accent-color); }
 .ctl .rate-val { font-weight: 800; color: var(--primary-color); font-variant-numeric: tabular-nums; }
@@ -93,24 +85,21 @@ padding: 7px 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-tr
 .toggle.off { background: #fee2e2; border-color: var(--crit); color: #7f1d1d; }
 .btn-run { background: #166534; color: #fff; border: none; padding: 9px 18px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
 .btn-reset { background: #475569; color: #fff; border: none; padding: 9px 18px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
-/* ---- banners ---- */
 #banner { display: none; margin: 14px 0 0; padding: 10px 16px; border-radius: 4px; font-weight: 800; font-size: 0.95rem; }
 #banner.warn { display: block; background: #fffbeb; border: 1px solid var(--warn); color: #92400e; }
 #banner.crit { display: block; background: #fef2f2; border: 1px solid var(--crit); color: #991b1b; animation: flash 1s step-end infinite; }
 @keyframes flash { 50% { background: #fee2e2; } }
-/* ---- svg panels ---- */
-.panel { border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; background: #fff; }
-svg { display: block; width: 100%; height: auto; }
+.panel { border: 1px solid var(--border-color); border-radius: 4px; overflow-x: auto; background: #fff; }
+svg { display: block; width: 100%; height: auto; min-width: 900px; }
+#chart { min-width: 700px; }
 .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.78rem; color: var(--text-muted); padding: 8px 4px 0; }
 .legend .key { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
 .swatch { width: 14px; height: 4px; border-radius: 2px; display: inline-block; }
-/* ---- tooltip ---- */
 #tip {
 position: fixed; display: none; pointer-events: none; z-index: 50;
 background: #0f172a; color: #f1f5f9; font-size: 0.76rem; padding: 6px 9px;
 border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-variant-numeric: tabular-nums;
 }
-/* ---- event log & table ---- */
 #log { list-style: none; margin: 0; padding: 0; font-size: 0.82rem; max-height: 150px; overflow-y: auto; }
 #log li { padding: 5px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
 #log li.warn { color: #92400e; } #log li.crit { color: #991b1b; font-weight: 700; }
@@ -129,55 +118,50 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <a href="Terminal_Notes.html" class="btn-nav">Terminal Notes</a>
 </div>
 </div>
-<p class="disclaimer">Simplified training model of the FOST&rarr;CLVN segment &mdash; visualizes how flow moves and how SANE pressure packs toward the alarm limits. Illustration only, <strong>not live SCADA data</strong>.</p>
+<p class="disclaimer">Simplified training model &mdash; FOST&rarr;SANE&rarr;WLLR trunk into the three-way MGDR split. Shows how flow divides between branches and how SANE pressure packs toward the alarm limits. Illustration only, <strong>not live SCADA data</strong>.</p>
 
-<!-- stat tiles -->
 <div class="tiles">
-<div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">620</span> <span class="unit">psi</span></div></div>
+<div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">499</span> <span class="unit">psi</span></div></div>
 <div class="tile"><div class="lbl">FOST Rate</div><div class="val"><span id="t-rate">2400</span> <span class="unit">bph</span></div></div>
-<div class="tile"><div class="lbl">Delivery Out</div><div class="val"><span id="t-out">2400</span> <span class="unit">bph</span></div></div>
+<div class="tile"><div class="lbl">CV10 Branch</div><div class="val"><span id="t-top">0</span> <span class="unit">bph</span></div></div>
+<div class="tile"><div class="lbl">MGDR Storage</div><div class="val"><span id="t-mid">0</span> <span class="unit">bph</span></div></div>
+<div class="tile"><div class="lbl">A.A. Branch</div><div class="val"><span id="t-bot">0</span> <span class="unit">bph</span></div></div>
 <div class="tile"><div class="lbl">Linepack</div><div class="val"><span id="t-pack">0</span> <span class="unit">bbl</span></div></div>
 <div class="tile"><div class="lbl">Status</div><div><span id="t-status" class="chip ok">&#10003; NORMAL</span></div></div>
 </div>
 <div id="banner"></div>
 
-<!-- controls -->
 <h2 class="section-title">Controls</h2>
 <div class="controls">
-<div class="ctl" style="flex:1 1 220px">
+<div class="ctl" style="flex:1 1 200px">
 <label>FOST pump rate &mdash; <span class="rate-val" id="rate-lbl">2,400 bph</span></label>
 <input type="range" id="rate" min="0" max="3800" step="100" value="2400">
 </div>
 <div class="ctl"><label>WLLR booster</label><button class="toggle off" id="wllr">OFF</button></div>
-<div class="ctl"><label>HUDS delivery valve</label><button class="toggle on" id="huds">OPEN</button></div>
-<div class="ctl"><label>CLVN delivery valve</label><button class="toggle on" id="clvn">OPEN</button></div>
+<div class="ctl"><label>Top &mdash; CV10 branch</label><button class="toggle on" id="top">OPEN</button></div>
+<div class="ctl"><label>Middle &mdash; MGDR storage</label><button class="toggle off" id="mid">CLOSED</button></div>
+<div class="ctl"><label>Bottom &mdash; A.A. branch</label><button class="toggle on" id="bot">OPEN</button></div>
 <div class="ctl"><label>Simulation</label>
 <button class="btn-run" id="run">Pause</button>
 <button class="btn-reset" id="reset">Reset</button>
 </div>
 </div>
 
-<!-- pipeline schematic -->
-<h2 class="section-title">Pipeline Schematic</h2>
+<h2 class="section-title">Pipeline Schematic &mdash; MGDR Three-Way Split</h2>
 <div class="panel">
-<svg id="schem" viewBox="0 0 960 250" role="img" aria-label="Pipeline schematic from Fostoria to Cleveland with animated flow">
-<!-- pipe segments -->
-<path id="pipeA" d="M70 140 H590" fill="none" stroke="#cbd5e1" stroke-width="10" stroke-linecap="round"/>
-<path id="pipeB" d="M590 140 H890" fill="none" stroke="#cbd5e1" stroke-width="10" stroke-linecap="round"/>
-<path id="flowA" d="M70 140 H590" fill="none" stroke="#0369a1" stroke-width="4" stroke-dasharray="14 12" stroke-linecap="round"/>
-<path id="flowB" d="M590 140 H890" fill="none" stroke="#0369a1" stroke-width="4" stroke-dasharray="14 12" stroke-linecap="round"/>
-<!-- gauges + station markers drawn by JS -->
+<svg id="schem" viewBox="0 0 1100 430" role="img" aria-label="Pipeline schematic: FOST to SANE to WLLR trunk, splitting three ways at MGDR into the CV10 branch, MGDR storage, and the Alleghany Access branch">
+<g id="pipes"></g>
+<g id="flows"></g>
 <g id="gauges"></g>
 <g id="stations"></g>
 </svg>
-<div class="legend">
-<span class="key"><span class="swatch" style="background:#0369a1"></span> flow (dash speed &prop; rate)</span>
-<span class="key"><span class="swatch" style="background:#94a3b8"></span> gauge = station pressure, psi</span>
-<span class="key">&#9650; pump &nbsp;&#9647; delivery tank</span>
 </div>
+<div class="legend">
+<span class="key"><span class="swatch" style="background:#0369a1"></span> flow (dash speed &prop; branch rate)</span>
+<span class="key"><span class="swatch" style="background:#94a3b8"></span> bar above node = station pressure</span>
+<span class="key">&#9650; pump &nbsp;&#9632; delivery &nbsp;&#9679; point &nbsp;&#11040; junction</span>
 </div>
 
-<!-- strip chart -->
 <h2 class="section-title">SANE Pressure &mdash; last 2 minutes</h2>
 <div class="panel">
 <svg id="chart" viewBox="0 0 960 300" role="img" aria-label="Live line chart of SANE pressure with High alarm at 1175 psi and High-High at 1200 psi"></svg>
@@ -188,11 +172,10 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <span class="key"><span class="swatch" style="background:#dc2626"></span> &#9940; HIGH-HIGH 1200 &middot; FOST S/D</span>
 </div>
 
-<!-- events + table -->
 <h2 class="section-title">Event Log</h2>
 <div class="panel"><ul id="log"><li>&mdash; no events yet &mdash;</li></ul></div>
 <details><summary>Data table (10-second readings)</summary>
-<table><thead><tr><th>t (s)</th><th>SANE psi</th><th>FOST bph</th><th>Out bph</th></tr></thead><tbody id="tbody"></tbody></table>
+<table><thead><tr><th>t (s)</th><th>SANE psi</th><th>FOST bph</th><th>CV10 bph</th><th>Stor bph</th><th>A.A. bph</th></tr></thead><tbody id="tbody"></tbody></table>
 </details>
 </div>
 <div id="tip"></div>
@@ -200,34 +183,58 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <script>
 (function () {
 'use strict';
-/* ---------------- model ----------------
-   Simplified hydraulics for training:
-   - SANE pressure = static base + friction term (prop. to rate^2) + linepack term.
-   - Linepack grows when FOST inflow exceeds delivery outflow (packing the line).
-   - HIGH alarm at 1175 psi. HIGH-HIGH at 1200 psi trips the FOST unit (per console notes).
-   - WLLR booster pulls the pack down (relieves SANE), reflecting the old operating practice. */
+/* ================= topology =================
+   Trunk:  FOST -> SANE -> WLLR -> MGDR (three-way split)
+   Top:    CV10 -> HUD -> SAGA -> BRAD -> TR16 -> CLVN
+   Middle: MGDR Storage
+   Bottom: A.A. -> BOAR -> VANP -> ALLE -> PITT -> DELM -> MNTL          */
+var TRUNK_Y = 215, TOP_Y = 92, BOT_Y = 338, JX = 350;
+var TRUNK = [
+  { k: 'FOST', x: 62,  kind: 'pump',     off: 0  },
+  { k: 'SANE', x: 158, kind: 'point',    off: 0  },
+  { k: 'WLLR', x: 252, kind: 'pump',     off: 40 },
+  { k: 'MGDR', x: JX,  kind: 'junction', off: 90 }
+];
+function spread(names, y, x0, x1, kinds) {
+  var n = names.length, out = [];
+  for (var i = 0; i < n; i++) {
+    out.push({ k: names[i], x: n === 1 ? x0 : x0 + (x1 - x0) * i / (n - 1), y: y,
+               kind: (kinds && kinds[names[i]]) || 'point', off: 90 + (i + 1) * 58 });
+  }
+  return out;
+}
+var TOP = spread(['CV10', 'HUD', 'SAGA', 'BRAD', 'TR16', 'CLVN'], TOP_Y, 462, 1042, { CLVN: 'delivery' });
+var MID = [{ k: 'MGDR STORAGE', x: 486, y: TRUNK_Y, kind: 'tank', off: 130 }];
+var BOT = spread(['A.A.', 'BOAR', 'VANP', 'ALLE', 'PITT', 'DELM', 'MNTL'], BOT_Y, 462, 1042,
+                 { VANP: 'pump', MNTL: 'delivery' });
+var ALL = TRUNK.concat(TOP, MID, BOT);
+
+/* ================= model ================= */
 var HIGH = 1175, HIGHHIGH = 1200;
-var BASE = 300;                       // static head at SANE, psi
-var FRICTION = 500 / (3800 * 3800);   // psi per (bph)^2 at SANE with line moving
-var PACK_PSI_PER_BBL = 6;             // linepack stiffness
-var HUDS_CAP = 2000, CLVN_CAP = 1800, WLLR_RELIEF = 800; // bph
-var TICK = 100;                       // ms per tick; 1 tick = 1 simulated second
+var BASE = 300, FRICTION = 500 / (3800 * 3800), PACK_PSI_PER_BBL = 6;
+var CAP_TOP = 1800, CAP_MID = 1200, CAP_BOT = 1600, WLLR_RELIEF = 800;
+var TICK = 100;
 
 var S = null;
 function freshState() {
-  return { t: 0, rate: 2400, wllr: false, huds: true, clvn: true,
+  return { t: 0, rate: 2400, wllr: false, top: true, mid: false, bot: true,
            pack: 0, sane: 0, tripped: false, highOn: false,
-           hist: [], events: [], running: true };
+           fTop: 0, fMid: 0, fBot: 0, hist: [], events: [], running: true };
 }
 function step(s) {
   s.t += 1;
   var inflow = s.tripped ? 0 : s.rate;
-  var cap = (s.huds ? HUDS_CAP : 0) + (s.clvn ? CLVN_CAP : 0) + (s.wllr ? WLLR_RELIEF : 0);
-  var outflow = Math.min(cap, inflow + (s.pack > 0 ? 600 : 0)); // draining pack adds up to 600 bph
-  s.pack = Math.max(0, s.pack + (inflow - outflow) / 3600 * 4); // bbl per sim-second (x4 teaching speed)
-  var friction = FRICTION * inflow * inflow;
-  s.sane = Math.round(BASE + friction + s.pack * PACK_PSI_PER_BBL);
-  // alarms
+  var cTop = s.top ? CAP_TOP : 0, cMid = s.mid ? CAP_MID : 0, cBot = s.bot ? CAP_BOT : 0;
+  var cap = cTop + cMid + cBot + (s.wllr ? WLLR_RELIEF : 0);
+  var demand = inflow + (s.pack > 0 ? 600 : 0);       // draining pack adds throughput
+  var outflow = Math.min(cap, demand);
+  // split the outflow across the open branches in proportion to capacity
+  var openCap = cTop + cMid + cBot;
+  s.fTop = openCap ? Math.round(outflow * cTop / openCap) : 0;
+  s.fMid = openCap ? Math.round(outflow * cMid / openCap) : 0;
+  s.fBot = openCap ? Math.round(outflow * cBot / openCap) : 0;
+  s.pack = Math.max(0, s.pack + (inflow - outflow) / 3600 * 4);
+  s.sane = Math.round(BASE + FRICTION * inflow * inflow + s.pack * PACK_PSI_PER_BBL);
   if (s.sane >= HIGHHIGH && !s.tripped) {
     s.tripped = true;
     s.events.push({ t: s.t, lvl: 'crit', msg: '⛔ SANE ' + s.sane + ' psi ≥ 1200 HIGH-HIGH — FOST UNIT SHUTDOWN' });
@@ -238,210 +245,219 @@ function step(s) {
     s.highOn = false;
     s.events.push({ t: s.t, lvl: 'ok', msg: '✓ SANE back below 1175 — HIGH alarm cleared' });
   }
-  s.hist.push({ t: s.t, p: s.sane, r: inflow, o: outflow });
+  s.hist.push({ t: s.t, p: s.sane, r: inflow, a: s.fTop, b: s.fMid, c: s.fBot });
   if (s.hist.length > 120) s.hist.shift();
   return { inflow: inflow, outflow: outflow };
 }
-
-/* ---------------- schematic ---------------- */
-var STN = [
-  { k: 'FOST', x: 70,  kind: 'pump',     off: 0   },
-  { k: 'SANE', x: 200, kind: 'point',    off: 60  },
-  { k: 'WLLR', x: 330, kind: 'pump',     off: 110 },
-  { k: 'CV10', x: 460, kind: 'point',    off: 160 },
-  { k: 'HUDS', x: 590, kind: 'delivery', off: 210 },
-  { k: 'AKRO', x: 740, kind: 'point',    off: 260 },
-  { k: 'CLVN', x: 890, kind: 'delivery', off: 310 }
-];
-function stationPressure(s, inflow, st) {
-  // decline downstream of SANE; FOST discharge sits above SANE by pipe friction
-  if (st.k === 'FOST') return Math.min(1400, s.sane + 90);
-  var drop = st.off * 1.4 * (inflow / 3800 + 0.15);
-  return Math.max(60, Math.round(s.sane - drop + (st.k === 'SANE' ? 0 : 0)));
+function branchOf(k) {
+  if (TOP.some(function (n) { return n.k === k; })) return 'top';
+  if (MID.some(function (n) { return n.k === k; })) return 'mid';
+  if (BOT.some(function (n) { return n.k === k; })) return 'bot';
+  return 'trunk';
 }
+function stationPressure(s, inflow, st) {
+  if (st.k === 'FOST') return Math.min(1400, s.sane + 90);
+  if (st.k === 'SANE') return s.sane;
+  var br = branchOf(st.k);
+  var f = br === 'top' ? s.fTop : br === 'mid' ? s.fMid : br === 'bot' ? s.fBot : inflow;
+  var open = br === 'trunk' || (br === 'top' && s.top) || (br === 'mid' && s.mid) || (br === 'bot' && s.bot);
+  if (!open) return 0;
+  var drop = st.off * 1.15 * (f / 3800 + 0.15);
+  return Math.max(40, Math.round(s.sane - drop));
+}
+
+/* ================= schematic ================= */
+function gaugeH(p) { return Math.max(0, (p / 1400) * 40); }
 function buildSchematic() {
-  var g = document.getElementById('stations'), gg = document.getElementById('gauges');
-  var el = '', bars = '';
-  STN.forEach(function (st) {
-    var shape;
-    if (st.kind === 'pump') shape = '<path d="M' + (st.x - 11) + ' 152 L' + (st.x + 11) + ' 152 L' + st.x + ' 128 Z" fill="#0f172a"/>';
-    else if (st.kind === 'delivery') shape = '<rect x="' + (st.x - 10) + '" y="128" width="20" height="24" rx="2" fill="#475569" id="dv-' + st.k + '"/>';
-    else shape = '<circle cx="' + st.x + '" cy="140" r="7" fill="#64748b"/>';
-    el += shape +
-      '<text x="' + st.x + '" y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">' + st.k + '</text>' +
-      '<text x="' + st.x + '" y="193" text-anchor="middle" font-size="11" fill="#64748b" id="pv-' + st.k + '">- psi</text>';
-    bars += '<rect x="' + (st.x - 6) + '" y="118" width="12" height="0" rx="4" fill="#0369a1" id="bar-' + st.k + '"/>';
-    if (st.k === 'SANE') {
-      bars += '<line x1="' + (st.x - 16) + '" y1="' + gaugeY(HIGHHIGH) + '" x2="' + (st.x + 16) + '" y2="' + gaugeY(HIGHHIGH) + '" stroke="#dc2626" stroke-width="2"/>' +
-              '<text x="' + (st.x + 20) + '" y="' + (gaugeY(HIGHHIGH) + 4) + '" font-size="10" font-weight="700" fill="#991b1b">trip 1200</text>';
+  var pipes = '', flows = '', gg = '', st = '';
+  // trunk + branch pipes
+  var trunkD  = 'M62 ' + TRUNK_Y + ' H' + JX;
+  var topD    = 'M' + JX + ' ' + TRUNK_Y + ' C400 ' + TRUNK_Y + ' 410 ' + TOP_Y + ' 462 ' + TOP_Y + ' H1042';
+  var midD    = 'M' + JX + ' ' + TRUNK_Y + ' H486';
+  var botD    = 'M' + JX + ' ' + TRUNK_Y + ' C400 ' + TRUNK_Y + ' 410 ' + BOT_Y + ' 462 ' + BOT_Y + ' H1042';
+  [['trunk', trunkD], ['top', topD], ['mid', midD], ['bot', botD]].forEach(function (p) {
+    pipes += '<path d="' + p[1] + '" fill="none" stroke="#cbd5e1" stroke-width="10" stroke-linecap="round"/>';
+    flows += '<path id="fl-' + p[0] + '" d="' + p[1] + '" fill="none" stroke="#0369a1" stroke-width="4" ' +
+             'stroke-dasharray="14 12" stroke-linecap="round"/>';
+  });
+  // branch labels
+  st += '<text x="452" y="' + (TOP_Y - 56) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">TOP &#8212; CV10 BRANCH</text>';
+  st += '<text x="452" y="' + (TRUNK_Y - 46) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">MIDDLE &#8212; MGDR STORAGE</text>';
+  st += '<text x="452" y="' + (BOT_Y - 56) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">BOTTOM &#8212; A.A. BRANCH</text>';
+  ALL.forEach(function (n) {
+    var y = n.y || TRUNK_Y, shape;
+    if (n.kind === 'pump')          shape = '<path d="M' + (n.x - 11) + ' ' + (y + 12) + ' L' + (n.x + 11) + ' ' + (y + 12) + ' L' + n.x + ' ' + (y - 12) + ' Z" fill="#0f172a"/>';
+    else if (n.kind === 'delivery') shape = '<rect x="' + (n.x - 10) + '" y="' + (y - 12) + '" width="20" height="24" rx="2" fill="#475569" id="nd-' + n.k + '"/>';
+    else if (n.kind === 'tank')     shape = '<rect x="' + (n.x - 14) + '" y="' + (y - 14) + '" width="28" height="28" rx="3" fill="#475569" stroke="#0f172a" stroke-width="2" id="nd-' + n.k + '"/>';
+    else if (n.kind === 'junction') shape = '<path d="M' + n.x + ' ' + (y - 14) + ' L' + (n.x + 14) + ' ' + y + ' L' + n.x + ' ' + (y + 14) + ' L' + (n.x - 14) + ' ' + y + ' Z" fill="#f59e0b" stroke="#0f172a" stroke-width="2"/>';
+    else                            shape = '<circle cx="' + n.x + '" cy="' + y + '" r="7" fill="#64748b"/>';
+    var lblY = n.kind === 'junction' ? y + 34 : y + 30;
+    st += shape +
+      '<text x="' + n.x + '" y="' + lblY + '" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">' + n.k + '</text>' +
+      '<text x="' + n.x + '" y="' + (lblY + 15) + '" text-anchor="middle" font-size="10.5" fill="#64748b" id="pv-' + n.k + '">- psi</text>';
+    gg += '<rect x="' + (n.x - 5) + '" y="' + (y - 18) + '" width="10" height="0" rx="3" fill="#0369a1" id="bar-' + n.k + '"/>';
+    if (n.k === 'SANE') {
+      var trip = y - 18 - gaugeH(HIGHHIGH);
+      gg += '<line x1="' + (n.x - 15) + '" y1="' + trip + '" x2="' + (n.x + 15) + '" y2="' + trip + '" stroke="#dc2626" stroke-width="2"/>' +
+            '<text x="' + (n.x + 19) + '" y="' + (trip + 4) + '" font-size="10" font-weight="700" fill="#991b1b">trip 1200</text>';
     }
   });
-  g.innerHTML = el; gg.innerHTML = bars;
+  document.getElementById('pipes').innerHTML = pipes;
+  document.getElementById('flows').innerHTML = flows;
+  document.getElementById('gauges').innerHTML = gg;
+  document.getElementById('stations').innerHTML = st;
 }
-function gaugeY(psi) { return 118 - (psi / 1400) * 95; }
-function updateSchematic(s, inflow, outflowB) {
-  STN.forEach(function (st) {
-    var p = st.k === 'SANE' ? s.sane : stationPressure(s, inflow, st);
-    var h = Math.max(0, (p / 1400) * 95);
-    var bar = document.getElementById('bar-' + st.k);
+function updateSchematic(s, inflow) {
+  ALL.forEach(function (n) {
+    var p = stationPressure(s, inflow, n), h = gaugeH(p), y = n.y || TRUNK_Y;
+    var bar = document.getElementById('bar-' + n.k);
     bar.setAttribute('height', h.toFixed(1));
-    bar.setAttribute('y', (118 - h).toFixed(1));
-    document.getElementById('pv-' + st.k).textContent = p + ' psi';
+    bar.setAttribute('y', (y - 18 - h).toFixed(1));
+    document.getElementById('pv-' + n.k).textContent = p ? p + ' psi' : 'closed';
   });
-  var dvH = document.getElementById('dv-HUDS'), dvC = document.getElementById('dv-CLVN');
-  dvH.setAttribute('fill', s.huds ? '#166534' : '#dc2626');
-  dvC.setAttribute('fill', s.clvn ? '#166534' : '#dc2626');
+  [['top', s.top], ['mid', s.mid], ['bot', s.bot]].forEach(function (b) {
+    var end = b[0] === 'top' ? 'CLVN' : b[0] === 'mid' ? 'MGDR STORAGE' : 'MNTL';
+    var el = document.getElementById('nd-' + end);
+    if (el) el.setAttribute('fill', b[1] ? '#166534' : '#dc2626');
+  });
 }
-/* flow dash animation */
-var offA = 0, offB = 0;
-function animateFlow(inflow, pastHuds) {
-  offA -= inflow / 3800 * 1.6; offB -= pastHuds / 3800 * 1.6;
-  var fA = document.getElementById('flowA'), fB = document.getElementById('flowB');
-  fA.setAttribute('stroke-dashoffset', offA.toFixed(1));
-  fB.setAttribute('stroke-dashoffset', offB.toFixed(1));
-  fA.setAttribute('opacity', inflow > 0 ? 1 : 0.15);
-  fB.setAttribute('opacity', pastHuds > 0 ? 1 : 0.15);
+var off = { trunk: 0, top: 0, mid: 0, bot: 0 };
+function animateFlow(s, inflow) {
+  var f = { trunk: inflow, top: s.fTop, mid: s.fMid, bot: s.fBot };
+  Object.keys(f).forEach(function (k) {
+    off[k] -= f[k] / 3800 * 1.6;
+    var el = document.getElementById('fl-' + k);
+    el.setAttribute('stroke-dashoffset', off[k].toFixed(1));
+    el.setAttribute('opacity', f[k] > 0 ? 1 : 0.12);
+  });
 }
 
-/* ---------------- strip chart ---------------- */
-var CW = 960, CH = 300, PX = 52, PT = 16, PB = 34, PR = 14;
-var YMAX = 1400, XSPAN = 120;
+/* ================= strip chart ================= */
+var CW = 960, CH = 300, PX = 52, PT = 16, PB = 34, PR = 14, YMAX = 1400, XSPAN = 120;
 function cy(p) { return PT + (1 - p / YMAX) * (CH - PT - PB); }
-function cx(i, n) { return PX + (i / (XSPAN - 1)) * (CW - PX - PR); }
+function cx(i) { return PX + (i / (XSPAN - 1)) * (CW - PX - PR); }
 function drawChart(s) {
-  var svg = document.getElementById('chart');
   var out = '';
-  // recessive grid + y labels
   [0, 350, 700, 1050, 1400].forEach(function (v) {
     out += '<line x1="' + PX + '" y1="' + cy(v) + '" x2="' + (CW - PR) + '" y2="' + cy(v) + '" stroke="#e2e8f0" stroke-width="1"/>' +
            '<text x="' + (PX - 8) + '" y="' + (cy(v) + 4) + '" text-anchor="end" font-size="11" fill="#64748b">' + v + '</text>';
   });
-  // alarm zones + labeled thresholds (status colors, always labeled)
-  out += '<rect x="' + PX + '" y="' + cy(HIGHHIGH) + '" width="' + (CW - PX - PR) + '" height="' + (cy(HIGH) - cy(HIGHHIGH)) + '" fill="rgba(217,119,6,0.07)"/>';
-  out += '<rect x="' + PX + '" y="' + PT + '" width="' + (CW - PX - PR) + '" height="' + (cy(HIGHHIGH) - PT) + '" fill="rgba(220,38,38,0.07)"/>';
-  out += '<line x1="' + PX + '" y1="' + cy(HIGH) + '" x2="' + (CW - PR) + '" y2="' + cy(HIGH) + '" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4"/>' +
-         '<text x="' + (PX + 6) + '" y="' + (cy(HIGH) + 14) + '" font-size="11" font-weight="700" fill="#92400e">&#9888; HIGH 1175</text>';
-  out += '<line x1="' + PX + '" y1="' + cy(HIGHHIGH) + '" x2="' + (CW - PR) + '" y2="' + cy(HIGHHIGH) + '" stroke="#dc2626" stroke-width="2"/>' +
+  out += '<rect x="' + PX + '" y="' + cy(HIGHHIGH) + '" width="' + (CW - PX - PR) + '" height="' + (cy(HIGH) - cy(HIGHHIGH)) + '" fill="rgba(217,119,6,0.07)"/>' +
+         '<rect x="' + PX + '" y="' + PT + '" width="' + (CW - PX - PR) + '" height="' + (cy(HIGHHIGH) - PT) + '" fill="rgba(220,38,38,0.07)"/>' +
+         '<line x1="' + PX + '" y1="' + cy(HIGH) + '" x2="' + (CW - PR) + '" y2="' + cy(HIGH) + '" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4"/>' +
+         '<text x="' + (PX + 6) + '" y="' + (cy(HIGH) + 14) + '" font-size="11" font-weight="700" fill="#92400e">&#9888; HIGH 1175</text>' +
+         '<line x1="' + PX + '" y1="' + cy(HIGHHIGH) + '" x2="' + (CW - PR) + '" y2="' + cy(HIGHHIGH) + '" stroke="#dc2626" stroke-width="2"/>' +
          '<text x="' + (PX + 6) + '" y="' + (cy(HIGHHIGH) - 6) + '" font-size="11" font-weight="700" fill="#991b1b">&#9940; HIGH-HIGH 1200 &middot; FOST S/D</text>';
-  // x axis: seconds ago
   [0, 29, 59, 89, 119].forEach(function (sec) {
-    var x = cx(sec, XSPAN);
-    var lbl = sec === 119 ? 'now' : '-' + (XSPAN - 1 - sec) + 's';
-    out += '<text x="' + x + '" y="' + (CH - 12) + '" text-anchor="middle" font-size="11" fill="#64748b">' + lbl + '</text>';
+    out += '<text x="' + cx(sec) + '" y="' + (CH - 12) + '" text-anchor="middle" font-size="11" fill="#64748b">' +
+           (sec === 119 ? 'now' : '-' + (XSPAN - 1 - sec) + 's') + '</text>';
   });
-  // series
   if (s.hist.length > 1) {
     var start = XSPAN - s.hist.length;
-    var pts = s.hist.map(function (d, i) { return cx(start + i, XSPAN).toFixed(1) + ',' + cy(d.p).toFixed(1); }).join(' ');
-    out += '<polyline points="' + pts + '" fill="none" stroke="#0369a1" stroke-width="2" stroke-linejoin="round"/>';
+    out += '<polyline points="' + s.hist.map(function (d, i) { return cx(start + i).toFixed(1) + ',' + cy(d.p).toFixed(1); }).join(' ') +
+           '" fill="none" stroke="#0369a1" stroke-width="2" stroke-linejoin="round"/>';
     var last = s.hist[s.hist.length - 1];
-    out += '<circle cx="' + cx(XSPAN - 1, XSPAN) + '" cy="' + cy(last.p) + '" r="4" fill="#0369a1" stroke="#fff" stroke-width="2"/>' +
+    out += '<circle cx="' + cx(XSPAN - 1) + '" cy="' + cy(last.p) + '" r="4" fill="#0369a1" stroke="#fff" stroke-width="2"/>' +
            '<text x="' + (CW - PR - 4) + '" y="' + (cy(last.p) - 10) + '" text-anchor="end" font-size="12" font-weight="700" fill="#0c4a6e">' + last.p + ' psi</text>';
   }
   out += '<g id="xh"></g>';
-  svg.innerHTML = out;
+  document.getElementById('chart').innerHTML = out;
 }
-/* crosshair + tooltip */
 var tip = document.getElementById('tip');
 document.getElementById('chart').addEventListener('mousemove', function (ev) {
   if (!S || S.hist.length < 2) return;
-  var svg = ev.currentTarget, r = svg.getBoundingClientRect();
-  var mx = (ev.clientX - r.left) / r.width * CW;
-  var start = XSPAN - S.hist.length;
-  var i = Math.round((mx - PX) / (CW - PX - PR) * (XSPAN - 1)) - start;
-  i = Math.max(0, Math.min(S.hist.length - 1, i));
-  var d = S.hist[i], x = cx(start + i, XSPAN), y = cy(d.p);
+  var r = ev.currentTarget.getBoundingClientRect();
+  var mx = (ev.clientX - r.left) / r.width * CW, start = XSPAN - S.hist.length;
+  var i = Math.max(0, Math.min(S.hist.length - 1, Math.round((mx - PX) / (CW - PX - PR) * (XSPAN - 1)) - start));
+  var d = S.hist[i], x = cx(start + i), y = cy(d.p);
   document.getElementById('xh').innerHTML =
     '<line x1="' + x + '" y1="' + PT + '" x2="' + x + '" y2="' + (CH - PB) + '" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>' +
     '<circle cx="' + x + '" cy="' + y + '" r="5" fill="#0369a1" stroke="#fff" stroke-width="2"/>';
   tip.style.display = 'block';
   tip.style.left = (ev.clientX + 14) + 'px';
   tip.style.top = (ev.clientY - 10) + 'px';
-  tip.innerHTML = 't=' + d.t + 's &middot; <b>' + d.p + ' psi</b><br>FOST ' + d.r + ' bph &middot; out ' + d.o + ' bph';
+  tip.innerHTML = 't=' + d.t + 's &middot; <b>' + d.p + ' psi</b><br>FOST ' + d.r + ' &middot; CV10 ' + d.a + ' &middot; stor ' + d.b + ' &middot; A.A. ' + d.c + ' bph';
 });
 document.getElementById('chart').addEventListener('mouseleave', function () {
   tip.style.display = 'none';
   var xh = document.getElementById('xh'); if (xh) xh.innerHTML = '';
 });
 
-/* ---------------- UI wiring ---------------- */
+/* ================= UI ================= */
 function fmt(n) { return n.toLocaleString('en-US'); }
 function updateUI(s, flows) {
   document.getElementById('t-sane').textContent = fmt(s.sane);
   document.getElementById('t-rate').textContent = fmt(flows.inflow);
-  document.getElementById('t-out').textContent = fmt(flows.outflow);
+  document.getElementById('t-top').textContent = fmt(s.fTop);
+  document.getElementById('t-mid').textContent = fmt(s.fMid);
+  document.getElementById('t-bot').textContent = fmt(s.fBot);
   document.getElementById('t-pack').textContent = fmt(Math.round(s.pack));
   var st = document.getElementById('t-status'), bn = document.getElementById('banner');
   if (s.tripped) {
     st.className = 'chip crit'; st.innerHTML = '&#9940; TRIPPED';
-    bn.className = 'crit'; bn.innerHTML = '&#9940; HIGH-HIGH &mdash; SANE reached 1200 psi. FOST unit is SHUT DOWN. Open deliveries to bleed the pack, then Reset.';
+    bn.className = 'crit'; bn.innerHTML = '&#9940; HIGH-HIGH &mdash; SANE reached 1200 psi. FOST unit is SHUT DOWN. Open a branch to bleed the pack, then Reset.';
   } else if (s.sane >= HIGH) {
     st.className = 'chip warn'; st.innerHTML = '&#9888; HIGH ALARM';
-    bn.className = 'warn'; bn.innerHTML = '&#9888; SANE HIGH alarm (&ge; 1175 psi) &mdash; reduce FOST rate, start WLLR, or open a delivery before 1200 psi trips FOST.';
+    bn.className = 'warn'; bn.innerHTML = '&#9888; SANE HIGH alarm (&ge; 1175 psi) &mdash; reduce FOST rate, start WLLR, or open another branch before 1200 psi trips FOST.';
   } else {
     st.className = 'chip ok'; st.innerHTML = '&#10003; NORMAL';
     bn.className = ''; bn.innerHTML = '';
   }
-  // event log
-  var log = document.getElementById('log');
   if (s.events.length) {
-    log.innerHTML = s.events.slice(-30).reverse().map(function (e) {
+    document.getElementById('log').innerHTML = s.events.slice(-30).reverse().map(function (e) {
       return '<li class="' + e.lvl + '">[t=' + e.t + 's] ' + e.msg + '</li>';
     }).join('');
   }
-  // 10s table
-  var rows = s.hist.filter(function (d) { return d.t % 10 === 0; }).slice(-12);
-  document.getElementById('tbody').innerHTML = rows.map(function (d) {
-    return '<tr><td>' + d.t + '</td><td>' + d.p + '</td><td>' + d.r + '</td><td>' + d.o + '</td></tr>';
-  }).join('');
+  document.getElementById('tbody').innerHTML = s.hist.filter(function (d) { return d.t % 10 === 0; })
+    .slice(-12).map(function (d) {
+      return '<tr><td>' + d.t + '</td><td>' + d.p + '</td><td>' + d.r + '</td><td>' + d.a + '</td><td>' + d.b + '</td><td>' + d.c + '</td></tr>';
+    }).join('');
 }
-function bindToggle(id, key, onTxt, offTxt) {
+function bindToggle(id, onTxt, offTxt) {
   var b = document.getElementById(id);
   b.addEventListener('click', function () {
-    S[key] = !S[key];
-    b.className = 'toggle ' + (S[key] ? 'on' : 'off');
-    b.textContent = S[key] ? onTxt : offTxt;
+    S[id] = !S[id];
+    b.className = 'toggle ' + (S[id] ? 'on' : 'off');
+    b.textContent = S[id] ? onTxt : offTxt;
   });
 }
 document.getElementById('rate').addEventListener('input', function () {
   S.rate = +this.value;
   document.getElementById('rate-lbl').textContent = fmt(S.rate) + ' bph';
 });
-bindToggle('wllr', 'wllr', 'RUNNING', 'OFF');
-bindToggle('huds', 'huds', 'OPEN', 'CLOSED');
-bindToggle('clvn', 'clvn', 'OPEN', 'CLOSED');
+bindToggle('wllr', 'RUNNING', 'OFF');
+bindToggle('top', 'OPEN', 'CLOSED');
+bindToggle('mid', 'OPEN', 'CLOSED');
+bindToggle('bot', 'OPEN', 'CLOSED');
 document.getElementById('run').addEventListener('click', function () {
-  S.running = !S.running;
-  this.textContent = S.running ? 'Pause' : 'Run';
+  S.running = !S.running; this.textContent = S.running ? 'Pause' : 'Run';
 });
 document.getElementById('reset').addEventListener('click', function () {
   S = freshState();
   document.getElementById('rate').value = S.rate;
   document.getElementById('rate-lbl').textContent = fmt(S.rate) + ' bph';
-  ['wllr', 'huds', 'clvn'].forEach(function (k) {
-    var b = document.getElementById(k);
-    b.className = 'toggle ' + (S[k] ? 'on' : 'off');
-    b.textContent = S[k] ? (k === 'wllr' ? 'RUNNING' : 'OPEN') : (k === 'wllr' ? 'OFF' : 'CLOSED');
-  });
+  [['wllr', 'RUNNING', 'OFF'], ['top', 'OPEN', 'CLOSED'], ['mid', 'OPEN', 'CLOSED'], ['bot', 'OPEN', 'CLOSED']]
+    .forEach(function (t) {
+      var b = document.getElementById(t[0]);
+      b.className = 'toggle ' + (S[t[0]] ? 'on' : 'off');
+      b.textContent = S[t[0]] ? t[1] : t[2];
+    });
   document.getElementById('run').textContent = 'Pause';
   document.getElementById('log').innerHTML = '<li>&mdash; no events yet &mdash;</li>';
 });
 
-/* ---------------- main loop ---------------- */
 S = freshState();
 buildSchematic();
 setInterval(function () {
   if (!S.running) return;
   var flows = step(S);
-  var pastHuds = Math.max(0, flows.outflow - (S.huds ? Math.min(HUDS_CAP, flows.outflow) : 0));
-  updateSchematic(S, flows.inflow, pastHuds);
+  updateSchematic(S, flows.inflow);
   drawChart(S);
   updateUI(S, flows);
 }, TICK);
 setInterval(function () {
   if (!S.running) return;
-  var flows = { inflow: S.tripped ? 0 : S.rate, outflow: 0 };
-  animateFlow(flows.inflow, S.clvn ? flows.inflow * 0.4 : 0);
+  animateFlow(S, S.tripped ? 0 : S.rate);
 }, 40);
 })();
 </script>
