@@ -113,8 +113,8 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 
 <div class="tiles">
 <div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">1080</span> <span class="unit">psi</span></div></div>
-<div class="tile"><div class="lbl">FOST Rate</div><div class="val"><span id="t-rate">2400</span> <span class="unit">bph</span></div></div>
-<div class="tile"><div class="lbl">Total Delivered</div><div class="val"><span id="t-out">2400</span> <span class="unit">bph</span></div></div>
+<div class="tile"><div class="lbl">FOST Rate</div><div class="val"><span id="t-rate">2600</span> <span class="unit">bph</span></div></div>
+<div class="tile"><div class="lbl">Total Delivered</div><div class="val"><span id="t-out">2600</span> <span class="unit">bph</span></div></div>
 <div class="tile"><div class="lbl">Balance</div><div class="val"><span id="t-bal">0</span> <span class="unit">bph</span></div><div class="sub" id="t-bal-sub">in = out</div></div>
 <div class="tile"><div class="lbl">Linepack</div><div class="val"><span id="t-pack">0</span> <span class="unit">bbl</span></div></div>
 <div class="tile"><div class="lbl">Active Alarms</div><div class="val"><span id="t-alm">0</span></div></div>
@@ -141,8 +141,8 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <div class="controls">
 <div class="row1">
 <div class="ctl" style="flex:1 1 240px">
-<label>FOST pump rate &mdash; <span class="rate-val" id="rate-lbl">2,400 bph</span> <span style="font-weight:400;text-transform:none">(max 4,200)</span></label>
-<input type="range" id="rate" min="0" max="4200" step="100" value="2400">
+<label>FOST pump rate &mdash; <span class="rate-val" id="rate-lbl">2,600 bph</span> <span style="font-weight:400;text-transform:none">(max 4,200)</span></label>
+<input type="range" id="rate" min="0" max="4200" step="100" value="2600">
 </div>
 <div class="ctl" style="min-width:130px"><label>WLLR booster</label><button class="toggle off" id="wllr">OFF</button></div>
 <div class="ctl" style="min-width:150px"><label>Match FOST to deliveries</label><button class="btn-bal" id="balance">&#8646; Balance line</button></div>
@@ -175,7 +175,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <tr><td>ALLE</td><td>relief valve 995 psi &middot; HIGH 1,045 psi</td><td>relief lifts at 995</td></tr>
 <tr><td>PITT</td><td>open permissive &lt; 400 psi</td><td>valve will not open above 400 psi</td></tr>
 </tbody></table>
-<table><thead><tr><th>t (s)</th><th>SANE</th><th>MGDR</th><th>ALLE</th><th>PITT</th><th>FOST</th><th>CV10</th><th>Stor</th><th>BOARD</th><th>Bal</th></tr></thead><tbody id="tbody"></tbody></table>
+<table><thead><tr><th>t (s)</th><th>SANE</th><th>MGDR</th><th>ALLE</th><th>PITT</th><th>FOST</th><th>CV10</th><th>Stor</th><th>BOARD</th><th>MNTL</th><th>Bal</th></tr></thead><tbody id="tbody"></tbody></table>
 </details>
 </div>
 <div id="tip"></div>
@@ -197,18 +197,20 @@ var SP = [
   { k: 'board', node: 'BOAR',         label: 'BOARD Tank',          br: 'Bottom branch', def: 400  },
   { k: 'alle',  node: 'ALLE',         label: 'ALLE',                br: 'Bottom branch', def: 400  },
   { k: 'pitt',  node: 'PITT',         label: 'PITT',                br: 'Bottom branch', def: 200  },
-  { k: 'delm',  node: 'DELM',         label: 'DELM',                br: 'Bottom branch', def: 200  }
+  { k: 'delm',  node: 'DELM',         label: 'DELM',                br: 'Bottom branch', def: 200  },
+  { k: 'mntl',  node: 'MNTL',         label: 'MNTL',                br: 'Bottom &mdash; end of line', def: 200 }
 ];
 var SP_BY_NODE = {}; SP.forEach(function (s) { SP_BY_NODE[s.node] = s.k; });
 
 /* nominal pressure profile at 2,400 bph balanced.
+   (2,600 bph = 1,200 CV10 + 1,400 down the A.A. branch, the default balanced case)
    c  = how strongly the station tracks SANE;  fd = friction sensitivity to segment flow
    qn = nominal segment flow (bph) used as the friction reference                       */
 var PROF = {
-  'FOST': { nom: 1180, c: 1.0,  fd: 60,  qn: 2400 },
-  'SANE': { nom: 1080, c: 1.0,  fd: 0,   qn: 2400 },
-  'WLLR': { nom: 1040, c: 1.0,  fd: 40,  qn: 2400 },
-  'MGDR': { nom: 1100, c: 1.0,  fd: 60,  qn: 2400 },
+  'FOST': { nom: 1180, c: 1.0,  fd: 60,  qn: 2600 },
+  'SANE': { nom: 1080, c: 1.0,  fd: 0,   qn: 2600 },
+  'WLLR': { nom: 1040, c: 1.0,  fd: 40,  qn: 2600 },
+  'MGDR': { nom: 1100, c: 1.0,  fd: 60,  qn: 2600 },
   'CV10': { nom: 1020, c: 0.9,  fd: 80,  qn: 1200 },
   'HUD':  { nom: 900,  c: 0.8,  fd: 120, qn: 1200 },
   'SAGA': { nom: 800,  c: 0.7,  fd: 150, qn: 1200 },
@@ -216,13 +218,13 @@ var PROF = {
   'TR16': { nom: 600,  c: 0.5,  fd: 200, qn: 1200 },
   'CLVN': { nom: 480,  c: 0.45, fd: 220, qn: 1200 },
   'MGDR STORAGE': { nom: 900, c: 0.8, fd: 80, qn: 600 },
-  'A.A.': { nom: 1000, c: 0.9,  fd: 90,  qn: 1200 },
-  'BOAR': { nom: 900,  c: 0.8,  fd: 130, qn: 1200 },
-  'VANP': { nom: 1020, c: 0.3,  fd: 40,  qn: 800  },   // discharge-controlled pump
-  'ALLE': { nom: 1005, c: 0.5,  fd: 60,  qn: 800  },
-  'PITT': { nom: 350,  c: 0.5,  fd: 80,  qn: 400  },
-  'DELM': { nom: 320,  c: 0.2,  fd: 90,  qn: 200  },
-  'MNTL': { nom: 260,  c: 0.15, fd: 100, qn: 0    }
+  'A.A.': { nom: 1000, c: 0.9,  fd: 90,  qn: 1400 },
+  'BOAR': { nom: 900,  c: 0.8,  fd: 130, qn: 1400 },
+  'VANP': { nom: 1020, c: 0.3,  fd: 40,  qn: 1000 },   // discharge-controlled pump
+  'ALLE': { nom: 1005, c: 0.5,  fd: 60,  qn: 1000 },
+  'PITT': { nom: 350,  c: 0.5,  fd: 80,  qn: 600  },
+  'DELM': { nom: 320,  c: 0.2,  fd: 90,  qn: 400  },
+  'MNTL': { nom: 260,  c: 0.15, fd: 100, qn: 200  }
 };
 /* station alarm limits */
 var LIM = {
@@ -261,13 +263,13 @@ var ALL = TRUNK.concat(TOP, MID, BOT);
 
 /* ================= model ================= */
 var HIGH = 1175, HIGHHIGH = 1200;
-var BASE = 1041, FRICTION = 6.73e-6, PACK_PSI_PER_BBL = 6, PACK_MIN = -120;
+var BASE = 1035, FRICTION = 6.73e-6, PACK_PSI_PER_BBL = 6, PACK_MIN = -120;
 var PACK_GAIN = 0.4;   // bbl added per tick per (bph of imbalance / 3600) — teaching speed
 var TICK = 100;
 
 var S = null;
 function freshState() {
-  var s = { t: 0, rate: 2400, wllr: false, pack: 0, sane: SANE_NOM, tripped: false,
+  var s = { t: 0, rate: 2600, wllr: false, pack: 0, sane: SANE_NOM, tripped: false,
             sp: {}, press: {}, alarm: {}, hist: [], events: [], running: true };
   SP.forEach(function (d) { s.sp[d.k] = d.def; });
   return s;
@@ -275,7 +277,7 @@ function freshState() {
 function totalDelivery(s) { return SP.reduce(function (a, d) { return a + (s.sp[d.k] || 0); }, 0); }
 function segFlows(s) {
   var top = s.sp.cv10, mid = s.sp.stor;
-  var bot = s.sp.board + s.sp.alle + s.sp.pitt + s.sp.delm;
+  var bot = s.sp.board + s.sp.alle + s.sp.pitt + s.sp.delm + s.sp.mntl;
   return { trunk: top + mid + bot, top: top, mid: mid, bot: bot,
            afterBoard: bot - s.sp.board,
            afterAlle:  bot - s.sp.board - s.sp.alle,
@@ -337,7 +339,8 @@ function step(s) {
   }
   evalAlarms(s);
   s.hist.push({ t: s.t, p: s.sane, mgdr: s.press.MGDR, alle: s.press.ALLE, pitt: s.press.PITT,
-                r: inflow, bal: balance, cv10: s.sp.cv10, stor: s.sp.stor, board: s.sp.board });
+                r: inflow, bal: balance, cv10: s.sp.cv10, stor: s.sp.stor, board: s.sp.board,
+                mntl: s.sp.mntl });
   if (s.hist.length > 120) s.hist.shift();
   return { inflow: inflow, demand: demand, balance: balance };
 }
@@ -568,7 +571,7 @@ function updateUI(s, flows) {
     .slice(-12).map(function (d) {
       return '<tr><td>' + d.t + '</td><td>' + d.p + '</td><td>' + d.mgdr + '</td><td>' + d.alle + '</td><td>' +
              d.pitt + '</td><td>' + d.r + '</td><td>' + d.cv10 + '</td><td>' + d.stor + '</td><td>' +
-             d.board + '</td><td>' + (d.bal > 0 ? '+' : '') + d.bal + '</td></tr>';
+             d.board + '</td><td>' + d.mntl + '</td><td>' + (d.bal > 0 ? '+' : '') + d.bal + '</td></tr>';
     }).join('');
 }
 document.getElementById('rate').addEventListener('input', function () {
