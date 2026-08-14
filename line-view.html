@@ -72,7 +72,10 @@ h1 { margin: 0; font-size: 1.05rem; color: #fff; text-transform: uppercase; lett
   border-radius: 3px; padding: 2px 4px; font-size: 0.78rem; font-weight: 700; font-family: "Courier New", monospace;
   text-align: right; color: var(--primary-color); font-variant-numeric: tabular-nums; }
 .sp input[type="number"]:focus { outline: none; border-color: var(--accent-color); box-shadow: inset 0 0 0 1px var(--accent-color); }
-.sp input[type="range"] { flex: 1 1 100%; accent-color: var(--pump); margin: 0; height: 13px; }
+.sp select.mode { flex: 0 0 auto; border: 1px solid var(--border-color); border-radius: 3px;
+  padding: 1px 2px; font-size: 0.6rem; font-weight: 700; color: var(--pump); background: #fff; }
+.sp .note.flow { color: var(--text-muted); font-weight: 700; font-family: "Courier New", monospace; }
+.sp .note.flow.no { color: var(--crit); }
 .sp .unit { flex: 0 0 auto; font-size: 0.54rem; color: var(--text-muted); font-weight: 600; }
 .sp .note { flex: 1 1 100%; font-size: 0.55rem; font-weight: 800; letter-spacing: 0.01em; line-height: 1.2; }
 .sp .note.ok { color: var(--ok); } .sp .note.no { color: var(--crit); } .sp .note.warn { color: var(--warn); }
@@ -102,7 +105,6 @@ svg { display: block; width: 100%; }
   #schem { min-height: 260px; }
   .logblock { display: none; }
   .disclaimer { display: none; }
-  .sp input[type="range"] { display: none; }
   .grid6.pumps { margin-bottom: 5px; padding-bottom: 5px; }
   .simrow { margin-top: 5px; padding-top: 5px; }
   .sp-title { display: none; }
@@ -136,7 +138,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <a href="Terminal_Notes.html" class="btn-nav">Terminal Notes</a>
 </div>
 </div>
-<p class="disclaimer">Training model &mdash; <strong>pumps FOST / WLLR / VANP set the rate</strong>; a pump below what is arriving packs the line and pressure rises. <strong>Not live SCADA data.</strong></p>
+<p class="disclaimer">Training model &mdash; <strong>pumps FOST / WLLR / VANP run on discharge or suction pressure control</strong>; flow follows the hydraulics, and an imbalance packs the line. <strong>Not live SCADA data.</strong></p>
 
 <div class="tiles">
 <div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">1080</span> <span class="unit">psi</span></div></div>
@@ -163,7 +165,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <div>
 <h2 class="section-title">Controls</h2>
 <div class="controls">
-<div class="sp-title">Pump stations <span class="hint">&mdash; these set the flow rate. A pump set below what is arriving packs the line upstream of it.</span></div>
+<div class="sp-title">Pump stations <span class="hint">&mdash; controlled on pressure (psi). Flow is whatever the hydraulics give at that setpoint.</span></div>
 <div class="grid6 pumps" id="pumps"></div>
 <div class="sp-title">Delivery take-offs <span class="hint">&mdash; bph drawn off at each destination</span></div>
 <div class="grid6" id="setpoints"></div>
@@ -171,7 +173,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <button class="btn-bal" id="balance">&#8646; Balance line</button>
 <button class="btn-run" id="run">Pause</button>
 <button class="btn-reset" id="reset">Reset</button>
-<span style="font-size:0.66rem;color:var(--text-muted)">Balance sets FOST and WLLR to match total deliveries.</span>
+<span style="font-size:0.66rem;color:var(--text-muted)">Balance retunes FOST discharge to match total deliveries.</span>
 </div>
 </div>
 </div>
@@ -215,10 +217,18 @@ var RATE_MAX = 4200;          // FOST maximum pump rate
 var WLLR_BYPASS = 1500;       // rate the line still passes with the WLLR pump off
 
 /* pump stations — rate controls */
+/* Pump stations are controlled on PRESSURE, not flow. Each holds either its
+   discharge (DIS control) or its suction (SUC control) at a setpoint; the flow
+   is whatever the hydraulics deliver at that pressure.
+     C   = pump coefficient, Q = C * sqrt(discharge - downstream pressure)
+     dis = default discharge setpoint, suc = default suction setpoint          */
 var PUMPS = [
-  { k: 'fost', node: 'FOST', label: 'FOST',  br: 'Trunk &mdash; line inlet',      def: 2600, max: RATE_MAX },
-  { k: 'wllr', node: 'WLLR', label: 'WLLR',  br: 'Trunk booster',                 def: 2600, max: RATE_MAX },
-  { k: 'vanp', node: 'VANP', label: 'VANP',  br: 'Bottom branch booster',          def: 1000, max: RATE_MAX }
+  { k: 'fost', node: 'FOST', label: 'FOST', br: 'Trunk - line inlet',
+    modes: ['dis'],        mode: 'dis', dis: 1180, suc: 0,    C: 260 },
+  { k: 'wllr', node: 'WLLR', label: 'WLLR', br: 'Trunk booster',
+    modes: ['suc', 'dis'], mode: 'suc', dis: 1390, suc: 1080, C: 152.7 },
+  { k: 'vanp', node: 'VANP', label: 'VANP', br: 'Bottom branch booster',
+    modes: ['dis', 'suc'], mode: 'dis', dis: 1020, suc: 1100, C: 258 }
 ];
 /* delivery take-offs */
 var SP = [
@@ -236,9 +246,9 @@ var PUMP_BY_NODE = {}; PUMPS.forEach(function (p) { PUMP_BY_NODE[p.node] = p.k; 
 var AFTER_VANP = ['alle', 'pitt', 'delm', 'mntl'];
 
 var PROF = {
-  'FOST': { nom: 1180, c: 1.0,  fd: 60,  qn: 2600, up: 1 },
-  'SANE': { nom: 1080, c: 1.0,  fd: 0,   qn: 2600, up: 1 },
-  'WLLR': { nom: 1040, c: 1.0,  fd: 40,  qn: 2600, up: 1 },
+  'FOST': { nom: 1180, c: 1.0,  fd: 60,  qn: 2600, grp: 'up' },
+  'SANE': { nom: 1080, c: 1.0,  fd: 0,   qn: 2600, grp: 'up' },
+  'WLLR': { nom: 1040, c: 1.0,  fd: 40,  qn: 2600, grp: 'up' },
   'MGDR': { nom: 1100, c: 1.0,  fd: 60,  qn: 2600 },
   'CV10': { nom: 1020, c: 0.9,  fd: 80,  qn: 1200 },
   'HUD':  { nom: 900,  c: 0.8,  fd: 120, qn: 1200 },
@@ -250,10 +260,10 @@ var PROF = {
   'A.A.': { nom: 1000, c: 0.9,  fd: 90,  qn: 1400 },
   'BOAR': { nom: 900,  c: 0.8,  fd: 130, qn: 1400 },
   'VANP': { nom: 1020, c: 0.3,  fd: 40,  qn: 1000 },
-  'ALLE': { nom: 1005, c: 0.5,  fd: 60,  qn: 1000 },
-  'PITT': { nom: 350,  c: 0.5,  fd: 80,  qn: 600  },
-  'DELM': { nom: 320,  c: 0.2,  fd: 90,  qn: 400  },
-  'MNTL': { nom: 260,  c: 0.15, fd: 100, qn: 200  }
+  'ALLE': { grp: 'dn', nom: 1005, c: 0.5,  fd: 60,  qn: 1000 },
+  'PITT': { grp: 'dn', nom: 350,  c: 0.5,  fd: 80,  qn: 600  },
+  'DELM': { grp: 'dn', nom: 320,  c: 0.2,  fd: 90,  qn: 400  },
+  'MNTL': { grp: 'dn', nom: 260,  c: 0.15, fd: 100, qn: 200  }
 };
 var LIM = {
   'SANE': { hi: 1175, hihi: 1200 },
@@ -262,7 +272,9 @@ var LIM = {
   'ALLE': { lo: 995,  hi: 1045, loTag: 'relief' },
   'PITT': { perm: 400 }
 };
-var SANE_NOM = 1080, DOWN_NOM = 1100, QN_TRUNK = 2600;
+var SANE_NOM = 1080, DOWN_NOM = 1100, ALLE_NOM = 1005, QN_TRUNK = 2600;
+var SUC_KP = 15;          // SUC-control gain, bph per psi of error
+var SUC_MIN = 60, SUC_FULL = 220;   // below SUC_MIN a pump cannot lift; full output by SUC_FULL
 var WLLR_DISCH_HEAD = 350;
 
 var TRUNK = [
@@ -294,34 +306,65 @@ var PACK_GAIN = 0.4, DRAIN_MAX = 600, TICK = 100;
 
 var S = null;
 function freshState() {
-  var s = { t: 0, packS: 0, packL: 0, sane: SANE_NOM, tripped: false,
-            pump: {}, sp: {}, eff: {}, press: {}, alarm: {}, hist: [], events: [], running: true };
-  PUMPS.forEach(function (d) { s.pump[d.k] = d.def; });
+  var s = { t: 0, packS: 0, packL: 0, packB: 0,
+            P1: SANE_NOM, P2: DOWN_NOM, P3: ALLE_NOM,
+            sane: SANE_NOM, tripped: false,
+            pump: {}, q: { fost: 2600, wllr: 2600, vanp: 1000 },
+            sp: {}, eff: {}, press: {}, alarm: {}, hist: [], events: [], running: true };
+  PUMPS.forEach(function (d) {
+    s.pump[d.k] = { mode: d.mode, dis: d.dis, suc: d.suc, C: d.C };
+  });
   SP.forEach(function (d) { s.sp[d.k] = d.def; });
   return s;
 }
 /* solve the flow chain: FOST -> WLLR -> MGDR split -> (BOARD) -> VANP -> downstream */
+/* pump output: Q = C*sqrt(discharge - downstream P), or a SUC-control loop that
+   modulates flow to hold its suction at setpoint. Both are limited by how much
+   suction pressure is actually available. */
+function suctionFactor(pSuc) {
+  return Math.max(0, Math.min(1, (pSuc - SUC_MIN) / (SUC_FULL - SUC_MIN)));
+}
+function pumpFlow(s, d, pSuction, pDown, prevQ) {
+  if (d.mode === 'off') return 0;
+  var q;
+  if (d.mode === 'dis') {
+    q = d.C * Math.sqrt(Math.max(0, d.dis - pDown));
+  } else {                                   // SUC control: hold suction at setpoint
+    q = (prevQ || 0) + SUC_KP * (pSuction - d.suc);
+  }
+  return Math.max(0, Math.min(RATE_MAX, q * suctionFactor(pSuction)));
+}
+/* how much of a metered delivery the line can actually give at this pressure */
+function deliveryFactor(p) { return Math.max(0, Math.min(1, (p - 120) / 260)); }
+
 function solve(s) {
-  var fostIn = s.tripped ? 0 : s.pump.fost;
-  // WLLR passes its set rate (bypass rate when the pump is off), limited by what is available
-  var wllrCap = s.pump.wllr > 0 ? s.pump.wllr : WLLR_BYPASS;
-  var availAtWllr = fostIn + (s.packS > 0 ? DRAIN_MAX : 0);
-  var wllrPass = Math.min(wllrCap, availAtWllr);
-  // demand below the split
-  var demandBefore = s.sp.cv10 + s.sp.stor + s.sp.board;          // not through VANP
+  var P1 = s.P1, P2 = s.P2, P3 = s.P3;
+  var pumpOf = {}; PUMPS.forEach(function (d) { pumpOf[d.k] = s.pump[d.k]; });
+  // FOST lifts out of tankage into the SANE section
+  var qF = s.tripped ? 0 : pumpFlow(s, pumpOf.fost, 400, P1, s.q.fost);
+  // WLLR takes suction on the SANE section and discharges into the line below
+  var qW = pumpFlow(s, pumpOf.wllr, P1, P2, s.q.wllr);
+  if (pumpOf.wllr.mode === 'off') qW = Math.min(WLLR_BYPASS, WLLR_BYPASS * suctionFactor(P1));
+  // VANP takes suction off the bottom branch and discharges to ALLE and beyond
+  var qV = pumpFlow(s, pumpOf.vanp, P2, P3, s.q.vanp);
+  // metered deliveries, capped by available pressure and by what the pumps bring
+  var eff = {}, fBefore = deliveryFactor(P2), fAfter = deliveryFactor(P3);
+  ['cv10', 'stor', 'board'].forEach(function (k) { eff[k] = Math.round(s.sp[k] * fBefore); });
+  AFTER_VANP.forEach(function (k) { eff[k] = Math.round(s.sp[k] * fAfter); });
+  var demandBefore = s.sp.cv10 + s.sp.stor + s.sp.board;
   var demandAfter = AFTER_VANP.reduce(function (a, k) { return a + s.sp[k]; }, 0);
-  var vanpPass = Math.min(s.pump.vanp, demandAfter);              // VANP sets what gets past it
-  var demand = demandBefore + vanpPass;
-  var supply = wllrPass + (s.packL > 0 ? DRAIN_MAX : 0);
-  var scale = demand > 0 ? Math.min(1, supply / demand) : 0;      // starved if supply < demand
-  var eff = {};
-  ['cv10', 'stor', 'board'].forEach(function (k) { eff[k] = Math.round(s.sp[k] * scale); });
-  var downScale = demandAfter > 0 ? (vanpPass / demandAfter) * scale : 0;
-  AFTER_VANP.forEach(function (k) { eff[k] = Math.round(s.sp[k] * downScale); });
-  var delivered = Object.keys(eff).reduce(function (a, k) { return a + eff[k]; }, 0);
-  return { fostIn: fostIn, wllrPass: wllrPass, vanpPass: Math.round(vanpPass * scale),
-           demand: demand, delivered: delivered, eff: eff, starved: scale < 0.999,
-           dSane: fostIn - wllrPass, dLine: wllrPass - delivered };
+  var effBefore = eff.cv10 + eff.stor + eff.board;
+  var effAfter = AFTER_VANP.reduce(function (a, k) { return a + eff[k]; }, 0);
+  var delivered = effBefore + effAfter;
+  // pump discharge pressures, consistent with the flow each is moving
+  var disF = Math.round(P1 + Math.pow(qF / pumpOf.fost.C, 2));
+  var disW = pumpOf.wllr.mode === 'off' ? P2 : Math.round(P2 + Math.pow(qW / pumpOf.wllr.C, 2));
+  var disV = pumpOf.vanp.mode === 'off' ? P3 : Math.round(P3 + Math.pow(qV / pumpOf.vanp.C, 2));
+  return { fostIn: Math.round(qF), wllrPass: Math.round(qW), vanpPass: Math.round(qV),
+           disF: disF, disW: disW, disV: disV,
+           demand: demandBefore + demandAfter, delivered: delivered, eff: eff,
+           starved: delivered < demandBefore + demandAfter - 1,
+           dSane: qF - qW, dLine: qW - effBefore - qV, dBot: qV - effAfter };
 }
 function segFlows(s, f) {
   var e = f.eff;
@@ -344,12 +387,16 @@ function segFlowFor(n, sf, f) {
   return sf.trunk;
 }
 /* two pressure drivers: SANE side (between FOST and WLLR) and the line below WLLR */
-function stationPressure(s, n, f, sf, driveUp, driveDown) {
+function stationPressure(s, n, f, sf) {
+  // the three pump stations report their own (computed) discharge pressure
+  if (n.k === 'FOST') return f.disF;
+  if (n.k === 'WLLR') return f.disW;
+  if (n.k === 'VANP') return f.disV;
   var p = PROF[n.k], q = segFlowFor(n, sf, f);
-  var drive = p.up ? driveUp : driveDown;
-  var ref = p.up ? SANE_NOM : DOWN_NOM;
+  var grp = p.grp || 'mid';
+  var drive = grp === 'up' ? s.P1 : grp === 'dn' ? s.P3 : s.P2;
+  var ref = grp === 'up' ? SANE_NOM : grp === 'dn' ? ALLE_NOM : DOWN_NOM;
   var v = p.nom + (drive - ref) * p.c - ((q - p.qn) / RATE_MAX) * p.fd;
-  if (n.k === 'WLLR' && s.pump.wllr > 0) v += WLLR_DISCH_HEAD;
   return Math.max(0, Math.round(v));
 }
 function evalAlarms(s) {
@@ -373,15 +420,18 @@ function evalAlarms(s) {
 function step(s) {
   s.t += 1;
   var f = solve(s);
+  // remember each pump's flow so the SUC-control loops have a previous value
+  s.q.fost = f.fostIn; s.q.wllr = f.wllrPass; s.q.vanp = f.vanpPass;
   s.packS = Math.max(PACK_MIN, s.packS + f.dSane / 3600 * PACK_GAIN);
   s.packL = Math.max(PACK_MIN, s.packL + f.dLine / 3600 * PACK_GAIN);
-  var driveUp = Math.round(BASE + FRICTION * f.fostIn * f.fostIn + s.packS * PACK_PSI_PER_BBL);
-  var driveDown = DOWN_NOM + s.packL * PACK_PSI_PER_BBL
-                - ((f.wllrPass - QN_TRUNK) / RATE_MAX) * 40;
-  s.sane = driveUp;
+  s.packB = Math.max(PACK_MIN, s.packB + f.dBot  / 3600 * PACK_GAIN);
+  s.P1 = Math.round(SANE_NOM + s.packS * PACK_PSI_PER_BBL);
+  s.P2 = Math.round(DOWN_NOM + s.packL * PACK_PSI_PER_BBL);
+  s.P3 = Math.round(ALLE_NOM + s.packB * PACK_PSI_PER_BBL);
+  s.sane = s.P1;
   var sf = segFlows(s, f);
   s.eff = f.eff;
-  ALL.forEach(function (n) { s.press[n.k] = stationPressure(s, n, f, sf, driveUp, driveDown); });
+  ALL.forEach(function (n) { s.press[n.k] = stationPressure(s, n, f, sf); });
   s.press.SANE = s.sane;
   if (s.sane >= HIGHHIGH && !s.tripped) {
     s.tripped = true;
@@ -521,10 +571,11 @@ function updateSchematic(s, f) {
     var nd = document.getElementById('nd-' + n.k);
     if (pk) {                                    // pump station: show the rate it is moving
       var moved = pk === 'fost' ? f.fostIn : pk === 'wllr' ? f.wllrPass : f.vanpPass;
-      rt.textContent = s.pump[pk] > 0 || pk !== 'wllr'
-        ? '↻ ' + moved.toLocaleString('en-US') + ' bph'
-        : '↻ OFF · bypass ' + f.wllrPass.toLocaleString('en-US');
-      var off = s.pump[pk] === 0;
+      var m = s.pump[pk].mode;
+      rt.textContent = m === 'off'
+        ? (pk === 'wllr' ? '↻ OFF · bypass ' + moved.toLocaleString('en-US') : '↻ OFF')
+        : '↻ ' + moved.toLocaleString('en-US') + ' bph · ' + m.toUpperCase();
+      var off = m === 'off';
       rt.setAttribute('fill', off ? '#b91c1c' : '#1d4ed8');
       if (nd) nd.setAttribute('fill', off ? '#dc2626' : '#1d4ed8');
     } else if (sk) {                             // delivery: show effective vs setpoint
@@ -607,20 +658,37 @@ document.getElementById('chart').addEventListener('mouseleave', function () {
 function fmt(n) { return n.toLocaleString('en-US'); }
 function buildControls() {
   document.getElementById('pumps').innerHTML = PUMPS.map(function (d) {
-    return '<div class="sp pump" title="' + d.br.replace(/&mdash;/g, '-') + '"><div class="nm">&#8635; ' + d.label + '</div>' +
-      '<input type="number" id="pp-in-' + d.k + '" min="0" max="' + d.max + '" step="100" value="' + d.def + '">' +
-      '<input type="range" id="pp-rg-' + d.k + '" min="0" max="' + d.max + '" step="100" value="' + d.def + '">' +
-      (d.k === 'wllr' ? '<span class="note warn" id="note-wllr">0 = pump off, line bypasses at ' + WLLR_BYPASS + '</span>' : '') +
+    var opts = d.modes.map(function (m) {
+      return '<option value="' + m + '"' + (m === d.mode ? ' selected' : '') + '>' +
+             (m === 'dis' ? 'DIS ctrl' : 'SUC ctrl') + '</option>';
+    }).join('') + '<option value="off">OFF</option>';
+    return '<div class="sp pump" title="' + d.br + '">' +
+      '<div class="nm">&#8635; ' + d.label + '</div>' +
+      '<select id="pp-mode-' + d.k + '" class="mode">' + opts + '</select>' +
+      '<input type="number" id="pp-sp-' + d.k + '" min="0" max="1600" step="10" value="' + d.dis + '">' +
+      '<span class="unit">psi</span>' +
+      '<span class="note flow" id="pp-q-' + d.k + '">&#8213;</span>' +
       '</div>';
   }).join('');
   PUMPS.forEach(function (d) {
-    var num = document.getElementById('pp-in-' + d.k), rg = document.getElementById('pp-rg-' + d.k);
-    function set(v) {
-      v = Math.max(0, Math.min(d.max, Math.round((+v || 0) / 100) * 100));
-      S.pump[d.k] = v; num.value = v; rg.value = v;
+    var mode = document.getElementById('pp-mode-' + d.k), sp = document.getElementById('pp-sp-' + d.k);
+    function syncSp() {
+      var m = S.pump[d.k].mode;
+      sp.disabled = (m === 'off');
+      sp.value = m === 'suc' ? S.pump[d.k].suc : S.pump[d.k].dis;
     }
-    num.addEventListener('input', function () { set(this.value); });
-    rg.addEventListener('input', function () { set(this.value); });
+    mode.addEventListener('change', function () {
+      S.pump[d.k].mode = this.value;
+      syncSp();
+      S.events.push({ t: S.t, lvl: 'ok', msg: '\u2699 ' + d.label + ' \u2192 ' +
+        (this.value === 'off' ? 'OFF' : this.value.toUpperCase() + ' control at ' +
+         (this.value === 'suc' ? S.pump[d.k].suc : S.pump[d.k].dis) + ' psi') });
+    });
+    sp.addEventListener('input', function () {
+      var v = Math.max(0, Math.min(1600, +this.value || 0));
+      if (S.pump[d.k].mode === 'suc') S.pump[d.k].suc = v; else S.pump[d.k].dis = v;
+    });
+    syncSp();
   });
   document.getElementById('setpoints').innerHTML = SP.map(function (d) {
     return '<div class="sp deliv" title="' + d.br.replace(/&mdash;/g, '-') + '"><div class="nm">&#9660; ' + d.label + '</div>' +
@@ -659,6 +727,17 @@ function updateUI(s, f) {
   document.getElementById('alarms').innerHTML = alms.map(function (a) {
     return '<span class="abadge ' + a.lvl + '">' + a.txt + '</span>';
   }).join('');
+  PUMPS.forEach(function (d) {
+    var el = document.getElementById('pp-q-' + d.k);
+    if (!el) return;
+    var q = d.k === 'fost' ? f.fostIn : d.k === 'wllr' ? f.wllrPass : f.vanpPass;
+    var suc = d.k === 'fost' ? null : d.k === 'wllr' ? s.P1 : s.P2;
+    var dis = d.k === 'fost' ? f.disF : d.k === 'wllr' ? f.disW : f.disV;
+    var m = s.pump[d.k].mode;
+    el.className = 'note flow' + (m === 'off' ? ' no' : '');
+    el.innerHTML = m === 'off' ? 'OFF \u2014 0 bph'
+      : fmt(q) + ' bph &middot; dis ' + fmt(dis) + (suc === null ? '' : ' / suc ' + fmt(suc));
+  });
   var perm = document.getElementById('perm-pitt');
   if (perm) {
     var ok = pittPermissive(s);
@@ -692,13 +771,13 @@ function updateUI(s, f) {
     }).join('');
 }
 document.getElementById('balance').addEventListener('click', function () {
+  // pick the FOST discharge that delivers the current total demand into the SANE section
   var f = solve(S);
-  var target = Math.min(RATE_MAX, Math.round(f.demand / 100) * 100);
-  S.pump.fost = target; S.pump.wllr = target;
-  ['fost', 'wllr'].forEach(function (k) {
-    document.getElementById('pp-in-' + k).value = S.pump[k];
-    document.getElementById('pp-rg-' + k).value = S.pump[k];
-  });
+  var target = Math.min(RATE_MAX, f.demand);
+  S.pump.fost.dis = Math.round((S.P1 + Math.pow(target / S.pump.fost.C, 2)) / 10) * 10;
+  if (S.pump.fost.mode === 'off') S.pump.fost.mode = 'dis';
+  var mode = document.getElementById('pp-mode-fost'), sp = document.getElementById('pp-sp-fost');
+  mode.value = S.pump.fost.mode; sp.disabled = false; sp.value = S.pump.fost.dis;
 });
 document.getElementById('run').addEventListener('click', function () {
   S.running = !S.running; this.textContent = S.running ? 'Pause' : 'Run';
@@ -706,8 +785,9 @@ document.getElementById('run').addEventListener('click', function () {
 document.getElementById('reset').addEventListener('click', function () {
   S = freshState();
   PUMPS.forEach(function (d) {
-    document.getElementById('pp-in-' + d.k).value = d.def;
-    document.getElementById('pp-rg-' + d.k).value = d.def;
+    var mode = document.getElementById('pp-mode-' + d.k), sp = document.getElementById('pp-sp-' + d.k);
+    mode.value = d.mode; sp.disabled = false;
+    sp.value = d.mode === 'suc' ? d.suc : d.dis;
   });
   SP.forEach(function (d) { document.getElementById('sp-in-' + d.k).value = d.def; });
   document.getElementById('run').textContent = 'Pause';
