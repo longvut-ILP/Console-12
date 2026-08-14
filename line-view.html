@@ -19,57 +19,43 @@
 --ok: #16a34a;
 --warn: #d97706;
 --crit: #dc2626;
+--low: #7c3aed;
 --grid: #e2e8f0;
 }
-body {
-font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-background-color: var(--bg-body);
-color: var(--text-dark);
-margin: 0;
-padding: 20px;
-}
-.container {
-max-width: 1320px; margin: 0 auto; background-color: var(--bg-card);
-border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
-padding: 24px; border: 1px solid #64748b;
-}
-.header-section {
-display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
-background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
-padding: 16px 24px; border-radius: 4px; margin-bottom: 8px;
-border-bottom: 4px solid var(--accent-color);
-}
+body { font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-body); color: var(--text-dark); margin: 0; padding: 20px; }
+.container { max-width: 1320px; margin: 0 auto; background-color: var(--bg-card);
+  border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); padding: 24px; border: 1px solid #64748b; }
+.header-section { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+  background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%); padding: 16px 24px; border-radius: 4px;
+  margin-bottom: 8px; border-bottom: 4px solid var(--accent-color); }
 h1 { margin: 0; font-size: 1.35rem; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; }
-.btn-nav {
-background-color: var(--accent-color); color: #0f172a; border: none;
-padding: 8px 16px; font-size: 0.85rem; font-weight: 700; border-radius: 3px;
-cursor: pointer; text-transform: uppercase; text-decoration: none;
-}
+.btn-nav { background-color: var(--accent-color); color: #0f172a; border: none; padding: 8px 16px;
+  font-size: 0.85rem; font-weight: 700; border-radius: 3px; cursor: pointer; text-transform: uppercase; text-decoration: none; }
 .btn-nav:hover { background-color: var(--accent-hover); color: #fff; }
-.disclaimer {
-font-size: 0.78rem; color: var(--text-muted); margin: 0 0 18px;
-padding: 6px 10px; background: #f8fafc; border-left: 3px solid var(--border-color); border-radius: 2px;
-}
-.section-title {
-margin: 22px 0 10px; font-size: 1.05rem; color: var(--primary-color);
-text-transform: uppercase; letter-spacing: 0.04em;
-border-bottom: 2px solid var(--border-color); padding-bottom: 5px; font-weight: 800;
-}
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 6px; }
+.disclaimer { font-size: 0.78rem; color: var(--text-muted); margin: 0 0 18px; padding: 6px 10px;
+  background: #f8fafc; border-left: 3px solid var(--border-color); border-radius: 2px; }
+.section-title { margin: 22px 0 10px; font-size: 1.05rem; color: var(--primary-color); text-transform: uppercase;
+  letter-spacing: 0.04em; border-bottom: 2px solid var(--border-color); padding-bottom: 5px; font-weight: 800; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 12px; margin-bottom: 6px; }
 .tile { border: 1px solid var(--border-color); border-radius: 4px; padding: 10px 14px; background: #f8fafc; }
 .tile .lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 700; }
-.tile .val { font-size: 1.6rem; font-weight: 800; color: var(--primary-color); font-variant-numeric: tabular-nums; line-height: 1.2; }
-.tile .val .unit { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
+.tile .val { font-size: 1.55rem; font-weight: 800; color: var(--primary-color); font-variant-numeric: tabular-nums; line-height: 1.2; }
+.tile .val .unit { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
 .tile.hero .val { color: var(--series); }
 .tile .sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
 .chip { display: inline-block; font-size: 0.8rem; font-weight: 800; border-radius: 999px; padding: 3px 12px; margin-top: 4px; }
 .chip.ok   { color: var(--ok);   background: rgba(22,163,74,0.1);  border: 1px solid rgba(22,163,74,0.4); }
 .chip.warn { color: var(--warn); background: rgba(217,119,6,0.1);  border: 1px solid rgba(217,119,6,0.4); }
 .chip.crit { color: var(--crit); background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.4); }
-/* controls */
+#alarms { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.abadge { font-size: 0.76rem; font-weight: 800; border-radius: 3px; padding: 4px 10px; letter-spacing: 0.02em; }
+.abadge.hi   { color: #92400e; background: #fffbeb; border: 1px solid var(--warn); }
+.abadge.crit { color: #991b1b; background: #fef2f2; border: 1px solid var(--crit); }
+.abadge.lo   { color: #5b21b6; background: #f5f3ff; border: 1px solid var(--low); }
 .controls { border: 1px solid var(--border-color); border-radius: 4px; padding: 14px 16px; background: #f8fafc; }
 .row1 { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; margin-bottom: 14px;
-        padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); }
+  padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); }
 .ctl { min-width: 150px; }
 .ctl label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; }
 .ctl input[type="range"] { width: 100%; accent-color: var(--accent-color); }
@@ -79,15 +65,15 @@ border-bottom: 2px solid var(--border-color); padding-bottom: 5px; font-weight: 
 .sp { background: #fff; border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 10px; }
 .sp .nm { font-size: 0.74rem; font-weight: 800; color: var(--primary-color); text-transform: uppercase; letter-spacing: 0.03em; }
 .sp .br { font-size: 0.66rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
-.sp input {
-width: 100%; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 3px;
-padding: 6px 8px; font-size: 0.95rem; font-weight: 700; font-family: "Courier New", monospace;
-text-align: right; color: var(--primary-color); font-variant-numeric: tabular-nums;
-}
+.sp input { width: 100%; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 3px;
+  padding: 6px 8px; font-size: 0.95rem; font-weight: 700; font-family: "Courier New", monospace;
+  text-align: right; color: var(--primary-color); font-variant-numeric: tabular-nums; }
 .sp input:focus { outline: none; border-color: var(--accent-color); box-shadow: inset 0 0 0 1px var(--accent-color); }
 .sp .unit { font-size: 0.66rem; color: var(--text-muted); font-weight: 600; float: right; margin-top: 3px; }
-.toggle { border: 1px solid var(--border-color); background: #fff; border-radius: 3px;
-  padding: 7px 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+.sp .perm { clear: both; display: block; font-size: 0.64rem; font-weight: 800; padding-top: 5px; letter-spacing: 0.03em; }
+.sp .perm.ok { color: var(--ok); } .sp .perm.no { color: var(--crit); }
+.toggle { border: 1px solid var(--border-color); background: #fff; border-radius: 3px; padding: 7px 12px;
+  font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; }
 .toggle.on  { background: rgba(22,163,74,0.12); border-color: var(--ok); color: #14532d; }
 .toggle.off { background: #fee2e2; border-color: var(--crit); color: #7f1d1d; }
 .btn-run { background: #166534; color: #fff; border: none; padding: 9px 18px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
@@ -98,17 +84,16 @@ text-align: right; color: var(--primary-color); font-variant-numeric: tabular-nu
 #banner.crit { display: block; background: #fef2f2; border: 1px solid var(--crit); color: #991b1b; animation: flash 1s step-end infinite; }
 @keyframes flash { 50% { background: #fee2e2; } }
 .panel { border: 1px solid var(--border-color); border-radius: 4px; overflow-x: auto; background: #fff; }
-svg { display: block; width: 100%; height: auto; min-width: 900px; }
+svg { display: block; width: 100%; height: auto; min-width: 940px; }
 #chart { min-width: 700px; }
 .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.78rem; color: var(--text-muted); padding: 8px 4px 0; }
 .legend .key { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
 .swatch { width: 14px; height: 4px; border-radius: 2px; display: inline-block; }
-#tip { position: fixed; display: none; pointer-events: none; z-index: 50;
-  background: #0f172a; color: #f1f5f9; font-size: 0.76rem; padding: 6px 9px;
-  border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-variant-numeric: tabular-nums; }
-#log { list-style: none; margin: 0; padding: 0; font-size: 0.82rem; max-height: 150px; overflow-y: auto; }
+#tip { position: fixed; display: none; pointer-events: none; z-index: 50; background: #0f172a; color: #f1f5f9;
+  font-size: 0.76rem; padding: 6px 9px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-variant-numeric: tabular-nums; }
+#log { list-style: none; margin: 0; padding: 0; font-size: 0.82rem; max-height: 170px; overflow-y: auto; }
 #log li { padding: 5px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
-#log li.warn { color: #92400e; } #log li.crit { color: #991b1b; font-weight: 700; }
+#log li.warn { color: #92400e; } #log li.crit { color: #991b1b; font-weight: 700; } #log li.lo { color: #5b21b6; }
 details { margin-top: 14px; font-size: 0.82rem; }
 details table { border-collapse: collapse; margin-top: 8px; }
 details th, details td { border: 1px solid var(--border-color); padding: 4px 10px; font-variant-numeric: tabular-nums; }
@@ -124,17 +109,19 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <a href="Terminal_Notes.html" class="btn-nav">Terminal Notes</a>
 </div>
 </div>
-<p class="disclaimer">Simplified training model &mdash; FOST&rarr;SANE&rarr;WLLR trunk into the three-way MGDR split. Set a delivery rate at each destination and watch the line balance or pack. Illustration only, <strong>not live SCADA data</strong>.</p>
+<p class="disclaimer">Simplified training model &mdash; FOST&rarr;SANE&rarr;WLLR trunk into the three-way MGDR split, with the station alarm limits live. Set a delivery rate at each destination and watch the line balance, pack, and alarm. Illustration only, <strong>not live SCADA data</strong>.</p>
 
 <div class="tiles">
-<div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">499</span> <span class="unit">psi</span></div></div>
+<div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">1080</span> <span class="unit">psi</span></div></div>
 <div class="tile"><div class="lbl">FOST Rate</div><div class="val"><span id="t-rate">2400</span> <span class="unit">bph</span></div></div>
 <div class="tile"><div class="lbl">Total Delivered</div><div class="val"><span id="t-out">2400</span> <span class="unit">bph</span></div></div>
 <div class="tile"><div class="lbl">Balance</div><div class="val"><span id="t-bal">0</span> <span class="unit">bph</span></div><div class="sub" id="t-bal-sub">in = out</div></div>
 <div class="tile"><div class="lbl">Linepack</div><div class="val"><span id="t-pack">0</span> <span class="unit">bbl</span></div></div>
+<div class="tile"><div class="lbl">Active Alarms</div><div class="val"><span id="t-alm">0</span></div></div>
 <div class="tile"><div class="lbl">Status</div><div><span id="t-status" class="chip ok">&#10003; NORMAL</span></div></div>
 </div>
 <div id="banner"></div>
+<div id="alarms"></div>
 
 <h2 class="section-title">Controls</h2>
 <div class="controls">
@@ -143,7 +130,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <label>FOST pump rate &mdash; <span class="rate-val" id="rate-lbl">2,400 bph</span> <span style="font-weight:400;text-transform:none">(max 4,200)</span></label>
 <input type="range" id="rate" min="0" max="4200" step="100" value="2400">
 </div>
-<div class="ctl" style="min-width:120px"><label>WLLR booster</label><button class="toggle off" id="wllr">OFF</button></div>
+<div class="ctl" style="min-width:130px"><label>WLLR booster</label><button class="toggle off" id="wllr">OFF</button></div>
 <div class="ctl" style="min-width:150px"><label>Match FOST to deliveries</label><button class="btn-bal" id="balance">&#8646; Balance line</button></div>
 <div class="ctl" style="min-width:170px"><label>Simulation</label>
 <button class="btn-run" id="run">Pause</button>
@@ -156,15 +143,16 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 
 <h2 class="section-title">Pipeline Schematic &mdash; MGDR Three-Way Split</h2>
 <div class="panel">
-<svg id="schem" viewBox="0 0 1100 430" role="img" aria-label="Pipeline schematic: FOST to SANE to WLLR trunk, splitting three ways at MGDR into the CV10 branch, MGDR storage, and the Alleghany Access branch, with delivery rates at each destination">
+<svg id="schem" viewBox="0 0 1100 440" role="img" aria-label="Pipeline schematic: FOST to SANE to WLLR trunk splitting three ways at MGDR, with station pressures, delivery setpoints and alarm limits">
 <g id="pipes"></g><g id="flows"></g><g id="gauges"></g><g id="stations"></g>
 </svg>
 </div>
 <div class="legend">
 <span class="key"><span class="swatch" style="background:#0369a1"></span> flow (dash speed &prop; segment rate)</span>
-<span class="key"><span class="swatch" style="background:#94a3b8"></span> bar above node = station pressure</span>
 <span class="key"><span class="swatch" style="background:#166534"></span> green bph = delivery setpoint</span>
-<span class="key">&#9650; pump &nbsp;&#9632; delivery &nbsp;&#9679; point &nbsp;&#11040; junction</span>
+<span class="key"><span class="swatch" style="background:#d97706"></span> psi turns amber = HIGH</span>
+<span class="key"><span class="swatch" style="background:#dc2626"></span> red = HIGH-HIGH / trip</span>
+<span class="key"><span class="swatch" style="background:#7c3aed"></span> purple = LOW</span>
 </div>
 
 <h2 class="section-title">SANE Pressure &mdash; last 2 minutes</h2>
@@ -179,8 +167,15 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 
 <h2 class="section-title">Event Log</h2>
 <div class="panel"><ul id="log"><li>&mdash; no events yet &mdash;</li></ul></div>
-<details><summary>Data table (10-second readings)</summary>
-<table><thead><tr><th>t (s)</th><th>SANE psi</th><th>FOST</th><th>CV10</th><th>Stor</th><th>BOARD</th><th>ALLE</th><th>PITT</th><th>DELM</th><th>Bal</th></tr></thead><tbody id="tbody"></tbody></table>
+<details><summary>Alarm limits &amp; data table</summary>
+<table style="margin-bottom:14px"><thead><tr><th>Station</th><th>Limit</th><th>Action</th></tr></thead><tbody>
+<tr><td>SANE</td><td>HIGH 1,175 psi &middot; HIGH-HIGH 1,200 psi</td><td>1,200 shuts down the FOST unit</td></tr>
+<tr><td>WLLR discharge</td><td>HIGH 1,450 psi</td><td>alarm</td></tr>
+<tr><td>MGDR</td><td>LOW 1,075 psi &middot; HIGH 1,125 psi</td><td>alarm</td></tr>
+<tr><td>ALLE</td><td>relief valve 995 psi &middot; HIGH 1,045 psi</td><td>relief lifts at 995</td></tr>
+<tr><td>PITT</td><td>open permissive &lt; 400 psi</td><td>valve will not open above 400 psi</td></tr>
+</tbody></table>
+<table><thead><tr><th>t (s)</th><th>SANE</th><th>MGDR</th><th>ALLE</th><th>PITT</th><th>FOST</th><th>CV10</th><th>Stor</th><th>BOARD</th><th>Bal</th></tr></thead><tbody id="tbody"></tbody></table>
 </details>
 </div>
 <div id="tip"></div>
@@ -192,39 +187,73 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
    Trunk:  FOST -> SANE -> WLLR -> MGDR (three-way split)
    Top:    CV10 -> HUD -> SAGA -> BRAD -> TR16 -> CLVN
    Middle: MGDR Storage
-   Bottom: A.A. -> BOAR -> VANP -> ALLE -> PITT -> DELM -> MNTL
-   Delivery setpoints (bph) are taken at CV10, Storage, BOARD, ALLE, PITT, DELM. */
+   Bottom: A.A. -> BOAR -> VANP -> ALLE -> PITT -> DELM -> MNTL          */
 var TRUNK_Y = 215, TOP_Y = 92, BOT_Y = 338, JX = 350;
-var RATE_MAX = 4200;                       // FOST maximum pump rate, bph
+var RATE_MAX = 4200;
 
-/* delivery setpoints: key -> {label, branch, default} */
 var SP = [
-  { k: 'cv10',  node: 'CV10',          label: 'MGDR &rarr; CV10',    br: 'Top branch',    def: 1200 },
-  { k: 'stor',  node: 'MGDR STORAGE',  label: 'MGDR &rarr; Storage', br: 'Middle',        def: 0    },
-  { k: 'board', node: 'BOAR',          label: 'BOARD Tank',          br: 'Bottom branch', def: 400  },
-  { k: 'alle',  node: 'ALLE',          label: 'ALLE',                br: 'Bottom branch', def: 400  },
-  { k: 'pitt',  node: 'PITT',          label: 'PITT',                br: 'Bottom branch', def: 200  },
-  { k: 'delm',  node: 'DELM',          label: 'DELM',                br: 'Bottom branch', def: 200  }
+  { k: 'cv10',  node: 'CV10',         label: 'MGDR &rarr; CV10',    br: 'Top branch',    def: 1200 },
+  { k: 'stor',  node: 'MGDR STORAGE', label: 'MGDR &rarr; Storage', br: 'Middle',        def: 0    },
+  { k: 'board', node: 'BOAR',         label: 'BOARD Tank',          br: 'Bottom branch', def: 400  },
+  { k: 'alle',  node: 'ALLE',         label: 'ALLE',                br: 'Bottom branch', def: 400  },
+  { k: 'pitt',  node: 'PITT',         label: 'PITT',                br: 'Bottom branch', def: 200  },
+  { k: 'delm',  node: 'DELM',         label: 'DELM',                br: 'Bottom branch', def: 200  }
 ];
 var SP_BY_NODE = {}; SP.forEach(function (s) { SP_BY_NODE[s.node] = s.k; });
 
+/* nominal pressure profile at 2,400 bph balanced.
+   c  = how strongly the station tracks SANE;  fd = friction sensitivity to segment flow
+   qn = nominal segment flow (bph) used as the friction reference                       */
+var PROF = {
+  'FOST': { nom: 1180, c: 1.0,  fd: 60,  qn: 2400 },
+  'SANE': { nom: 1080, c: 1.0,  fd: 0,   qn: 2400 },
+  'WLLR': { nom: 1040, c: 1.0,  fd: 40,  qn: 2400 },
+  'MGDR': { nom: 1100, c: 1.0,  fd: 60,  qn: 2400 },
+  'CV10': { nom: 1020, c: 0.9,  fd: 80,  qn: 1200 },
+  'HUD':  { nom: 900,  c: 0.8,  fd: 120, qn: 1200 },
+  'SAGA': { nom: 800,  c: 0.7,  fd: 150, qn: 1200 },
+  'BRAD': { nom: 700,  c: 0.6,  fd: 180, qn: 1200 },
+  'TR16': { nom: 600,  c: 0.5,  fd: 200, qn: 1200 },
+  'CLVN': { nom: 480,  c: 0.45, fd: 220, qn: 1200 },
+  'MGDR STORAGE': { nom: 900, c: 0.8, fd: 80, qn: 600 },
+  'A.A.': { nom: 1000, c: 0.9,  fd: 90,  qn: 1200 },
+  'BOAR': { nom: 900,  c: 0.8,  fd: 130, qn: 1200 },
+  'VANP': { nom: 1020, c: 0.3,  fd: 40,  qn: 800  },   // discharge-controlled pump
+  'ALLE': { nom: 1005, c: 0.5,  fd: 60,  qn: 800  },
+  'PITT': { nom: 350,  c: 0.5,  fd: 80,  qn: 400  },
+  'DELM': { nom: 320,  c: 0.2,  fd: 90,  qn: 200  },
+  'MNTL': { nom: 260,  c: 0.15, fd: 100, qn: 0    }
+};
+/* station alarm limits */
+var LIM = {
+  'SANE': { hi: 1175, hihi: 1200 },
+  'WLLR': { hi: 1450, tag: 'disch' },
+  'MGDR': { lo: 1075, hi: 1125 },
+  'ALLE': { lo: 995,  hi: 1045, loTag: 'relief' },
+  'PITT': { perm: 400 }
+};
+var SANE_NOM = 1080;
+var WLLR_SUCT_RELIEF = 50;   // booster running pulls SANE down (the reason to start it)
+var WLLR_DOWN_BOOST  = 60;   // ...and pushes everything downstream of WLLR up
+var WLLR_DISCH_HEAD  = 350;  // pump head, shown as WLLR discharge pressure
+
 var TRUNK = [
-  { k: 'FOST', x: 62,  kind: 'pump',     off: 0  },
-  { k: 'SANE', x: 158, kind: 'point',    off: 0  },
-  { k: 'WLLR', x: 252, kind: 'pump',     off: 40 },
-  { k: 'MGDR', x: JX,  kind: 'junction', off: 90 }
+  { k: 'FOST', x: 62,  kind: 'pump',     idx: 0 },
+  { k: 'SANE', x: 158, kind: 'point',    idx: 1 },
+  { k: 'WLLR', x: 252, kind: 'pump',     idx: 2 },
+  { k: 'MGDR', x: JX,  kind: 'junction', idx: 3 }
 ];
 function spread(names, y, x0, x1, kinds) {
   var n = names.length, out = [];
   for (var i = 0; i < n; i++) {
     out.push({ k: names[i], x: n === 1 ? x0 : x0 + (x1 - x0) * i / (n - 1), y: y,
-               kind: (kinds && kinds[names[i]]) || 'point', off: 90 + (i + 1) * 58, idx: i });
+               kind: (kinds && kinds[names[i]]) || 'point', idx: i });
   }
   return out;
 }
 var TOP = spread(['CV10', 'HUD', 'SAGA', 'BRAD', 'TR16', 'CLVN'], TOP_Y, 462, 1042,
                  { CV10: 'delivery', CLVN: 'delivery' });
-var MID = [{ k: 'MGDR STORAGE', x: 486, y: TRUNK_Y, kind: 'tank', off: 130, idx: 0 }];
+var MID = [{ k: 'MGDR STORAGE', x: 486, y: TRUNK_Y, kind: 'tank', idx: 0 }];
 var BOT = spread(['A.A.', 'BOAR', 'VANP', 'ALLE', 'PITT', 'DELM', 'MNTL'], BOT_Y, 462, 1042,
                  { BOAR: 'delivery', VANP: 'pump', ALLE: 'delivery', PITT: 'delivery',
                    DELM: 'delivery', MNTL: 'delivery' });
@@ -232,75 +261,112 @@ var ALL = TRUNK.concat(TOP, MID, BOT);
 
 /* ================= model ================= */
 var HIGH = 1175, HIGHHIGH = 1200;
-var BASE = 300, FRICTION = 500 / (3800 * 3800), PACK_PSI_PER_BBL = 6;
-var WLLR_RELIEF = 800, TICK = 100;
+var BASE = 1041, FRICTION = 6.73e-6, PACK_PSI_PER_BBL = 6, PACK_MIN = -120;
+var PACK_GAIN = 0.4;   // bbl added per tick per (bph of imbalance / 3600) — teaching speed
+var TICK = 100;
 
 var S = null;
 function freshState() {
-  var s = { t: 0, rate: 2400, wllr: false, pack: 0, sane: 0, tripped: false, highOn: false,
-            sp: {}, hist: [], events: [], running: true };
+  var s = { t: 0, rate: 2400, wllr: false, pack: 0, sane: SANE_NOM, tripped: false,
+            sp: {}, press: {}, alarm: {}, hist: [], events: [], running: true };
   SP.forEach(function (d) { s.sp[d.k] = d.def; });
   return s;
 }
-function totalDelivery(s) {
-  return SP.reduce(function (a, d) { return a + (s.sp[d.k] || 0); }, 0);
-}
-/* flow remaining in each segment after upstream deliveries are taken off */
+function totalDelivery(s) { return SP.reduce(function (a, d) { return a + (s.sp[d.k] || 0); }, 0); }
 function segFlows(s) {
-  var top = s.sp.cv10;
-  var mid = s.sp.stor;
+  var top = s.sp.cv10, mid = s.sp.stor;
   var bot = s.sp.board + s.sp.alle + s.sp.pitt + s.sp.delm;
-  return {
-    trunk: top + mid + bot,
-    top: top, mid: mid, bot: bot,
-    // bottom branch, flow left after each delivery point
-    afterBoard: bot - s.sp.board,
-    afterAlle:  bot - s.sp.board - s.sp.alle,
-    afterPitt:  bot - s.sp.board - s.sp.alle - s.sp.pitt,
-    afterDelm:  bot - s.sp.board - s.sp.alle - s.sp.pitt - s.sp.delm
-  };
+  return { trunk: top + mid + bot, top: top, mid: mid, bot: bot,
+           afterBoard: bot - s.sp.board,
+           afterAlle:  bot - s.sp.board - s.sp.alle,
+           afterPitt:  bot - s.sp.board - s.sp.alle - s.sp.pitt,
+           afterDelm:  bot - s.sp.board - s.sp.alle - s.sp.pitt - s.sp.delm };
+}
+function segFlowFor(n, f) {
+  if (TOP.indexOf(n) > -1) return f.top;
+  if (MID.indexOf(n) > -1) return f.mid;
+  if (BOT.indexOf(n) > -1) {
+    return n.idx <= 1 ? f.bot : n.idx <= 3 ? f.afterBoard : n.idx <= 4 ? f.afterAlle
+         : n.idx <= 5 ? f.afterPitt : f.afterDelm;
+  }
+  return f.trunk;
+}
+/* station pressure: nominal profile, shifted by how far SANE is off nominal,
+   minus extra friction when the segment runs above its nominal flow */
+function stationPressure(s, n) {
+  var p = PROF[n.k], f = segFlows(s), q = segFlowFor(n, f);
+  // everything downstream of the WLLR booster rides higher when it is running
+  var downstream = n.k !== 'FOST' && n.k !== 'SANE' && n.k !== 'WLLR';
+  var saneEff = s.sane + (s.wllr && downstream ? WLLR_DOWN_BOOST : 0);
+  var v = p.nom + (saneEff - SANE_NOM) * p.c - ((q - p.qn) / RATE_MAX) * p.fd;
+  if (n.k === 'WLLR' && s.wllr) v += WLLR_DISCH_HEAD;    // booster discharge pressure
+  return Math.max(0, Math.round(v));
+}
+/* edge-triggered alarm evaluation */
+function evalAlarms(s) {
+  Object.keys(LIM).forEach(function (k) {
+    var l = LIM[k], p = s.press[k];
+    if (p === undefined || l.perm !== undefined) return;
+    var st = null;
+    if (l.hihi !== undefined && p >= l.hihi) st = 'crit';
+    else if (l.hi !== undefined && p >= l.hi) st = 'hi';
+    else if (l.lo !== undefined && p <= l.lo) st = 'lo';
+    if (st !== (s.alarm[k] || null)) {
+      s.alarm[k] = st;
+      if (st === 'hi') s.events.push({ t: s.t, lvl: 'warn',
+        msg: '⚠ ' + k + (l.tag ? ' ' + l.tag : '') + ' ' + p + ' psi ≥ HIGH ' + l.hi });
+      else if (st === 'lo') s.events.push({ t: s.t, lvl: 'lo',
+        msg: '▼ ' + k + ' ' + p + ' psi ≤ ' + (l.loTag === 'relief' ? 'RELIEF' : 'LOW') + ' ' + l.lo });
+      else if (st === null) s.events.push({ t: s.t, lvl: 'ok', msg: '✓ ' + k + ' back to normal (' + p + ' psi)' });
+    }
+  });
 }
 function step(s) {
   s.t += 1;
   var inflow = s.tripped ? 0 : s.rate;
-  var demand = totalDelivery(s) + (s.wllr ? WLLR_RELIEF : 0);
-  var balance = inflow - demand;                       // + = packing, - = drawing down
-  s.pack = Math.max(0, s.pack + balance / 3600 * 4);   // bbl, x4 teaching speed
+  var demand = totalDelivery(s);
+  var balance = inflow - demand;
+  s.pack = Math.max(PACK_MIN, s.pack + balance / 3600 * PACK_GAIN);
   s.sane = Math.round(BASE + FRICTION * inflow * inflow + s.pack * PACK_PSI_PER_BBL);
+  if (s.wllr) s.sane -= WLLR_SUCT_RELIEF;                    // booster relieves SANE suction
+  ALL.forEach(function (n) { s.press[n.k] = stationPressure(s, n); });
+  s.press.SANE = s.sane;
   if (s.sane >= HIGHHIGH && !s.tripped) {
     s.tripped = true;
     s.events.push({ t: s.t, lvl: 'crit', msg: '⛔ SANE ' + s.sane + ' psi ≥ 1200 HIGH-HIGH — FOST UNIT SHUTDOWN' });
-  } else if (s.sane >= HIGH && !s.highOn) {
-    s.highOn = true;
-    s.events.push({ t: s.t, lvl: 'warn', msg: '⚠ SANE ' + s.sane + ' psi ≥ 1175 HIGH alarm' });
-  } else if (s.sane < HIGH - 25 && s.highOn && !s.tripped) {
-    s.highOn = false;
-    s.events.push({ t: s.t, lvl: 'ok', msg: '✓ SANE back below 1175 — HIGH alarm cleared' });
   }
-  s.hist.push({ t: s.t, p: s.sane, r: inflow, bal: balance,
-                cv10: s.sp.cv10, stor: s.sp.stor, board: s.sp.board,
-                alle: s.sp.alle, pitt: s.sp.pitt, delm: s.sp.delm });
+  evalAlarms(s);
+  s.hist.push({ t: s.t, p: s.sane, mgdr: s.press.MGDR, alle: s.press.ALLE, pitt: s.press.PITT,
+                r: inflow, bal: balance, cv10: s.sp.cv10, stor: s.sp.stor, board: s.sp.board });
   if (s.hist.length > 120) s.hist.shift();
   return { inflow: inflow, demand: demand, balance: balance };
 }
-/* pressure at a station: declines with distance and with the flow in ITS segment */
-function stationPressure(s, inflow, n) {
-  if (n.k === 'FOST') return Math.min(1400, s.sane + 90);
-  if (n.k === 'SANE') return s.sane;
-  var f = segFlows(s), q;
-  if (TOP.indexOf(n) > -1)      q = f.top;
-  else if (MID.indexOf(n) > -1) q = f.mid;
-  else if (BOT.indexOf(n) > -1) {
-    q = n.idx <= 1 ? f.bot : n.idx <= 3 ? f.afterBoard : n.idx <= 4 ? f.afterAlle
-      : n.idx <= 5 ? f.afterPitt : f.afterDelm;
-  } else q = f.trunk;
-  if (q <= 0) return 0;
-  var drop = n.off * 1.15 * (q / RATE_MAX + 0.15);
-  return Math.max(40, Math.round(s.sane - drop));
+function pittPermissive(s) { return (s.press.PITT || 0) < LIM.PITT.perm; }
+function activeAlarms(s) {
+  var out = [];
+  if (s.tripped) out.push({ lvl: 'crit', txt: '⛔ SANE HIGH-HIGH — FOST S/D' });
+  Object.keys(LIM).forEach(function (k) {
+    var st = s.alarm[k], l = LIM[k];
+    if (!st) return;
+    var p = s.press[k];
+    if (st === 'hi')  out.push({ lvl: 'hi',   txt: '⚠ ' + k + (l.tag ? ' ' + l.tag : '') + ' HIGH ' + p + ' psi' });
+    if (st === 'lo')  out.push({ lvl: 'lo',   txt: '▼ ' + k + ' ' + (l.loTag === 'relief' ? 'RELIEF' : 'LOW') + ' ' + p + ' psi' });
+    if (st === 'crit' && k !== 'SANE') out.push({ lvl: 'crit', txt: '⛔ ' + k + ' ' + p + ' psi' });
+  });
+  if (!pittPermissive(s)) out.push({ lvl: 'hi', txt: '🔒 PITT locked out — ' + s.press.PITT + ' psi > 400' });
+  return out;
 }
 
 /* ================= schematic ================= */
-function gaugeH(p) { return Math.max(0, (p / 1400) * 40); }
+function gaugeH(p) { return Math.max(0, (p / 1500) * 40); }
+function limitText(k) {
+  var l = LIM[k]; if (!l) return '';
+  if (l.perm !== undefined) return 'open < ' + l.perm;
+  if (l.lo !== undefined && l.hi !== undefined) return (l.loTag === 'relief' ? 'R' : 'L') + l.lo + ' / H' + l.hi;
+  if (l.hihi !== undefined) return 'H' + l.hi + ' / HH' + l.hihi;
+  if (l.hi !== undefined) return 'H' + l.hi + (l.tag ? ' ' + l.tag : '');
+  return '';
+}
 function buildSchematic() {
   var pipes = '', flows = '', gg = '', st = '';
   var trunkD = 'M62 ' + TRUNK_Y + ' H' + JX;
@@ -324,13 +390,16 @@ function buildSchematic() {
     var lblY = n.kind === 'junction' ? y + 34 : y + 30;
     st += shape +
       '<text x="' + n.x + '" y="' + lblY + '" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">' + n.k + '</text>' +
-      '<text x="' + n.x + '" y="' + (lblY + 15) + '" text-anchor="middle" font-size="10.5" fill="#64748b" id="pv-' + n.k + '">- psi</text>';
+      '<text x="' + n.x + '" y="' + (lblY + 15) + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#64748b" id="pv-' + n.k + '">- psi</text>';
+    var row = lblY + 29;
     if (SP_BY_NODE[n.k]) {
-      // storage sits on the trunk row — its setpoint goes to the right of the tank so it
-      // does not collide with the BOTTOM branch title underneath
       st += n.kind === 'tank'
         ? '<text x="' + (n.x + 24) + '" y="' + (y + 5) + '" text-anchor="start" font-size="10.5" font-weight="700" fill="#166534" id="sp-' + n.k + '">- bph</text>'
-        : '<text x="' + n.x + '" y="' + (lblY + 29) + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#166534" id="sp-' + n.k + '">- bph</text>';
+        : '<text x="' + n.x + '" y="' + row + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#166534" id="sp-' + n.k + '">- bph</text>';
+      if (n.kind !== 'tank') row += 13;
+    }
+    if (LIM[n.k]) {
+      st += '<text x="' + n.x + '" y="' + row + '" text-anchor="middle" font-size="9.5" fill="#94a3b8">' + limitText(n.k) + '</text>';
     }
     gg += '<rect x="' + (n.x - 5) + '" y="' + (y - 18) + '" width="10" height="0" rx="3" fill="#0369a1" id="bar-' + n.k + '"/>';
     if (n.k === 'SANE') {
@@ -344,17 +413,22 @@ function buildSchematic() {
   document.getElementById('gauges').innerHTML = gg;
   document.getElementById('stations').innerHTML = st;
 }
-function updateSchematic(s, inflow) {
+var ALARM_FILL = { crit: '#dc2626', hi: '#d97706', lo: '#7c3aed' };
+function updateSchematic(s) {
   ALL.forEach(function (n) {
-    var p = stationPressure(s, inflow, n), h = gaugeH(p), y = n.y || TRUNK_Y;
+    var p = s.press[n.k] || 0, h = gaugeH(p), y = n.y || TRUNK_Y;
     var bar = document.getElementById('bar-' + n.k);
     bar.setAttribute('height', h.toFixed(1));
     bar.setAttribute('y', (y - 18 - h).toFixed(1));
-    document.getElementById('pv-' + n.k).textContent = p ? p + ' psi' : 'no flow';
+    var state = n.k === 'SANE' ? (s.tripped || p >= HIGHHIGH ? 'crit' : p >= HIGH ? 'hi' : null) : (s.alarm[n.k] || null);
+    if (n.k === 'PITT' && !state && !pittPermissive(s)) state = 'hi';
+    bar.setAttribute('fill', state ? ALARM_FILL[state] : '#0369a1');
+    var pv = document.getElementById('pv-' + n.k);
+    pv.textContent = p + ' psi' + (n.k === 'WLLR' && s.wllr ? ' disch' : '');
+    pv.setAttribute('fill', state ? ALARM_FILL[state] : '#64748b');
     var spk = SP_BY_NODE[n.k];
     if (spk) {
-      var v = s.sp[spk];
-      var el = document.getElementById('sp-' + n.k);
+      var v = s.sp[spk], el = document.getElementById('sp-' + n.k);
       el.textContent = v > 0 ? '▼ ' + v.toLocaleString('en-US') + ' bph' : 'closed';
       el.setAttribute('fill', v > 0 ? '#166534' : '#b91c1c');
       var nd = document.getElementById('nd-' + n.k);
@@ -365,7 +439,7 @@ function updateSchematic(s, inflow) {
 var off = { trunk: 0, top: 0, mid: 0, bot: 0 };
 function animateFlow(s) {
   var f = segFlows(s);
-  var live = s.tripped ? { trunk: 0, top: f.top, mid: f.mid, bot: f.bot } : f;
+  var live = { trunk: s.tripped ? 0 : f.trunk, top: f.top, mid: f.mid, bot: f.bot };
   ['trunk', 'top', 'mid', 'bot'].forEach(function (k) {
     off[k] -= live[k] / RATE_MAX * 1.6;
     var el = document.getElementById('fl-' + k);
@@ -418,10 +492,9 @@ document.getElementById('chart').addEventListener('mousemove', function (ev) {
   tip.style.display = 'block';
   tip.style.left = (ev.clientX + 14) + 'px';
   tip.style.top = (ev.clientY - 10) + 'px';
-  tip.innerHTML = 't=' + d.t + 's &middot; <b>' + d.p + ' psi</b><br>FOST ' + d.r +
-    ' &middot; balance ' + (d.bal > 0 ? '+' : '') + d.bal + ' bph<br>CV10 ' + d.cv10 +
-    ' &middot; stor ' + d.stor + ' &middot; BOARD ' + d.board + '<br>ALLE ' + d.alle +
-    ' &middot; PITT ' + d.pitt + ' &middot; DELM ' + d.delm;
+  tip.innerHTML = 't=' + d.t + 's &middot; <b>SANE ' + d.p + ' psi</b><br>MGDR ' + d.mgdr +
+    ' &middot; ALLE ' + d.alle + ' &middot; PITT ' + d.pitt + ' psi<br>FOST ' + d.r +
+    ' bph &middot; balance ' + (d.bal > 0 ? '+' : '') + d.bal;
 });
 document.getElementById('chart').addEventListener('mouseleave', function () {
   tip.style.display = 'none';
@@ -434,11 +507,20 @@ function buildSetpoints() {
   document.getElementById('setpoints').innerHTML = SP.map(function (d) {
     return '<div class="sp"><div class="nm">' + d.label + '</div><div class="br">' + d.br + '</div>' +
            '<input type="number" id="sp-in-' + d.k + '" min="0" max="' + RATE_MAX + '" step="100" value="' + d.def + '">' +
-           '<span class="unit">bph</span></div>';
+           '<span class="unit">bph</span>' +
+           (d.k === 'pitt' ? '<span class="perm ok" id="perm-pitt">&#128275; OPEN OK</span>' : '') +
+           '</div>';
   }).join('');
   SP.forEach(function (d) {
     document.getElementById('sp-in-' + d.k).addEventListener('input', function () {
       var v = Math.max(0, Math.min(RATE_MAX, +this.value || 0));
+      // PITT open permissive: the valve will not open while line pressure is above 400 psi
+      if (d.k === 'pitt' && S.sp.pitt === 0 && v > 0 && !pittPermissive(S)) {
+        this.value = 0;
+        S.events.push({ t: S.t, lvl: 'warn',
+          msg: '🔒 PITT will not open — ' + S.press.PITT + ' psi above the 400 psi permissive' });
+        return;
+      }
       S.sp[d.k] = v;
     });
   });
@@ -452,6 +534,17 @@ function updateUI(s, flows) {
   document.getElementById('t-bal').textContent = (bal > 0 ? '+' : '') + fmt(bal);
   document.getElementById('t-bal-sub').textContent =
     bal > 0 ? 'packing the line' : bal < 0 ? 'drawing line down' : 'in = out';
+  var alms = activeAlarms(s);
+  document.getElementById('t-alm').textContent = alms.length;
+  document.getElementById('alarms').innerHTML = alms.map(function (a) {
+    return '<span class="abadge ' + a.lvl + '">' + a.txt + '</span>';
+  }).join('');
+  var perm = document.getElementById('perm-pitt');
+  if (perm) {
+    var ok = pittPermissive(s);
+    perm.className = 'perm ' + (ok ? 'ok' : 'no');
+    perm.innerHTML = ok ? '&#128275; OPEN OK (&lt;400)' : '&#128274; LOCKED ' + s.press.PITT + ' psi';
+  }
   var st = document.getElementById('t-status'), bn = document.getElementById('banner');
   if (s.tripped) {
     st.className = 'chip crit'; st.innerHTML = '&#9940; TRIPPED';
@@ -459,20 +552,23 @@ function updateUI(s, flows) {
   } else if (s.sane >= HIGH) {
     st.className = 'chip warn'; st.innerHTML = '&#9888; HIGH ALARM';
     bn.className = 'warn'; bn.innerHTML = '&#9888; SANE HIGH alarm (&ge; 1175 psi) &mdash; cut FOST rate, start WLLR, or raise a delivery setpoint before 1200 psi trips FOST.';
+  } else if (alms.length) {
+    st.className = 'chip warn'; st.innerHTML = '&#9888; ' + alms.length + ' ALARM' + (alms.length > 1 ? 'S' : '');
+    bn.className = ''; bn.innerHTML = '';
   } else {
     st.className = 'chip ok'; st.innerHTML = '&#10003; NORMAL';
     bn.className = ''; bn.innerHTML = '';
   }
   if (s.events.length) {
-    document.getElementById('log').innerHTML = s.events.slice(-30).reverse().map(function (e) {
+    document.getElementById('log').innerHTML = s.events.slice(-40).reverse().map(function (e) {
       return '<li class="' + e.lvl + '">[t=' + e.t + 's] ' + e.msg + '</li>';
     }).join('');
   }
   document.getElementById('tbody').innerHTML = s.hist.filter(function (d) { return d.t % 10 === 0; })
     .slice(-12).map(function (d) {
-      return '<tr><td>' + d.t + '</td><td>' + d.p + '</td><td>' + d.r + '</td><td>' + d.cv10 + '</td><td>' +
-             d.stor + '</td><td>' + d.board + '</td><td>' + d.alle + '</td><td>' + d.pitt + '</td><td>' +
-             d.delm + '</td><td>' + (d.bal > 0 ? '+' : '') + d.bal + '</td></tr>';
+      return '<tr><td>' + d.t + '</td><td>' + d.p + '</td><td>' + d.mgdr + '</td><td>' + d.alle + '</td><td>' +
+             d.pitt + '</td><td>' + d.r + '</td><td>' + d.cv10 + '</td><td>' + d.stor + '</td><td>' +
+             d.board + '</td><td>' + (d.bal > 0 ? '+' : '') + d.bal + '</td></tr>';
     }).join('');
 }
 document.getElementById('rate').addEventListener('input', function () {
@@ -485,8 +581,7 @@ document.getElementById('wllr').addEventListener('click', function () {
   this.textContent = S.wllr ? 'RUNNING' : 'OFF';
 });
 document.getElementById('balance').addEventListener('click', function () {
-  var t = Math.min(RATE_MAX, totalDelivery(S));
-  S.rate = Math.round(t / 100) * 100;
+  S.rate = Math.round(Math.min(RATE_MAX, totalDelivery(S)) / 100) * 100;
   document.getElementById('rate').value = S.rate;
   document.getElementById('rate-lbl').textContent = fmt(S.rate) + ' bph';
 });
@@ -502,6 +597,7 @@ document.getElementById('reset').addEventListener('click', function () {
   w.className = 'toggle off'; w.textContent = 'OFF';
   document.getElementById('run').textContent = 'Pause';
   document.getElementById('log').innerHTML = '<li>&mdash; no events yet &mdash;</li>';
+  document.getElementById('alarms').innerHTML = '';
 });
 
 S = freshState();
@@ -510,7 +606,7 @@ buildSchematic();
 setInterval(function () {
   if (!S.running) return;
   var flows = step(S);
-  updateSchematic(S, flows.inflow);
+  updateSchematic(S);
   drawChart(S);
   updateUI(S, flows);
 }, TICK);
