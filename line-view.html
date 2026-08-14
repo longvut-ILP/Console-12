@@ -135,7 +135,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <div class="controls">
 <div class="ctl" style="flex:1 1 200px">
 <label>FOST pump rate &mdash; <span class="rate-val" id="rate-lbl">2,400 bph</span></label>
-<input type="range" id="rate" min="0" max="3800" step="100" value="2400">
+<input type="range" id="rate" min="0" max="4200" step="100" value="2400">
 </div>
 <div class="ctl"><label>WLLR booster</label><button class="toggle off" id="wllr">OFF</button></div>
 <div class="ctl"><label>Top &mdash; CV10 branch</label><button class="toggle on" id="top">OPEN</button></div>
@@ -211,6 +211,7 @@ var ALL = TRUNK.concat(TOP, MID, BOT);
 
 /* ================= model ================= */
 var HIGH = 1175, HIGHHIGH = 1200;
+var RATE_MAX = 4200;                                  // FOST maximum pump rate, bph
 var BASE = 300, FRICTION = 500 / (3800 * 3800), PACK_PSI_PER_BBL = 6;
 var CAP_TOP = 1800, CAP_MID = 1200, CAP_BOT = 1600, WLLR_RELIEF = 800;
 var TICK = 100;
@@ -262,7 +263,7 @@ function stationPressure(s, inflow, st) {
   var f = br === 'top' ? s.fTop : br === 'mid' ? s.fMid : br === 'bot' ? s.fBot : inflow;
   var open = br === 'trunk' || (br === 'top' && s.top) || (br === 'mid' && s.mid) || (br === 'bot' && s.bot);
   if (!open) return 0;
-  var drop = st.off * 1.15 * (f / 3800 + 0.15);
+  var drop = st.off * 1.15 * (f / RATE_MAX + 0.15);
   return Math.max(40, Math.round(s.sane - drop));
 }
 
@@ -325,7 +326,7 @@ var off = { trunk: 0, top: 0, mid: 0, bot: 0 };
 function animateFlow(s, inflow) {
   var f = { trunk: inflow, top: s.fTop, mid: s.fMid, bot: s.fBot };
   Object.keys(f).forEach(function (k) {
-    off[k] -= f[k] / 3800 * 1.6;
+    off[k] -= f[k] / RATE_MAX * 1.6;
     var el = document.getElementById('fl-' + k);
     el.setAttribute('stroke-dashoffset', off[k].toFixed(1));
     el.setAttribute('opacity', f[k] > 0 ? 1 : 0.12);
