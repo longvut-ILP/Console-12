@@ -15,7 +15,7 @@
 --text-dark: #1e293b;
 --text-muted: #64748b;
 --border-color: #94a3b8;
---series: #0369a1;
+--series: #1d4ed8;
 --pump: #1d4ed8;
 --ok: #16a34a;
 --warn: #d97706;
@@ -183,9 +183,9 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 </div>
 
 <div>
-<h2 class="section-title">SANE Pressure &mdash; last 2 minutes</h2>
+<h2 class="section-title">Live Trend &mdash; SANE &middot; MGDR &middot; ALLE (last 2 min)</h2>
 <div class="panel">
-<svg id="chart" viewBox="0 0 960 300" role="img" aria-label="Live line chart of SANE pressure with High alarm at 1175 psi and High-High at 1200 psi"></svg>
+<svg id="chart" viewBox="0 0 960 300" role="img" aria-label="Live trend of SANE, MGDR and ALLE pressure with the SANE High alarm at 1175 psi and High-High at 1200 psi"></svg>
 </div>
 
 <h2 class="section-title logblock">Event Log</h2>
@@ -605,34 +605,98 @@ function animateFlow(s, f) {
 }
 
 /* ================= strip chart ================= */
-var CW = 960, CH = 300, PX = 52, PT = 16, PB = 34, PR = 14, YMAX = 1400, XSPAN = 120;
-function cy(p) { return PT + (1 - p / YMAX) * (CH - PT - PB); }
+var CW = 960, CH = 300, PX = 52, PT = 16, PB = 60, PR = 62, XSPAN = 120;
+var YLO = 900, YHI = 1250;   // auto-ranged each frame, snapped to 50 psi
+/* three trended stations. Palette validated for colour-vision separation; every
+   line is also direct-labelled at its right end, so identity is never colour-alone. */
+var SERIES = [
+  { k: 'p',    label: 'SANE', color: '#1d4ed8' },
+  { k: 'mgdr', label: 'MGDR', color: '#047857' },
+  { k: 'alle', label: 'ALLE', color: '#a21caf' }
+];
+function cy(p) {
+  var f = (p - YLO) / (YHI - YLO);
+  return PT + (1 - Math.max(-0.15, Math.min(1.15, f))) * (CH - PT - PB);
+}
+/* keep the window around the trended data, always showing the SANE trip line
+   and the ALLE relief point so the limits stay meaningful */
+function autoRange(s) {
+  var lo = Math.min(995, HIGHHIGH), hi = HIGHHIGH;
+  s.hist.forEach(function (d) {
+    SERIES.forEach(function (se) {
+      var v = d[se.k]; if (v == null) return;
+      if (v < lo) lo = v; if (v > hi) hi = v;
+    });
+  });
+  var pad = Math.max(25, (hi - lo) * 0.08);
+  lo = Math.floor((lo - pad) / 50) * 50;
+  hi = Math.ceil((hi + pad) / 50) * 50;
+  if (hi - lo < 300) { var mid = (hi + lo) / 2; lo = Math.floor((mid - 150) / 50) * 50; hi = lo + 300; }
+  YLO = Math.max(0, lo); YHI = hi;
+}
 function cx(i) { return PX + (i / (XSPAN - 1)) * (CW - PX - PR); }
 function drawChart(s) {
   var out = '';
-  [0, 350, 700, 1050, 1400].forEach(function (v) {
+  autoRange(s);
+  var ticks = [];
+  for (var gi = 0; gi <= 4; gi++) ticks.push(Math.round(YLO + (YHI - YLO) * gi / 4));
+  ticks.forEach(function (v) {
     out += '<line x1="' + PX + '" y1="' + cy(v) + '" x2="' + (CW - PR) + '" y2="' + cy(v) + '" stroke="#e2e8f0" stroke-width="1"/>' +
            '<text x="' + (PX - 8) + '" y="' + (cy(v) + 4) + '" text-anchor="end" font-size="11" fill="#64748b">' + v + '</text>';
   });
   out += '<rect x="' + PX + '" y="' + cy(HIGHHIGH) + '" width="' + (CW - PX - PR) + '" height="' + (cy(HIGH) - cy(HIGHHIGH)) + '" fill="rgba(217,119,6,0.07)"/>' +
          '<rect x="' + PX + '" y="' + PT + '" width="' + (CW - PX - PR) + '" height="' + (cy(HIGHHIGH) - PT) + '" fill="rgba(220,38,38,0.07)"/>' +
          '<line x1="' + PX + '" y1="' + cy(HIGH) + '" x2="' + (CW - PR) + '" y2="' + cy(HIGH) + '" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4"/>' +
-         '<text x="' + (PX + 6) + '" y="' + (cy(HIGH) + 14) + '" font-size="11" font-weight="700" fill="#92400e">&#9888; HIGH 1175</text>' +
+         '<text x="' + (PX + 6) + '" y="' + (cy(HIGH) + 13) + '" font-size="10.5" font-weight="700" fill="#92400e">&#9888; SANE HIGH 1175</text>' +
          '<line x1="' + PX + '" y1="' + cy(HIGHHIGH) + '" x2="' + (CW - PR) + '" y2="' + cy(HIGHHIGH) + '" stroke="#dc2626" stroke-width="2"/>' +
-         '<text x="' + (PX + 6) + '" y="' + (cy(HIGHHIGH) - 6) + '" font-size="11" font-weight="700" fill="#991b1b">&#9940; HIGH-HIGH 1200 &middot; FOST S/D</text>';
+         '<text x="' + (PX + 6) + '" y="' + (cy(HIGHHIGH) - 5) + '" font-size="10.5" font-weight="700" fill="#991b1b">&#9940; HIGH-HIGH 1200 &middot; FOST S/D</text>';
   [0, 29, 59, 89, 119].forEach(function (sec) {
-    out += '<text x="' + cx(sec) + '" y="' + (CH - 12) + '" text-anchor="middle" font-size="11" fill="#64748b">' +
+    out += '<text x="' + cx(sec) + '" y="' + (CH - PB + 16) + '" text-anchor="middle" font-size="11" fill="#64748b">' +
            (sec === 119 ? 'now' : '-' + (XSPAN - 1 - sec) + 's') + '</text>';
   });
   if (s.hist.length > 1) {
     var start = XSPAN - s.hist.length;
-    out += '<polyline points="' + s.hist.map(function (d, i) { return cx(start + i).toFixed(1) + ',' + cy(d.p).toFixed(1); }).join(' ') +
-           '" fill="none" stroke="#0369a1" stroke-width="2" stroke-linejoin="round"/>';
-    var last = s.hist[s.hist.length - 1];
-    out += '<circle cx="' + cx(XSPAN - 1) + '" cy="' + cy(last.p) + '" r="4" fill="#0369a1" stroke="#fff" stroke-width="2"/>' +
-           '<text x="' + (CW - PR - 4) + '" y="' + (cy(last.p) - 10) + '" text-anchor="end" font-size="12" font-weight="700" fill="#0c4a6e">' + last.p + ' psi</text>';
+    var ends = [];
+    SERIES.forEach(function (se) {
+      var pts = s.hist.map(function (d, i) {
+        return cx(start + i).toFixed(1) + ',' + cy(d[se.k] || 0).toFixed(1);
+      }).join(' ');
+      out += '<polyline points="' + pts + '" fill="none" stroke="' + se.color +
+             '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+      var last = s.hist[s.hist.length - 1];
+      ends.push({ se: se, v: last[se.k] || 0, y: cy(last[se.k] || 0) });
+    });
+    // stagger the end labels so close-running lines stay readable
+    ends.sort(function (a, b) { return a.y - b.y; });
+    for (var i = 1; i < ends.length; i++) {
+      if (ends[i].y - ends[i - 1].y < 12) ends[i].y = ends[i - 1].y + 12;
+    }
+    ends.forEach(function (e) {
+      out += '<circle cx="' + cx(XSPAN - 1) + '" cy="' + cy(e.v) + '" r="3.5" fill="' + e.se.color +
+             '" stroke="#fff" stroke-width="1.5"/>' +
+             '<text x="' + (CW - PR + 6) + '" y="' + (e.y + 3.5) + '" font-size="10.5" font-weight="700" fill="' +
+             e.se.color + '">' + e.se.label + ' ' + e.v + '</text>';
+    });
   }
-  out += '<g id="xh"></g>';
+  // legend row under the axis — identity never rests on colour alone
+  var lx = PX;
+  SERIES.forEach(function (se) {
+    out += '<rect x="' + lx + '" y="' + (CH - 18) + '" width="14" height="3" rx="1.5" fill="' + se.color + '"/>' +
+           '<text x="' + (lx + 19) + '" y="' + (CH - 12) + '" font-size="10.5" font-weight="700" fill="#64748b">' +
+           se.label + '</text>';
+    lx += 68;
+  });
+  // crosshair, rendered here so the redraw does not wipe it
+  if (s.hoverIdx != null && s.hist.length > 1) {
+    var hi = Math.max(0, Math.min(s.hist.length - 1, s.hoverIdx));
+    var hd = s.hist[hi], hx = cx(XSPAN - s.hist.length + hi);
+    out += '<line x1="' + hx + '" y1="' + PT + '" x2="' + hx + '" y2="' + (CH - PB) +
+           '" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>' +
+           SERIES.map(function (se) {
+             return '<circle cx="' + hx + '" cy="' + cy(hd[se.k] || 0) + '" r="4.5" fill="' + se.color +
+                    '" stroke="#fff" stroke-width="2"/>';
+           }).join('');
+  }
   document.getElementById('chart').innerHTML = out;
 }
 var tip = document.getElementById('tip');
@@ -641,21 +705,20 @@ document.getElementById('chart').addEventListener('mousemove', function (ev) {
   var r = ev.currentTarget.getBoundingClientRect();
   var mx = (ev.clientX - r.left) / r.width * CW, start = XSPAN - S.hist.length;
   var i = Math.max(0, Math.min(S.hist.length - 1, Math.round((mx - PX) / (CW - PX - PR) * (XSPAN - 1)) - start));
-  var d = S.hist[i], x = cx(start + i), y = cy(d.p);
-  document.getElementById('xh').innerHTML =
-    '<line x1="' + x + '" y1="' + PT + '" x2="' + x + '" y2="' + (CH - PB) + '" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>' +
-    '<circle cx="' + x + '" cy="' + y + '" r="5" fill="#0369a1" stroke="#fff" stroke-width="2"/>';
+  var d = S.hist[i];
+  S.hoverIdx = i;
   tip.style.display = 'block';
   tip.style.left = (ev.clientX + 14) + 'px';
   tip.style.top = (ev.clientY - 10) + 'px';
-  tip.innerHTML = 't=' + d.t + 's &middot; <b>SANE ' + d.p + ' psi</b><br>MGDR ' + d.mgdr +
-    ' &middot; ALLE ' + d.alle + ' &middot; PITT ' + d.pitt + ' psi<br>pumps FOST ' + d.fost +
+  tip.innerHTML = 't=' + d.t + 's<br><b style="color:#93b4ff">SANE ' + d.p + '</b> &middot; ' +
+    '<b style="color:#6ee7b7">MGDR ' + d.mgdr + '</b> &middot; <b style="color:#f0abfc">ALLE ' + d.alle +
+    '</b> psi<br>PITT ' + d.pitt + ' psi<br>pumps FOST ' + d.fost +
     ' / WLLR ' + d.wllr + ' / VANP ' + d.vanp + '<br>delivered ' + d.del +
     ' &middot; &Delta;line ' + (d.dL > 0 ? '+' : '') + d.dL;
 });
 document.getElementById('chart').addEventListener('mouseleave', function () {
   tip.style.display = 'none';
-  var xh = document.getElementById('xh'); if (xh) xh.innerHTML = '';
+  if (S) S.hoverIdx = null;
 });
 
 /* ================= alarm audio =================
