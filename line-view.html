@@ -24,77 +24,106 @@
 --grid: #e2e8f0;
 }
 body { font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: var(--bg-body); color: var(--text-dark); margin: 0; padding: 20px; }
-.container { max-width: 1320px; margin: 0 auto; background-color: var(--bg-card);
-  border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); padding: 24px; border: 1px solid #64748b; }
-.header-section { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
-  background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%); padding: 16px 24px; border-radius: 4px;
-  margin-bottom: 8px; border-bottom: 4px solid var(--accent-color); }
-h1 { margin: 0; font-size: 1.35rem; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; }
-.btn-nav { background-color: var(--accent-color); color: #0f172a; border: none; padding: 8px 16px;
-  font-size: 0.85rem; font-weight: 700; border-radius: 3px; cursor: pointer; text-transform: uppercase; text-decoration: none; }
+  background-color: var(--bg-body); color: var(--text-dark); margin: 0; padding: 10px; }
+.container { max-width: 1700px; margin: 0 auto; background-color: var(--bg-card);
+  border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); padding: 12px 14px; border: 1px solid #64748b; }
+.header-section { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%); padding: 8px 16px; border-radius: 4px;
+  margin-bottom: 6px; border-bottom: 3px solid var(--accent-color); }
+h1 { margin: 0; font-size: 1.05rem; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; }
+.btn-nav { background-color: var(--accent-color); color: #0f172a; border: none; padding: 5px 11px;
+  font-size: 0.74rem; font-weight: 700; border-radius: 3px; cursor: pointer; text-transform: uppercase; text-decoration: none; }
 .btn-nav:hover { background-color: var(--accent-hover); color: #fff; }
-.disclaimer { font-size: 0.78rem; color: var(--text-muted); margin: 0 0 18px; padding: 6px 10px;
+.disclaimer { font-size: 0.68rem; color: var(--text-muted); margin: 0 0 7px; padding: 4px 8px;
   background: #f8fafc; border-left: 3px solid var(--border-color); border-radius: 2px; }
-.section-title { margin: 22px 0 10px; font-size: 1.05rem; color: var(--primary-color); text-transform: uppercase;
-  letter-spacing: 0.04em; border-bottom: 2px solid var(--border-color); padding-bottom: 5px; font-weight: 800; }
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 6px; }
-.tile { border: 1px solid var(--border-color); border-radius: 4px; padding: 10px 14px; background: #f8fafc; }
-.tile .lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); font-weight: 700; }
-.tile .val { font-size: 1.5rem; font-weight: 800; color: var(--primary-color); font-variant-numeric: tabular-nums; line-height: 1.2; }
-.tile .val .unit { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+.section-title { margin: 9px 0 5px; font-size: 0.85rem; color: var(--primary-color); text-transform: uppercase;
+  letter-spacing: 0.04em; border-bottom: 2px solid var(--border-color); padding-bottom: 3px; font-weight: 800; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 7px; margin-bottom: 4px; }
+.tile { border: 1px solid var(--border-color); border-radius: 4px; padding: 5px 9px; background: #f8fafc; }
+.tile .lbl { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-muted); font-weight: 700; }
+.tile .val { font-size: 1.15rem; font-weight: 800; color: var(--primary-color); font-variant-numeric: tabular-nums; line-height: 1.2; }
+.tile .val .unit { font-size: 0.66rem; color: var(--text-muted); font-weight: 600; }
 .tile.hero .val { color: var(--series); }
-.tile .sub { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
-.chip { display: inline-block; font-size: 0.8rem; font-weight: 800; border-radius: 999px; padding: 3px 12px; margin-top: 4px; }
+.tile .sub { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; }
+.chip { display: inline-block; font-size: 0.7rem; font-weight: 800; border-radius: 999px; padding: 2px 9px; margin-top: 2px; }
 .chip.ok   { color: var(--ok);   background: rgba(22,163,74,0.1);  border: 1px solid rgba(22,163,74,0.4); }
 .chip.warn { color: var(--warn); background: rgba(217,119,6,0.1);  border: 1px solid rgba(217,119,6,0.4); }
 .chip.crit { color: var(--crit); background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.4); }
-#alarms { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.abadge { font-size: 0.76rem; font-weight: 800; border-radius: 3px; padding: 4px 10px; }
+#alarms { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+#alarms:empty { display: none; }
+.abadge { font-size: 0.68rem; font-weight: 800; border-radius: 3px; padding: 3px 8px; }
 .abadge.hi   { color: #92400e; background: #fffbeb; border: 1px solid var(--warn); }
 .abadge.crit { color: #991b1b; background: #fef2f2; border: 1px solid var(--crit); }
 .abadge.lo   { color: #5b21b6; background: #f5f3ff; border: 1px solid var(--low); }
-.controls { border: 1px solid var(--border-color); border-radius: 4px; padding: 14px 16px; background: #f8fafc; }
-.sp-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 800; margin-bottom: 8px; }
+.controls { border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 10px; background: #f8fafc; }
+.sp-title { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); font-weight: 800; margin-bottom: 5px; }
 .sp-title .hint { font-weight: 600; text-transform: none; letter-spacing: 0; opacity: 0.85; }
-.grid6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-.grid6.pumps { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed var(--border-color); }
-.sp { background: #fff; border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 10px; }
+.grid6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 7px; }
+.grid6.pumps { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed var(--border-color); }
+/* compact single-line cards: name, value, unit on one row */
+.sp { background: #fff; border: 1px solid var(--border-color); border-radius: 4px; padding: 3px 6px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
 .sp.pump { border-left: 4px solid var(--pump); }
 .sp.deliv { border-left: 4px solid var(--ok); }
-.sp .nm { font-size: 0.74rem; font-weight: 800; color: var(--primary-color); text-transform: uppercase; letter-spacing: 0.03em; }
-.sp .br { font-size: 0.66rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
-.sp input[type="number"] { width: 100%; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 3px;
-  padding: 6px 8px; font-size: 0.95rem; font-weight: 700; font-family: "Courier New", monospace;
+.sp .nm { flex: 1 1 auto; min-width: 0; font-size: 0.65rem; font-weight: 800; color: var(--primary-color);
+  text-transform: uppercase; letter-spacing: 0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp .br { display: none; }
+.sp input[type="number"] { flex: 0 0 54px; width: 54px; box-sizing: border-box; border: 1px solid var(--border-color);
+  border-radius: 3px; padding: 2px 4px; font-size: 0.78rem; font-weight: 700; font-family: "Courier New", monospace;
   text-align: right; color: var(--primary-color); font-variant-numeric: tabular-nums; }
 .sp input[type="number"]:focus { outline: none; border-color: var(--accent-color); box-shadow: inset 0 0 0 1px var(--accent-color); }
-.sp input[type="range"] { width: 100%; accent-color: var(--pump); margin-top: 5px; }
-.sp .unit { font-size: 0.66rem; color: var(--text-muted); font-weight: 600; float: right; margin-top: 3px; }
-.sp .note { clear: both; display: block; font-size: 0.64rem; font-weight: 800; padding-top: 5px; letter-spacing: 0.02em; }
+.sp input[type="range"] { flex: 1 1 100%; accent-color: var(--pump); margin: 0; height: 13px; }
+.sp .unit { flex: 0 0 auto; font-size: 0.54rem; color: var(--text-muted); font-weight: 600; }
+.sp .note { flex: 1 1 100%; font-size: 0.55rem; font-weight: 800; letter-spacing: 0.01em; line-height: 1.2; }
 .sp .note.ok { color: var(--ok); } .sp .note.no { color: var(--crit); } .sp .note.warn { color: var(--warn); }
-.simrow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 14px;
-  padding-top: 12px; border-top: 1px dashed var(--border-color); }
-.btn-run { background: #166534; color: #fff; border: none; padding: 9px 18px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
-.btn-reset { background: #475569; color: #fff; border: none; padding: 9px 18px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
-.btn-bal { background: #0369a1; color: #fff; border: none; padding: 9px 14px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
-#banner { display: none; margin: 14px 0 0; padding: 10px 16px; border-radius: 4px; font-weight: 800; font-size: 0.95rem; }
+.simrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;
+  padding-top: 7px; border-top: 1px dashed var(--border-color); }
+.btn-run { background: #166534; color: #fff; border: none; padding: 6px 13px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.74rem; }
+.btn-reset { background: #475569; color: #fff; border: none; padding: 6px 13px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.74rem; }
+.btn-bal { background: #0369a1; color: #fff; border: none; padding: 6px 11px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.72rem; }
+#banner { display: none; margin: 7px 0 0; padding: 6px 12px; border-radius: 4px; font-weight: 800; font-size: 0.8rem; }
 #banner.warn { display: block; background: #fffbeb; border: 1px solid var(--warn); color: #92400e; }
 #banner.crit { display: block; background: #fef2f2; border: 1px solid var(--crit); color: #991b1b; animation: flash 1s step-end infinite; }
 @keyframes flash { 50% { background: #fee2e2; } }
-.panel { border: 1px solid var(--border-color); border-radius: 4px; overflow-x: auto; background: #fff; }
-svg { display: block; width: 100%; height: auto; min-width: 940px; }
-#chart { min-width: 700px; }
-.legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.78rem; color: var(--text-muted); padding: 8px 4px 0; }
+.panel { border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; background: #fff; }
+/* both diagrams scale to the viewport so the whole page fits one screen */
+svg { display: block; width: 100%; }
+/* min-heights keep the diagram labels legible; below that the page scrolls a little */
+#schem { height: 34vh; min-height: 285px; }
+#chart { height: 21vh; min-height: 140px; }
+@media (max-height: 900px) {
+  #schem { height: 32vh; }
+  #chart { height: 18vh; }
+  #log { max-height: 58px; }
+}
+@media (max-height: 700px) {
+  /* very short viewports: alarms are already badged at the top, so the log gives way */
+  #chart { height: 15vh; min-height: 105px; }
+  #schem { min-height: 260px; }
+  .logblock { display: none; }
+  .disclaimer { display: none; }
+  .sp input[type="range"] { display: none; }
+  .grid6.pumps { margin-bottom: 5px; padding-bottom: 5px; }
+  .simrow { margin-top: 5px; padding-top: 5px; }
+  .sp-title { display: none; }
+  .tile .val { font-size: 1rem; }
+  .section-title { margin: 5px 0 3px; font-size: 0.78rem; }
+}
+/* lower half: controls beside the chart + log */
+.lower { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.lower > div { min-width: 0; }
+@media (max-width: 1150px) { .lower { grid-template-columns: 1fr; } }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 0.68rem; color: var(--text-muted); padding: 5px 2px 0; }
 .legend .key { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
 .swatch { width: 14px; height: 4px; border-radius: 2px; display: inline-block; }
 #tip { position: fixed; display: none; pointer-events: none; z-index: 50; background: #0f172a; color: #f1f5f9;
   font-size: 0.76rem; padding: 6px 9px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-variant-numeric: tabular-nums; }
-#log { list-style: none; margin: 0; padding: 0; font-size: 0.82rem; max-height: 170px; overflow-y: auto; }
-#log li { padding: 5px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
+#log { list-style: none; margin: 0; padding: 0; font-size: 0.72rem; max-height: 92px; overflow-y: auto; }
+#log li { padding: 3px 8px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
 #log li.warn { color: #92400e; } #log li.crit { color: #991b1b; font-weight: 700; } #log li.lo { color: #5b21b6; }
-details { margin-top: 14px; font-size: 0.82rem; }
-details table { border-collapse: collapse; margin-top: 8px; }
-details th, details td { border: 1px solid var(--border-color); padding: 4px 9px; font-variant-numeric: tabular-nums; }
+details { margin-top: 7px; font-size: 0.72rem; }
+details table { border-collapse: collapse; margin-top: 6px; }
+details th, details td { border: 1px solid var(--border-color); padding: 2px 7px; font-variant-numeric: tabular-nums; }
 details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; text-transform: uppercase; }
 </style>
 </head>
@@ -107,7 +136,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <a href="Terminal_Notes.html" class="btn-nav">Terminal Notes</a>
 </div>
 </div>
-<p class="disclaimer">Simplified training model &mdash; the <strong>pump stations FOST, WLLR and VANP set the flow rate</strong>; the destinations take delivery off it. When a pump moves less than what is coming at it, the line packs upstream and pressure rises. Illustration only, <strong>not live SCADA data</strong>.</p>
+<p class="disclaimer">Training model &mdash; <strong>pumps FOST / WLLR / VANP set the rate</strong>; a pump below what is arriving packs the line and pressure rises. <strong>Not live SCADA data.</strong></p>
 
 <div class="tiles">
 <div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">1080</span> <span class="unit">psi</span></div></div>
@@ -125,11 +154,13 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 
 <h2 class="section-title">Pipeline Schematic &mdash; MGDR Three-Way Split</h2>
 <div class="panel">
-<svg id="schem" viewBox="0 0 1100 480" role="img" aria-label="Pipeline schematic in ISA symbols: FOST, WLLR and VANP centrifugal pumps set the flow rate; MGDR splits three ways to the CV10 branch, a storage vessel, and the Alleghany Access branch, with control valves at each delivery">
+<svg id="schem" viewBox="0 0 1780 385" role="img" aria-label="Pipeline schematic in ISA symbols: FOST, WLLR and VANP centrifugal pumps set the flow rate; MGDR splits three ways to the CV10 branch, a storage vessel, and the Alleghany Access branch, with control valves at each delivery">
 <g id="pipes"></g><g id="flows"></g><g id="arrows"></g><g id="gauges"></g><g id="stations"></g>
 </svg>
 </div>
 
+<div class="lower">
+<div>
 <h2 class="section-title">Controls</h2>
 <div class="controls">
 <div class="sp-title">Pump stations <span class="hint">&mdash; these set the flow rate. A pump set below what is arriving packs the line upstream of it.</span></div>
@@ -140,22 +171,19 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <button class="btn-bal" id="balance">&#8646; Balance line</button>
 <button class="btn-run" id="run">Pause</button>
 <button class="btn-reset" id="reset">Reset</button>
-<span style="font-size:0.74rem;color:var(--text-muted)">Balance sets FOST and WLLR to match total deliveries.</span>
+<span style="font-size:0.66rem;color:var(--text-muted)">Balance sets FOST and WLLR to match total deliveries.</span>
+</div>
 </div>
 </div>
 
+<div>
 <h2 class="section-title">SANE Pressure &mdash; last 2 minutes</h2>
 <div class="panel">
 <svg id="chart" viewBox="0 0 960 300" role="img" aria-label="Live line chart of SANE pressure with High alarm at 1175 psi and High-High at 1200 psi"></svg>
 </div>
-<div class="legend">
-<span class="key"><span class="swatch" style="background:#0369a1"></span> SANE psi</span>
-<span class="key"><span class="swatch" style="background:#d97706"></span> &#9888; HIGH 1175</span>
-<span class="key"><span class="swatch" style="background:#dc2626"></span> &#9940; HIGH-HIGH 1200 &middot; FOST S/D</span>
-</div>
 
-<h2 class="section-title">Event Log</h2>
-<div class="panel"><ul id="log"><li>&mdash; no events yet &mdash;</li></ul></div>
+<h2 class="section-title logblock">Event Log</h2>
+<div class="panel logblock"><ul id="log"><li>&mdash; no events yet &mdash;</li></ul></div>
 <details><summary>Alarm limits &amp; data table</summary>
 <table style="margin-bottom:14px"><thead><tr><th>Station</th><th>Limit</th><th>Action</th></tr></thead><tbody>
 <tr><td>SANE</td><td>HIGH 1,175 psi &middot; HIGH-HIGH 1,200 psi</td><td>1,200 shuts down the FOST unit</td></tr>
@@ -166,6 +194,8 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 </tbody></table>
 <table><thead><tr><th>t (s)</th><th>SANE</th><th>MGDR</th><th>ALLE</th><th>PITT</th><th>FOST</th><th>WLLR</th><th>VANP</th><th>Deliv</th><th>&Delta;line</th></tr></thead><tbody id="tbody"></tbody></table>
 </details>
+</div>
+</div>
 </div>
 <div id="tip"></div>
 
@@ -180,7 +210,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 
    FOST, WLLR and VANP are PUMP stations — they set the flow rate.
    Everything else is a delivery take-off.                                */
-var TRUNK_Y = 240, TOP_Y = 100, BOT_Y = 380, JX = 350;
+var TRUNK_Y = 195, TOP_Y = 78, BOT_Y = 312, JX = 440;
 var RATE_MAX = 4200;          // FOST maximum pump rate
 var WLLR_BYPASS = 1500;       // rate the line still passes with the WLLR pump off
 
@@ -236,9 +266,9 @@ var SANE_NOM = 1080, DOWN_NOM = 1100, QN_TRUNK = 2600;
 var WLLR_DISCH_HEAD = 350;
 
 var TRUNK = [
-  { k: 'FOST', x: 62,  kind: 'pump',     idx: 0 },
-  { k: 'SANE', x: 158, kind: 'point',    idx: 1 },
-  { k: 'WLLR', x: 252, kind: 'pump',     idx: 2 },
+  { k: 'FOST', x: 70,  kind: 'pump',     idx: 0 },
+  { k: 'SANE', x: 190, kind: 'point',    idx: 1 },
+  { k: 'WLLR', x: 310, kind: 'pump',     idx: 2 },
   { k: 'MGDR', x: JX,  kind: 'junction', idx: 3 }
 ];
 function spread(names, y, x0, x1, kinds) {
@@ -249,10 +279,10 @@ function spread(names, y, x0, x1, kinds) {
   }
   return out;
 }
-var TOP = spread(['CV10', 'HUD', 'SAGA', 'BRAD', 'TR16', 'CLVN'], TOP_Y, 462, 1042,
+var TOP = spread(['CV10', 'HUD', 'SAGA', 'BRAD', 'TR16', 'CLVN'], TOP_Y, 580, 1720,
                  { CV10: 'delivery', CLVN: 'delivery' });
-var MID = [{ k: 'MGDR STORAGE', x: 486, y: TRUNK_Y, kind: 'tank', idx: 0 }];
-var BOT = spread(['A.A.', 'BOAR', 'VANP', 'ALLE', 'PITT', 'DELM', 'MNTL'], BOT_Y, 462, 1042,
+var MID = [{ k: 'MGDR STORAGE', x: 620, y: TRUNK_Y, kind: 'tank', idx: 0 }];
+var BOT = spread(['A.A.', 'BOAR', 'VANP', 'ALLE', 'PITT', 'DELM', 'MNTL'], BOT_Y, 580, 1720,
                  { BOAR: 'delivery', VANP: 'pump', ALLE: 'delivery', PITT: 'delivery',
                    DELM: 'delivery', MNTL: 'delivery' });
 var ALL = TRUNK.concat(TOP, MID, BOT);
@@ -382,7 +412,7 @@ function activeAlarms(s, f) {
 }
 
 /* ================= schematic ================= */
-var GAUGE_OFF = 30, GAUGE_MAX = 34;    // bar sits clear above the tallest symbol
+var GAUGE_OFF = 26, GAUGE_MAX = 28;    // bar sits clear above the tallest symbol
 function gaugeH(p) { return Math.max(0, (p / 1500) * GAUGE_MAX); }
 function limitText(k) {
   var l = LIM[k]; if (!l) return '';
@@ -394,19 +424,19 @@ function limitText(k) {
 }
 function buildSchematic() {
   var pipes = '', flows = '', gg = '', st = '';
-  var trunkD = 'M62 ' + TRUNK_Y + ' H' + JX;
-  var topD   = 'M' + JX + ' ' + TRUNK_Y + ' C400 ' + TRUNK_Y + ' 410 ' + TOP_Y + ' 462 ' + TOP_Y + ' H1042';
-  var midD   = 'M' + JX + ' ' + TRUNK_Y + ' H486';
-  var botD   = 'M' + JX + ' ' + TRUNK_Y + ' C400 ' + TRUNK_Y + ' 410 ' + BOT_Y + ' 462 ' + BOT_Y + ' H1042';
+  var trunkD = 'M70 ' + TRUNK_Y + ' H' + JX;
+  var topD   = 'M' + JX + ' ' + TRUNK_Y + ' C500 ' + TRUNK_Y + ' 515 ' + TOP_Y + ' 580 ' + TOP_Y + ' H1720';
+  var midD   = 'M' + JX + ' ' + TRUNK_Y + ' H620';
+  var botD   = 'M' + JX + ' ' + TRUNK_Y + ' C500 ' + TRUNK_Y + ' 515 ' + BOT_Y + ' 580 ' + BOT_Y + ' H1720';
   [['trunk', trunkD], ['top', topD], ['mid', midD], ['bot', botD]].forEach(function (p) {
     pipes += '<path d="' + p[1] + '" fill="none" stroke="#cbd5e1" stroke-width="10" stroke-linecap="round"/>';
     flows += '<path id="fl-' + p[0] + '" d="' + p[1] + '" fill="none" stroke="#0369a1" stroke-width="4" stroke-dasharray="14 12" stroke-linecap="round"/>';
   });
-  st += '<text x="462" y="' + (TOP_Y - 72) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">TOP &#8212; CV10 BRANCH</text>' +
-        '<text x="452" y="' + (TRUNK_Y - 72) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">MIDDLE &#8212; MGDR STORAGE</text>' +
-        '<text x="462" y="' + (BOT_Y - 72) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">BOTTOM &#8212; A.A. BRANCH</text>';
+  st += '<text x="580" y="' + (TOP_Y - 62) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">TOP &#8212; CV10 BRANCH</text>' +
+        '<text x="700" y="' + (TRUNK_Y - 56) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">MIDDLE &#8212; MGDR STORAGE</text>' +
+        '<text x="580" y="' + (BOT_Y - 62) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">BOTTOM &#8212; A.A. BRANCH</text>';
   // flow-direction arrowheads on the straight runs
-  [[110, TRUNK_Y], [301, TRUNK_Y], [420, TRUNK_Y], [636, TOP_Y], [868, TOP_Y], [606, BOT_Y], [800, BOT_Y]]
+  [[130, TRUNK_Y], [250, TRUNK_Y], [380, TRUNK_Y], [694, TOP_Y], [1150, TOP_Y], [1606, TOP_Y], [675, BOT_Y], [1055, BOT_Y], [1435, BOT_Y]]
     .forEach(function (a) {
       st += '<path d="M' + (a[0] - 5) + ' ' + (a[1] - 6) + ' L' + (a[0] + 6) + ' ' + a[1] +
             ' L' + (a[0] - 5) + ' ' + (a[1] + 6) + ' Z" fill="#64748b"/>';
@@ -446,18 +476,18 @@ function buildSchematic() {
       shape = '<circle cx="' + n.x + '" cy="' + y + '" r="10" fill="#ffffff" stroke="#475569" stroke-width="1.8"/>' +
         '<text x="' + n.x + '" y="' + (y + 3.5) + '" text-anchor="middle" font-size="8" font-weight="700" fill="#475569">PI</text>';
     }
-    var lblY = y + 30;
+    var lblY = y + 26;
     st += shape +
       '<text x="' + n.x + '" y="' + lblY + '" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">' + n.k + '</text>' +
-      '<text x="' + n.x + '" y="' + (lblY + 15) + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#64748b" id="pv-' + n.k + '">- psi</text>';
-    var row = lblY + 29;
+      '<text x="' + n.x + '" y="' + (lblY + 13) + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#64748b" id="pv-' + n.k + '">- psi</text>';
+    var row = lblY + 25;
     var isTank = n.kind === 'tank';
     if (SP_BY_NODE[n.k] || PUMP_BY_NODE[n.k]) {
       var fill = PUMP_BY_NODE[n.k] ? '#1d4ed8' : '#166534';
       st += isTank
         ? '<text x="' + (n.x + 24) + '" y="' + (y + 5) + '" text-anchor="start" font-size="10.5" font-weight="700" fill="' + fill + '" id="rt-' + n.k + '">- bph</text>'
         : '<text x="' + n.x + '" y="' + row + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="' + fill + '" id="rt-' + n.k + '">- bph</text>';
-      if (!isTank) row += 13;
+      if (!isTank) row += 11;
     }
     if (LIM[n.k]) {
       st += '<text x="' + n.x + '" y="' + row + '" text-anchor="middle" font-size="9.5" fill="#94a3b8">' + limitText(n.k) + '</text>';
@@ -577,9 +607,8 @@ document.getElementById('chart').addEventListener('mouseleave', function () {
 function fmt(n) { return n.toLocaleString('en-US'); }
 function buildControls() {
   document.getElementById('pumps').innerHTML = PUMPS.map(function (d) {
-    return '<div class="sp pump"><div class="nm">&#8635; ' + d.label + '</div><div class="br">' + d.br + '</div>' +
+    return '<div class="sp pump" title="' + d.br.replace(/&mdash;/g, '-') + '"><div class="nm">&#8635; ' + d.label + '</div>' +
       '<input type="number" id="pp-in-' + d.k + '" min="0" max="' + d.max + '" step="100" value="' + d.def + '">' +
-      '<span class="unit">bph</span>' +
       '<input type="range" id="pp-rg-' + d.k + '" min="0" max="' + d.max + '" step="100" value="' + d.def + '">' +
       (d.k === 'wllr' ? '<span class="note warn" id="note-wllr">0 = pump off, line bypasses at ' + WLLR_BYPASS + '</span>' : '') +
       '</div>';
@@ -594,9 +623,8 @@ function buildControls() {
     rg.addEventListener('input', function () { set(this.value); });
   });
   document.getElementById('setpoints').innerHTML = SP.map(function (d) {
-    return '<div class="sp deliv"><div class="nm">&#9660; ' + d.label + '</div><div class="br">' + d.br + '</div>' +
+    return '<div class="sp deliv" title="' + d.br.replace(/&mdash;/g, '-') + '"><div class="nm">&#9660; ' + d.label + '</div>' +
       '<input type="number" id="sp-in-' + d.k + '" min="0" max="' + RATE_MAX + '" step="100" value="' + d.def + '">' +
-      '<span class="unit">bph</span>' +
       (d.k === 'pitt' ? '<span class="note ok" id="perm-pitt">&#128275; OPEN OK</span>' : '') +
       '</div>';
   }).join('');
