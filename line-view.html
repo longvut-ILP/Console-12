@@ -113,8 +113,8 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 
 <div class="tiles">
 <div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">1080</span> <span class="unit">psi</span></div></div>
-<div class="tile"><div class="lbl">FOST Rate</div><div class="val"><span id="t-rate">2600</span> <span class="unit">bph</span></div></div>
-<div class="tile"><div class="lbl">Total Delivered</div><div class="val"><span id="t-out">2600</span> <span class="unit">bph</span></div></div>
+<div class="tile"><div class="lbl">FOST Rate</div><div class="val"><span id="t-rate">2800</span> <span class="unit">bph</span></div></div>
+<div class="tile"><div class="lbl">Total Delivered</div><div class="val"><span id="t-out">2800</span> <span class="unit">bph</span></div></div>
 <div class="tile"><div class="lbl">Balance</div><div class="val"><span id="t-bal">0</span> <span class="unit">bph</span></div><div class="sub" id="t-bal-sub">in = out</div></div>
 <div class="tile"><div class="lbl">Linepack</div><div class="val"><span id="t-pack">0</span> <span class="unit">bbl</span></div></div>
 <div class="tile"><div class="lbl">Active Alarms</div><div class="val"><span id="t-alm">0</span></div></div>
@@ -141,8 +141,8 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <div class="controls">
 <div class="row1">
 <div class="ctl" style="flex:1 1 240px">
-<label>FOST pump rate &mdash; <span class="rate-val" id="rate-lbl">2,600 bph</span> <span style="font-weight:400;text-transform:none">(max 4,200)</span></label>
-<input type="range" id="rate" min="0" max="4200" step="100" value="2600">
+<label>FOST pump rate &mdash; <span class="rate-val" id="rate-lbl">2,800 bph</span> <span style="font-weight:400;text-transform:none">(max 4,200)</span></label>
+<input type="range" id="rate" min="0" max="4200" step="100" value="2800">
 </div>
 <div class="ctl" style="min-width:130px"><label>WLLR booster</label><button class="toggle off" id="wllr">OFF</button></div>
 <div class="ctl" style="min-width:150px"><label>Match FOST to deliveries</label><button class="btn-bal" id="balance">&#8646; Balance line</button></div>
@@ -195,6 +195,7 @@ var SP = [
   { k: 'cv10',  node: 'CV10',         label: 'MGDR &rarr; CV10',    br: 'Top branch',    def: 1200 },
   { k: 'stor',  node: 'MGDR STORAGE', label: 'MGDR &rarr; Storage', br: 'Middle',        def: 0    },
   { k: 'board', node: 'BOAR',         label: 'BOARD Tank',          br: 'Bottom branch', def: 400  },
+  { k: 'vanp',  node: 'VANP',         label: 'VANP',                br: 'Bottom &mdash; pump station', def: 200 },
   { k: 'alle',  node: 'ALLE',         label: 'ALLE',                br: 'Bottom branch', def: 400  },
   { k: 'pitt',  node: 'PITT',         label: 'PITT',                br: 'Bottom branch', def: 200  },
   { k: 'delm',  node: 'DELM',         label: 'DELM',                br: 'Bottom branch', def: 200  },
@@ -203,14 +204,14 @@ var SP = [
 var SP_BY_NODE = {}; SP.forEach(function (s) { SP_BY_NODE[s.node] = s.k; });
 
 /* nominal pressure profile at 2,400 bph balanced.
-   (2,600 bph = 1,200 CV10 + 1,400 down the A.A. branch, the default balanced case)
+   (2,800 bph = 1,200 CV10 + 1,600 down the A.A. branch, the default balanced case)
    c  = how strongly the station tracks SANE;  fd = friction sensitivity to segment flow
    qn = nominal segment flow (bph) used as the friction reference                       */
 var PROF = {
-  'FOST': { nom: 1180, c: 1.0,  fd: 60,  qn: 2600 },
-  'SANE': { nom: 1080, c: 1.0,  fd: 0,   qn: 2600 },
-  'WLLR': { nom: 1040, c: 1.0,  fd: 40,  qn: 2600 },
-  'MGDR': { nom: 1100, c: 1.0,  fd: 60,  qn: 2600 },
+  'FOST': { nom: 1180, c: 1.0,  fd: 60,  qn: 2800 },
+  'SANE': { nom: 1080, c: 1.0,  fd: 0,   qn: 2800 },
+  'WLLR': { nom: 1040, c: 1.0,  fd: 40,  qn: 2800 },
+  'MGDR': { nom: 1100, c: 1.0,  fd: 60,  qn: 2800 },
   'CV10': { nom: 1020, c: 0.9,  fd: 80,  qn: 1200 },
   'HUD':  { nom: 900,  c: 0.8,  fd: 120, qn: 1200 },
   'SAGA': { nom: 800,  c: 0.7,  fd: 150, qn: 1200 },
@@ -218,9 +219,9 @@ var PROF = {
   'TR16': { nom: 600,  c: 0.5,  fd: 200, qn: 1200 },
   'CLVN': { nom: 480,  c: 0.45, fd: 220, qn: 1200 },
   'MGDR STORAGE': { nom: 900, c: 0.8, fd: 80, qn: 600 },
-  'A.A.': { nom: 1000, c: 0.9,  fd: 90,  qn: 1400 },
-  'BOAR': { nom: 900,  c: 0.8,  fd: 130, qn: 1400 },
-  'VANP': { nom: 1020, c: 0.3,  fd: 40,  qn: 1000 },   // discharge-controlled pump
+  'A.A.': { nom: 1000, c: 0.9,  fd: 90,  qn: 1600 },
+  'BOAR': { nom: 900,  c: 0.8,  fd: 130, qn: 1600 },
+  'VANP': { nom: 1020, c: 0.3,  fd: 40,  qn: 1200 },   // discharge-controlled pump
   'ALLE': { nom: 1005, c: 0.5,  fd: 60,  qn: 1000 },
   'PITT': { nom: 350,  c: 0.5,  fd: 80,  qn: 600  },
   'DELM': { nom: 320,  c: 0.2,  fd: 90,  qn: 400  },
@@ -263,40 +264,42 @@ var ALL = TRUNK.concat(TOP, MID, BOT);
 
 /* ================= model ================= */
 var HIGH = 1175, HIGHHIGH = 1200;
-var BASE = 1035, FRICTION = 6.73e-6, PACK_PSI_PER_BBL = 6, PACK_MIN = -120;
+var BASE = 1027, FRICTION = 6.73e-6, PACK_PSI_PER_BBL = 6, PACK_MIN = -120;
 var PACK_GAIN = 0.4;   // bbl added per tick per (bph of imbalance / 3600) — teaching speed
 var TICK = 100;
 
 var S = null;
 function freshState() {
-  var s = { t: 0, rate: 2600, wllr: false, pack: 0, sane: SANE_NOM, tripped: false,
+  var s = { t: 0, rate: 2800, wllr: false, pack: 0, sane: SANE_NOM, tripped: false,
             sp: {}, press: {}, alarm: {}, hist: [], events: [], running: true };
   SP.forEach(function (d) { s.sp[d.k] = d.def; });
   return s;
 }
 function totalDelivery(s) { return SP.reduce(function (a, d) { return a + (s.sp[d.k] || 0); }, 0); }
+/* bottom-branch take-offs in the order the product reaches them
+   (BOT[0] is A.A., the branch inlet, which takes nothing) */
+var BOT_TAKES = ['board', 'vanp', 'alle', 'pitt', 'delm', 'mntl'];
 function segFlows(s) {
   var top = s.sp.cv10, mid = s.sp.stor;
-  var bot = s.sp.board + s.sp.alle + s.sp.pitt + s.sp.delm + s.sp.mntl;
-  return { trunk: top + mid + bot, top: top, mid: mid, bot: bot,
-           afterBoard: bot - s.sp.board,
-           afterAlle:  bot - s.sp.board - s.sp.alle,
-           afterPitt:  bot - s.sp.board - s.sp.alle - s.sp.pitt,
-           afterDelm:  bot - s.sp.board - s.sp.alle - s.sp.pitt - s.sp.delm };
+  var bot = BOT_TAKES.reduce(function (a, k) { return a + (s.sp[k] || 0); }, 0);
+  return { trunk: top + mid + bot, top: top, mid: mid, bot: bot };
 }
-function segFlowFor(n, f) {
+/* flow in the segment feeding this station — everything upstream of it is already delivered */
+function segFlowFor(n, f, s) {
   if (TOP.indexOf(n) > -1) return f.top;
   if (MID.indexOf(n) > -1) return f.mid;
   if (BOT.indexOf(n) > -1) {
-    return n.idx <= 1 ? f.bot : n.idx <= 3 ? f.afterBoard : n.idx <= 4 ? f.afterAlle
-         : n.idx <= 5 ? f.afterPitt : f.afterDelm;
+    if (n.idx === 0) return f.bot;
+    var used = 0;
+    for (var i = 0; i < n.idx - 1; i++) used += s.sp[BOT_TAKES[i]] || 0;
+    return f.bot - used;
   }
   return f.trunk;
 }
 /* station pressure: nominal profile, shifted by how far SANE is off nominal,
    minus extra friction when the segment runs above its nominal flow */
 function stationPressure(s, n) {
-  var p = PROF[n.k], f = segFlows(s), q = segFlowFor(n, f);
+  var p = PROF[n.k], f = segFlows(s), q = segFlowFor(n, f, s);
   // everything downstream of the WLLR booster rides higher when it is running
   var downstream = n.k !== 'FOST' && n.k !== 'SANE' && n.k !== 'WLLR';
   var saneEff = s.sane + (s.wllr && downstream ? WLLR_DOWN_BOOST : 0);
@@ -385,7 +388,7 @@ function buildSchematic() {
         '<text x="452" y="' + (BOT_Y - 56) + '" font-size="12" font-weight="800" fill="#475569" letter-spacing="0.05em">BOTTOM &#8212; A.A. BRANCH</text>';
   ALL.forEach(function (n) {
     var y = n.y || TRUNK_Y, shape;
-    if (n.kind === 'pump')          shape = '<path d="M' + (n.x - 11) + ' ' + (y + 12) + ' L' + (n.x + 11) + ' ' + (y + 12) + ' L' + n.x + ' ' + (y - 12) + ' Z" fill="#0f172a"/>';
+    if (n.kind === 'pump')          shape = '<path d="M' + (n.x - 11) + ' ' + (y + 12) + ' L' + (n.x + 11) + ' ' + (y + 12) + ' L' + n.x + ' ' + (y - 12) + ' Z" fill="#0f172a" id="nd-' + n.k + '"/>';
     else if (n.kind === 'delivery') shape = '<rect x="' + (n.x - 10) + '" y="' + (y - 12) + '" width="20" height="24" rx="2" fill="#475569" id="nd-' + n.k + '"/>';
     else if (n.kind === 'tank')     shape = '<rect x="' + (n.x - 14) + '" y="' + (y - 14) + '" width="28" height="28" rx="3" fill="#475569" stroke="#0f172a" stroke-width="2" id="nd-' + n.k + '"/>';
     else if (n.kind === 'junction') shape = '<path d="M' + n.x + ' ' + (y - 14) + ' L' + (n.x + 14) + ' ' + y + ' L' + n.x + ' ' + (y + 14) + ' L' + (n.x - 14) + ' ' + y + ' Z" fill="#f59e0b" stroke="#0f172a" stroke-width="2"/>';
