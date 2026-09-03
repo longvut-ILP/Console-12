@@ -79,6 +79,13 @@ h1 { margin: 0; font-size: 1.05rem; color: #fff; text-transform: uppercase; lett
 .sp .unit { flex: 0 0 auto; font-size: 0.54rem; color: var(--text-muted); font-weight: 600; }
 .sp .note { flex: 1 1 100%; font-size: 0.55rem; font-weight: 800; letter-spacing: 0.01em; line-height: 1.2; }
 .sp .note.ok { color: var(--ok); } .sp .note.no { color: var(--crit); } .sp .note.warn { color: var(--warn); }
+/* block valves: the take-off's name on its card is the toggle, and so is the symbol on the schematic */
+.sp .nm.vt { background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-family: inherit;
+  text-decoration: underline dotted rgba(15,23,42,0.35); text-underline-offset: 2px; }
+.sp .nm.vt:hover { color: var(--accent-hover); }
+.sp .nm.vt.shut { color: #b91c1c; text-decoration-color: rgba(185,28,28,0.5); }
+.sp.deliv.shut { border-left-color: var(--crit); background: #fff5f5; }
+.vlv { cursor: pointer; } .vlv:hover { filter: brightness(1.2); }
 .simrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;
   padding-top: 7px; border-top: 1px dashed var(--border-color); }
 .btn-run { background: #166534; color: #fff; border: none; padding: 6px 13px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.74rem; }
@@ -87,6 +94,30 @@ h1 { margin: 0; font-size: 1.05rem; color: #fff; text-transform: uppercase; lett
   padding: 6px 11px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.72rem; }
 .btn-snd.on { background: rgba(22,163,74,0.12); border-color: var(--ok); color: #14532d; }
 .btn-bal { background: #0369a1; color: #fff; border: none; padding: 6px 11px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.72rem; }
+/* training drills */
+.drillrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 7px; padding-top: 7px; border-top: 1px dashed var(--border-color); }
+.drillrow .dlbl { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); font-weight: 800; }
+.drillrow select { border: 1px solid var(--border-color); border-radius: 3px; padding: 4px 6px; font-size: 0.72rem; font-weight: 700; color: var(--primary-color); background: #fff; max-width: 240px; }
+.drillrow label { font-size: 0.68rem; color: var(--text-muted); font-weight: 700; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+.drillrow .dstat { flex: 1 1 160px; font-size: 0.66rem; color: var(--text-muted); font-weight: 600; }
+.btn-drill { background: #7c2d12; color: #fff; border: none; padding: 6px 13px; border-radius: 3px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.74rem; }
+.btn-drill:hover { background: #9a3412; }
+.btn-drill.stop { background: #475569; }
+#drillcard { display: none; margin-top: 7px; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border-color); background: #fff; font-size: 0.7rem; line-height: 1.35; }
+#drillcard.on { display: block; }
+#drillcard.pass { border-color: var(--ok); background: rgba(22,163,74,0.07); }
+#drillcard.fail { border-color: var(--crit); background: rgba(220,38,38,0.06); }
+#drillcard .dtitle { font-weight: 800; font-size: 0.8rem; color: var(--primary-color); }
+#drillcard .dtitle .res { margin-left: 6px; }
+#drillcard .dtitle .res.pass { color: var(--ok); } #drillcard .dtitle .res.fail { color: var(--crit); }
+#drillcard .dfield { color: #92400e; font-weight: 700; }
+#drillcard .dhint { color: var(--text-muted); }
+#drillcard .dgoal { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; font-weight: 700; font-variant-numeric: tabular-nums; }
+#drillcard .dgoal .ok { color: var(--ok); } #drillcard .dgoal .no { color: var(--crit); } #drillcard .dgoal .wait { color: var(--warn); }
+#drillcard .dscore { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 3px 10px; margin-top: 5px; }
+#drillcard .dscore .k { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-muted); font-weight: 700; }
+#drillcard .dscore .v { font-weight: 800; font-variant-numeric: tabular-nums; color: var(--primary-color); }
+#drill-hist td.pass { color: var(--ok); font-weight: 800; } #drill-hist td.fail { color: var(--crit); font-weight: 800; }
 #banner { display: none; margin: 7px 0 0; padding: 6px 12px; border-radius: 4px; font-weight: 800; font-size: 0.8rem; }
 #banner.warn { display: block; background: #fffbeb; border: 1px solid var(--warn); color: #92400e; }
 #banner.crit { display: block; background: #fef2f2; border: 1px solid var(--crit); color: #991b1b; animation: flash 1s step-end infinite; }
@@ -110,6 +141,9 @@ svg { display: block; width: 100%; }
   .disclaimer { display: none; }
   .grid6.pumps { margin-bottom: 5px; padding-bottom: 5px; }
   .simrow { margin-top: 5px; padding-top: 5px; }
+  .drillrow { margin-top: 5px; padding-top: 5px; }
+  .drillrow .dstat { display: none; }
+  #drillcard .dhint { display: none; }
   .sp-title { display: none; }
   .tile .val { font-size: 1rem; }
   .section-title { margin: 5px 0 3px; font-size: 0.78rem; }
@@ -141,7 +175,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <a href="Terminal_Notes.html" class="btn-nav">Terminal Notes</a>
 </div>
 </div>
-<p class="disclaimer">Training model &mdash; <strong>pumps FOST / WLLR / VANP run on discharge or suction pressure control</strong>; flow follows the hydraulics, and an imbalance packs the line. <strong>Not live SCADA data.</strong></p>
+<p class="disclaimer">Training model &mdash; <strong>pumps FOST / WLLR / VANP run on discharge or suction pressure control</strong>; flow follows the hydraulics, and an imbalance packs the line. Use <strong>Drill</strong> below to practise recovering from a trip or a lost delivery. <strong>Not live SCADA data.</strong></p>
 
 <div class="tiles">
 <div class="tile hero"><div class="lbl">SANE Pressure</div><div class="val"><span id="t-sane">1080</span> <span class="unit">psi</span></div></div>
@@ -157,9 +191,9 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <div id="banner"></div>
 <div id="alarms"></div>
 
-<h2 class="section-title">Pipeline Schematic &mdash; MGDR Three-Way Split</h2>
+<h2 class="section-title">Pipeline Schematic &mdash; MGDR Three-Way Split <span style="font-weight:600;text-transform:none;letter-spacing:0;font-size:0.7rem;color:var(--text-muted)">&mdash; click a valve to open or shut it &middot; valve numbers as listed on the main dashboard</span></h2>
 <div class="panel">
-<svg id="schem" viewBox="0 0 1780 410" role="img" aria-label="Pipeline schematic in ISA symbols: FOST, WLLR and VANP centrifugal pumps set the flow rate; MGDR splits three ways to the CV10 branch, a storage vessel, and the Alleghany Access branch, with control valves at each delivery">
+<svg id="schem" viewBox="0 0 1780 432" role="img" aria-label="Pipeline schematic in ISA symbols: FOST, WLLR and VANP centrifugal pumps set the flow rate; MGDR splits three ways to the CV10 branch, a storage vessel, and the Alleghany Access branch, with control valves at each delivery">
 <g id="pipes"></g><g id="flows"></g><g id="arrows"></g><g id="gauges"></g><g id="stations"></g>
 </svg>
 </div>
@@ -170,7 +204,7 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <div class="controls">
 <div class="sp-title">Pump stations <span class="hint">&mdash; controlled on pressure (psi). Flow is whatever the hydraulics give at that setpoint.</span></div>
 <div class="grid6 pumps" id="pumps"></div>
-<div class="sp-title">Delivery take-offs <span class="hint">&mdash; bph drawn off at each destination</span></div>
+<div class="sp-title">Delivery take-offs <span class="hint">&mdash; bph drawn off at each destination &middot; click a name to open or shut its valve</span></div>
 <div class="grid6" id="setpoints"></div>
 <div class="simrow">
 <button class="btn-bal" id="balance">&#8646; Balance line</button>
@@ -179,6 +213,14 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <button class="btn-snd" id="snd">&#128276; Sound off</button>
 <span style="font-size:0.66rem;color:var(--text-muted)">Balance retunes FOST discharge to match total deliveries.</span>
 </div>
+<div class="drillrow">
+<span class="dlbl">Drill</span>
+<select id="drill-pick" aria-label="Choose a training drill"></select>
+<label><input type="checkbox" id="drill-surprise"> surprise timing</label>
+<button class="btn-drill" id="drill-go">&#127919; Start drill</button>
+<span class="dstat" id="drill-status">Resets the line, fires a field event, and scores your recovery.</span>
+</div>
+<div id="drillcard" aria-live="polite"></div>
 </div>
 </div>
 
@@ -198,7 +240,9 @@ details th { background: var(--primary-color); color: #fff; font-size: 0.72rem; 
 <tr><td>ALLE</td><td>relief valve 995 psi &middot; HIGH 1,045 psi</td><td>relief lifts at 995</td></tr>
 <tr><td>PITT</td><td>open permissive &lt; 400 psi</td><td>valve will not open above 400 psi</td></tr>
 </tbody></table>
-<table><thead><tr><th>t (s)</th><th>SANE</th><th>MGDR</th><th>ALLE</th><th>PITT</th><th>FOST</th><th>WLLR</th><th>VANP</th><th>Deliv</th><th>&Delta;line</th></tr></thead><tbody id="tbody"></tbody></table>
+<table style="margin-bottom:14px"><thead><tr><th>t (s)</th><th>SANE</th><th>MGDR</th><th>ALLE</th><th>PITT</th><th>FOST</th><th>WLLR</th><th>VANP</th><th>Deliv</th><th>&Delta;line</th></tr></thead><tbody id="tbody"></tbody></table>
+<div style="font-weight:800;text-transform:uppercase;font-size:0.68rem;color:var(--text-muted)">Drill history <span style="font-weight:600;text-transform:none">&mdash; this browser, last 12</span> <button id="drill-hist-clear" class="btn-snd" style="padding:1px 7px;font-size:0.62rem;margin-left:6px">clear</button></div>
+<table><thead><tr><th>When</th><th>Drill</th><th>Result</th><th>React</th><th>Recover</th><th>Actions</th><th>Peak SANE</th><th>Abnormal</th><th>Short</th></tr></thead><tbody id="drill-hist"><tr><td colspan="9">&mdash; no drills yet &mdash;</td></tr></tbody></table>
 </details>
 </div>
 </div>
@@ -247,6 +291,36 @@ var SP = [
   { k: 'mntl',  node: 'MNTL',         label: 'MNTL',                br: 'Bottom &mdash; end of line', def: 200 }
 ];
 var SP_BY_NODE = {}; SP.forEach(function (s) { SP_BY_NODE[s.node] = s.k; });
+/* block valves the controller can open or shut: one on every take-off, plus CLVN,
+   the run valve at the end of the top branch. A shut valve passes nothing,
+   whatever its rate setpoint says.
+   tags:  the station's valve numbers, as listed on the main dashboard's station
+          notes (gravity interlocks, reversal and swing procedures)
+   short: how those numbers are printed under the symbol on the schematic         */
+var VALVES = [
+  { k: 'cv10',  node: 'CV10',         label: 'CV10',
+    tags: ['V4320', 'V4421 (normally open)'],                  short: ['V4320 · V4421'] },
+  { k: 'hud',   node: 'HUD',          label: 'HUD',
+    tags: ['V7301 gas T1', 'V7302 gas T2', 'V7303 ULSD T3'],  short: ['V7301 · V7302 gas', 'V7303 ULSD'] },
+  { k: 'stor',  node: 'MGDR STORAGE', label: 'MGDR Storage', tags: [], short: [] },
+  { k: 'board', node: 'BOAR',         label: 'BOARD',
+    tags: ['V7103 ULSD'],                                      short: ['V7103 ULSD'] },
+  { k: 'vanptk',node: null,           label: 'VANP tank',
+    tags: ['V7313 gas', 'V7314 gas', 'V7316 gas', 'V7312 ULSD'], short: ['V7313 · V7314 · V7316 gas', 'V7312 ULSD'] },
+  { k: 'alle',  node: 'ALLE',         label: 'ALLE',
+    tags: ['V7138 ULSD', 'V7139 ULSD', 'V7146 ULSD'],          short: ['V7138 · V7139 · V7146 ULSD'] },
+  { k: 'pitt',  node: 'PITT',         label: 'PITT',         tags: [], short: [] },
+  { k: 'delm',  node: 'DELM',         label: 'DELM',
+    tags: ['ET manifold gas V206, V207, V702', 'ET manifold ULSD V205, V701, V703',
+           'Buckeye manifold gas V26, V27, V72', 'Buckeye manifold ULSD V25, V71, V73'],
+    short: ['ET V206 · V207 · V702 gas', 'ET V205 · V701 · V703 ULSD', 'BKY V26 · V27 · V72 gas', 'BKY V25 · V71 · V73 ULSD'] },
+  { k: 'mntl',  node: 'MNTL',         label: 'MNTL',         tags: [], short: [] },
+  { k: 'clvn',  node: 'CLVN',         label: 'CLVN',
+    tags: ['V1372 (HUD-to-CLVN swing)'],                       short: ['V1372'] }
+];
+function valveTagText(v) { return v.tags.length ? ' \u2014 ' + v.tags.join(', ') : ''; }
+var VALVE_BY_NODE = {}; VALVES.forEach(function (v) { if (v.node) VALVE_BY_NODE[v.node] = v.k; });
+function valveDef(k) { for (var i = 0; i < VALVES.length; i++) if (VALVES[i].k === k) return VALVES[i]; return null; }
 var PUMP_BY_NODE = {}; PUMPS.forEach(function (p) { PUMP_BY_NODE[p.node] = p.k; });
 /* bottom-branch take-offs downstream of the VANP pump */
 var AFTER_VANP = ['alle', 'pitt', 'delm', 'mntl'];
@@ -280,6 +354,9 @@ var LIM = {
 };
 var SANE_NOM = 1080, DOWN_NOM = 1100, ALLE_NOM = 1005, QN_TRUNK = 2600;
 var SUC_KP = 15;          // SUC-control gain, bph per psi of error
+/* damping for the SUC loop: the controller also leans on how fast its suction is
+   moving (the section imbalance), so it settles instead of hunting forever */
+var SUC_KD = 0.14;
 var SUC_MIN = 60, SUC_FULL = 220;   // below SUC_MIN a pump cannot lift; full output by SUC_FULL
 var WLLR_DISCH_HEAD = 350;
 
@@ -318,8 +395,9 @@ function freshState() {
   var s = { t: 0, packS: 0, packL: 0, packB: 0,
             P1: SANE_NOM, P2: DOWN_NOM, P3: ALLE_NOM,
             sane: SANE_NOM, tripped: false,
-            pump: {}, q: { fost: 2600, wllr: 2600, vanp: 1000 },
-            sp: {}, eff: {}, press: {}, alarm: {}, lowSuc: {}, hist: [], events: [], sndIdx: 0, running: true };
+            pump: {}, q: { fost: 2600, wllr: 2600, vanp: 1000 }, imb: { sane: 0, line: 0 },
+            sp: {}, valve: {}, eff: {}, press: {}, alarm: {}, lowSuc: {}, hist: [], events: [], sndIdx: 0, running: true };
+  VALVES.forEach(function (v) { s.valve[v.k] = true; });
   PUMPS.forEach(function (d) {
     s.pump[d.k] = { mode: d.mode, dis: d.dis, suc: d.suc, C: d.C };
   });
@@ -333,14 +411,14 @@ function freshState() {
 function suctionFactor(pSuc) {
   return Math.max(0, Math.min(1, (pSuc - SUC_MIN) / (SUC_FULL - SUC_MIN)));
 }
-function pumpFlow(s, d, pSuction, pDown, prevQ) {
+function pumpFlow(s, d, pSuction, pDown, prevQ, imb) {
   if (d.mode === 'off') return 0;
   if (pSuction < SUC_MIN) return 0;          // low-suction cutout: nothing to lift
   var q;
   if (d.mode === 'dis') {
     q = d.C * Math.sqrt(Math.max(0, d.dis - pDown));
   } else {                                   // SUC control: hold suction at setpoint
-    q = (prevQ || 0) + SUC_KP * (pSuction - d.suc);
+    q = (prevQ || 0) + SUC_KP * (pSuction - d.suc) + SUC_KD * (imb || 0);
   }
   return Math.max(0, Math.min(RATE_MAX, q * suctionFactor(pSuction)));
 }
@@ -353,16 +431,21 @@ function solve(s) {
   // FOST lifts out of tankage into the SANE section
   var qF = s.tripped ? 0 : pumpFlow(s, pumpOf.fost, 400, P1, s.q.fost);
   // WLLR takes suction on the SANE section and discharges into the line below
-  var qW = pumpFlow(s, pumpOf.wllr, P1, P2, s.q.wllr);
+  var qW = pumpFlow(s, pumpOf.wllr, P1, P2, s.q.wllr, s.imb.sane);
   if (pumpOf.wllr.mode === 'off') qW = P1 < SUC_MIN ? 0 : Math.min(WLLR_BYPASS, WLLR_BYPASS * suctionFactor(P1));
   // VANP takes suction off the bottom branch and discharges to ALLE and beyond
-  var qV = pumpFlow(s, pumpOf.vanp, P2, P3, s.q.vanp);
+  var qV = pumpFlow(s, pumpOf.vanp, P2, P3, s.q.vanp, s.imb.line);
   // metered deliveries, capped by available pressure and by what the pumps bring
+  // what each take-off is asking for: its setpoint if its valve is open, else nothing
+  var want = {};
+  Object.keys(s.sp).forEach(function (k) { want[k] = s.valve[k] ? s.sp[k] : 0; });
+  if (!s.valve.cv10) want.hud = 0;                          // HUD sits inside the CV10 branch
+  if (!s.valve.clvn) want.cv10 = Math.min(want.cv10, want.hud);   // branch end shut: only HUD's take gets in
   var eff = {}, fBefore = deliveryFactor(P2), fAfter = deliveryFactor(P3);
-  ['cv10', 'hud', 'stor', 'board', 'vanptk'].forEach(function (k) { eff[k] = Math.round(s.sp[k] * fBefore); });
-  AFTER_VANP.forEach(function (k) { eff[k] = Math.round(s.sp[k] * fAfter); });
-  var demandBefore = s.sp.cv10 + s.sp.stor + s.sp.board + s.sp.vanptk;   // HUD draws inside the CV10 branch
-  var demandAfter = AFTER_VANP.reduce(function (a, k) { return a + s.sp[k]; }, 0);
+  ['cv10', 'hud', 'stor', 'board', 'vanptk'].forEach(function (k) { eff[k] = Math.round(want[k] * fBefore); });
+  AFTER_VANP.forEach(function (k) { eff[k] = Math.round(want[k] * fAfter); });
+  var demandBefore = want.cv10 + want.stor + want.board + want.vanptk;
+  var demandAfter = AFTER_VANP.reduce(function (a, k) { return a + want[k]; }, 0);
   var effBefore = eff.cv10 + eff.stor + eff.board + eff.vanptk;
   var effAfter = AFTER_VANP.reduce(function (a, k) { return a + eff[k]; }, 0);
   var delivered = effBefore + effAfter;
@@ -441,6 +524,7 @@ function step(s) {
   var f = solve(s);
   // remember each pump's flow so the SUC-control loops have a previous value
   s.q.fost = f.fostIn; s.q.wllr = f.wllrPass; s.q.vanp = f.vanpPass;
+  s.imb.sane = f.dSane; s.imb.line = f.dLine;    // what each SUC loop's section did this step
   s.packS = Math.max(packFloor(SANE_NOM), s.packS + f.dSane / 3600 * PACK_GAIN);
   s.packL = Math.max(packFloor(DOWN_NOM), s.packL + f.dLine / 3600 * PACK_GAIN);
   s.packB = Math.max(packFloor(ALLE_NOM), s.packB + f.dBot  / 3600 * PACK_GAIN);
@@ -518,7 +602,7 @@ function buildSchematic() {
     flows += '<path id="fl-' + p[0] + '" d="' + p[1] + '" fill="none" stroke="#0369a1" stroke-width="4" stroke-dasharray="14 12" stroke-linecap="round"/>';
   });
   st += '<text x="580" y="' + (TOP_Y - 62) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">TOP &#8212; CV10 BRANCH</text>' +
-        '<text x="780" y="' + (TRUNK_Y - 34) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">MIDDLE &#8212; MGDR STORAGE</text>' +
+        '<text x="900" y="' + (TRUNK_Y - 34) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">MIDDLE &#8212; MGDR STORAGE</text>' +
         '<text x="580" y="' + (BOT_Y - 62) + '" font-size="11.5" font-weight="800" fill="#475569" letter-spacing="0.05em">BOTTOM &#8212; A.A. BRANCH</text>';
   // flow-direction arrowheads on the straight runs
   [[130, TRUNK_Y], [250, TRUNK_Y], [380, TRUNK_Y], [694, TOP_Y], [1150, TOP_Y], [1606, TOP_Y], [675, BOT_Y], [1055, BOT_Y], [1435, BOT_Y]]
@@ -537,7 +621,9 @@ function buildSchematic() {
     return '<rect x="' + (x - 7) + '" y="' + (y - 24) + '" width="14" height="8" rx="2" stroke="#0f172a" stroke-width="1.5"/>' +
       '<line x1="' + x + '" y1="' + (y - 16) + '" x2="' + x + '" y2="' + y + '" stroke="#0f172a" stroke-width="2"/>' +
       '<path d="M' + (x - 11) + ' ' + (y - 9) + ' L' + (x - 11) + ' ' + (y + 9) + ' L' + x + ' ' + y + ' Z" stroke="#0f172a" stroke-width="1.5"/>' +
-      '<path d="M' + (x + 11) + ' ' + (y - 9) + ' L' + (x + 11) + ' ' + (y + 9) + ' L' + x + ' ' + y + ' Z" stroke="#0f172a" stroke-width="1.5"/>';
+      '<path d="M' + (x + 11) + ' ' + (y - 9) + ' L' + (x + 11) + ' ' + (y + 9) + ' L' + x + ' ' + y + ' Z" stroke="#0f172a" stroke-width="1.5"/>' +
+      // bar across the seat, shown only while the valve is shut
+      '<line class="shut" x1="' + x + '" y1="' + (y - 11) + '" x2="' + x + '" y2="' + (y + 11) + '" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0"/>';
   }
   function pumpBody(x, y) {
     return '<path d="M' + (x - 9) + ' ' + (y - 7) + ' L' + (x + 9) + ' ' + (y - 7) + ' L' + x + ' ' + (y - 23) + ' Z" stroke="#0f172a" stroke-width="1.5"/>' +
@@ -549,20 +635,25 @@ function buildSchematic() {
     var y = n.y || TRUNK_Y, shape;
     // ISA symbols. Status-coloured parts live in <g id="nd-KEY">: children omit fill so they
     // inherit the group's fill, which updateSchematic repaints.
+    var vk = VALVE_BY_NODE[n.k];
+    // a node with a block valve is clickable: the whole symbol toggles it
+    var gValve = '<g id="nd-' + n.k + '"' + (vk ? ' class="vlv" data-valve="' + vk + '" role="button" tabindex="0"' : '') + ' fill="#475569">' +
+      (vk ? '<title>' + n.k + ' valve' + valveTagText(valveDef(vk)) + ' \u2014 click to open / shut</title>' : '');
     if (n.kind === 'pump') {
       shape = '<g id="nd-' + n.k + '" fill="#1d4ed8">' + pumpBody(n.x, y) + '</g>';
     } else if (n.kind === 'pumpfarm') {            // pump station with its own tankage
       shape = '<g id="nd-' + n.k + '" fill="#1d4ed8">' + pumpBody(n.x, y) + vessel(n.x, y) + '</g>';
     } else if (n.kind === 'delivery') {
-      shape = '<g id="nd-' + n.k + '" fill="#475569">' + valveBody(n.x, y) + '</g>';
+      shape = gValve + valveBody(n.x, y) + '</g>';
     } else if (n.kind === 'farm') {                // tank farm: run valve + vessel
-      shape = '<g id="nd-' + n.k + '" fill="#475569">' + valveBody(n.x, y) + vessel(n.x, y) + '</g>';
+      shape = gValve + valveBody(n.x, y) + vessel(n.x, y) + '</g>';
     } else if (n.kind === 'tank') {
       // vertical storage vessel: domed top and bottom, with a level fill
-      shape = '<g id="nd-' + n.k + '" fill="#475569">' +
+      shape = gValve +
         '<path d="M' + (n.x - 13) + ' ' + (y - 12) + ' L' + (n.x - 13) + ' ' + (y + 12) +
           ' A13 4 0 0 0 ' + (n.x + 13) + ' ' + (y + 12) + ' L' + (n.x + 13) + ' ' + (y - 12) +
-          ' A13 4 0 0 0 ' + (n.x - 13) + ' ' + (y - 12) + ' Z" stroke="#0f172a" stroke-width="2"/></g>';
+          ' A13 4 0 0 0 ' + (n.x - 13) + ' ' + (y - 12) + ' Z" stroke="#0f172a" stroke-width="2"/>' +
+        '<line class="shut" x1="' + (n.x - 9) + '" y1="' + y + '" x2="' + (n.x + 9) + '" y2="' + y + '" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0"/></g>';
     } else if (n.kind === 'junction') {
       // manifold / tee node
       shape = '<circle cx="' + n.x + '" cy="' + y + '" r="8" fill="#f59e0b" stroke="#0f172a" stroke-width="2"/>';
@@ -577,7 +668,8 @@ function buildSchematic() {
       '<text x="' + n.x + '" y="' + (lblY + 13) + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#64748b" id="pv-' + n.k + '">- psi</text>';
     var row = lblY + 25;
     var isTank = n.kind === 'tank';
-    if (SP_BY_NODE[n.k] || PUMP_BY_NODE[n.k]) {
+    if (n.k === 'VANP') vk = 'vanptk';        // the pump station's tankage valves print under it
+    if (SP_BY_NODE[n.k] || PUMP_BY_NODE[n.k] || VALVE_BY_NODE[n.k]) {
       var fill = PUMP_BY_NODE[n.k] ? '#1d4ed8' : '#166534';
       st += isTank
         ? '<text x="' + (n.x + 24) + '" y="' + (y + 5) + '" text-anchor="start" font-size="10.5" font-weight="700" fill="' + fill + '" id="rt-' + n.k + '">- bph</text>'
@@ -586,7 +678,13 @@ function buildSchematic() {
     }
     if (LIM[n.k]) {
       st += '<text x="' + n.x + '" y="' + row + '" text-anchor="middle" font-size="9.5" fill="#94a3b8">' + limitText(n.k) + '</text>';
+      row += 10;
     }
+    // the station's valve numbers, one line per product group
+    if (vk) valveDef(vk).short.forEach(function (line) {
+      st += '<text x="' + n.x + '" y="' + row + '" text-anchor="middle" font-size="8.5" font-weight="600" fill="#64748b">' + line + '</text>';
+      row += 9.5;
+    });
     gg += '<rect x="' + (n.x - 5) + '" y="' + (y - GAUGE_OFF) + '" width="10" height="0" rx="3" fill="#0369a1" id="bar-' + n.k + '"/>';
     if (n.k === 'SANE') {
       var trip = y - GAUGE_OFF - gaugeH(HIGHHIGH);
@@ -626,13 +724,25 @@ function updateSchematic(s, f) {
       var off = m === 'off';
       rt.setAttribute('fill', off ? '#b91c1c' : '#1d4ed8');
       if (nd) nd.setAttribute('fill', off ? '#dc2626' : '#1d4ed8');
-    } else if (sk) {                             // delivery: show effective vs setpoint
-      var set = s.sp[sk], got = f.eff[sk] || 0;
-      rt.textContent = set === 0 ? 'closed'
-        : got < set ? '▼ ' + got.toLocaleString('en-US') + ' / ' + set.toLocaleString('en-US')
-        : '▼ ' + set.toLocaleString('en-US') + ' bph';
-      rt.setAttribute('fill', set === 0 ? '#b91c1c' : got < set ? '#d97706' : '#166534');
-      if (nd) nd.setAttribute('fill', set === 0 ? '#dc2626' : got < set ? '#d97706' : '#166534');
+    } else if (sk || VALVE_BY_NODE[n.k]) {        // delivery: valve state, then effective vs setpoint
+      var vk = VALVE_BY_NODE[n.k] || sk, shutBar = nd && nd.querySelector('.shut');
+      var closed = vk && s.valve[vk] === false;
+      if (shutBar) shutBar.setAttribute('opacity', closed ? 1 : 0);
+      var set = sk ? s.sp[sk] : null, got = sk ? (f.eff[sk] || 0) : 0, col;
+      if (closed) {
+        rt.textContent = 'SHUT' + (set ? ' · sp ' + set.toLocaleString('en-US') : '');
+        col = '#dc2626';
+      } else if (!sk) {                          // CLVN: a run valve with no metered take of its own
+        rt.textContent = 'OPEN'; col = '#166534';
+      } else if (set === 0) {
+        rt.textContent = 'open · 0 bph'; col = '#64748b';
+      } else if (got < set) {
+        rt.textContent = '▼ ' + got.toLocaleString('en-US') + ' / ' + set.toLocaleString('en-US'); col = '#d97706';
+      } else {
+        rt.textContent = '▼ ' + set.toLocaleString('en-US') + ' bph'; col = '#166534';
+      }
+      rt.setAttribute('fill', closed ? '#b91c1c' : col);
+      if (nd) nd.setAttribute('fill', col === '#64748b' ? '#475569' : col);
     }
   });
 }
@@ -832,6 +942,7 @@ function buildControls() {
     mode.addEventListener('change', function () {
       S.pump[d.k].mode = this.value;
       syncSp();
+      noteAction();
       S.events.push({ t: S.t, lvl: 'ok', msg: '\u2699 ' + d.label + ' \u2192 ' +
         (this.value === 'off' ? 'OFF' : this.value.toUpperCase() + ' control at ' +
          (this.value === 'suc' ? S.pump[d.k].suc : S.pump[d.k].dis) + ' psi') });
@@ -839,27 +950,80 @@ function buildControls() {
     sp.addEventListener('input', function () {
       var v = Math.max(0, Math.min(1600, +this.value || 0));
       if (S.pump[d.k].mode === 'suc') S.pump[d.k].suc = v; else S.pump[d.k].dis = v;
+      noteAction();
     });
     syncSp();
   });
+  function vbtn(k, label) {
+    return '<button type="button" class="nm vt" id="vb-' + k + '" data-label="' + label + '" title="Click to open / shut the ' +
+      valveDef(k).label + ' block valve' + valveTagText(valveDef(k)) + '">&#9660; ' + label + '</button>';
+  }
   document.getElementById('setpoints').innerHTML = SP.map(function (d) {
-    return '<div class="sp deliv" title="' + d.br.replace(/&mdash;/g, '-') + '"><div class="nm">&#9660; ' + d.label + '</div>' +
+    return '<div class="sp deliv" id="card-' + d.k + '" title="' + d.br.replace(/&mdash;/g, '-') + '">' + vbtn(d.k, d.label) +
       '<input type="number" id="sp-in-' + d.k + '" min="0" max="' + RATE_MAX + '" step="100" value="' + d.def + '">' +
       (d.k === 'pitt' ? '<span class="note ok" id="perm-pitt">&#128275; OPEN OK</span>' : '') +
       '</div>';
-  }).join('');
+  }).join('') +
+    '<div class="sp deliv" id="card-clvn" title="Run valve at the end of the top branch - no metered take of its own">' +
+    vbtn('clvn', 'CLVN') + '<span class="unit">branch end</span></div>';
   SP.forEach(function (d) {
     document.getElementById('sp-in-' + d.k).addEventListener('input', function () {
       var v = Math.max(0, Math.min(RATE_MAX, +this.value || 0));
-      if (d.k === 'pitt' && S.sp.pitt === 0 && v > 0 && !pittPermissive(S)) {
-        this.value = 0;
-        S.events.push({ t: S.t, lvl: 'warn', snd: 'lock',
-          msg: '🔒 PITT will not open — ' + S.press.PITT + ' psi above the 400 psi permissive' });
-        return;
-      }
       S.sp[d.k] = v;
+      noteAction();
     });
   });
+  VALVES.forEach(function (v) {
+    document.getElementById('vb-' + v.k).addEventListener('click', function () { toggleValve(v.k); });
+  });
+  syncValves();
+}
+/* open or shut a block valve. PITT carries an open permissive: it will not
+   open above 400 psi. */
+function toggleValve(k) {
+  var v = valveDef(k); if (!v) return;
+  var open = !S.valve[k];
+  if (open && k === 'pitt' && !pittPermissive(S)) {
+    S.events.push({ t: S.t, lvl: 'warn', snd: 'lock',
+      msg: '🔒 PITT will not open — ' + S.press.PITT + ' psi above the 400 psi permissive' });
+    if (!S.running) updateUI(S, solve(S));
+    return;
+  }
+  S.valve[k] = open;
+  S.events.push({ t: S.t, lvl: open ? 'ok' : 'warn',
+    msg: '\u2699 ' + v.label + ' valve' + (v.short.length ? ' (' + v.short.join(' / ') + ')' : '') + ' ' + (open ? 'OPENED' : 'SHUT') });
+  noteAction();
+  syncValves();
+  if (!S.running) { var f = solve(S); updateSchematic(S, f); updateUI(S, f); }   // show it even while paused
+}
+function syncValves() {
+  VALVES.forEach(function (v) {
+    var b = document.getElementById('vb-' + v.k); if (!b) return;
+    var open = S.valve[v.k] !== false, card = document.getElementById('card-' + v.k);
+    b.className = 'nm vt' + (open ? '' : ' shut');
+    b.innerHTML = '&#9660; ' + b.getAttribute('data-label') + (open ? '' : ' &middot; SHUT');
+    if (card) card.className = 'sp deliv' + (open ? '' : ' shut');
+  });
+}
+document.getElementById('stations').addEventListener('click', function (ev) {
+  var g = ev.target.closest ? ev.target.closest('[data-valve]') : null;
+  if (g) toggleValve(g.getAttribute('data-valve'));
+});
+document.getElementById('stations').addEventListener('keydown', function (ev) {
+  if (ev.key !== 'Enter' && ev.key !== ' ') return;
+  var g = ev.target.closest ? ev.target.closest('[data-valve]') : null;
+  if (g) { ev.preventDefault(); toggleValve(g.getAttribute('data-valve')); }
+});
+/* push the model's setpoints back into the controls (reset, or a drill upset) */
+function syncControls() {
+  PUMPS.forEach(function (d) {
+    var p = S.pump[d.k], mode = document.getElementById('pp-mode-' + d.k), sp = document.getElementById('pp-sp-' + d.k);
+    mode.value = p.mode;
+    sp.disabled = p.mode === 'off';
+    sp.value = p.mode === 'suc' ? p.suc : p.dis;
+  });
+  SP.forEach(function (d) { document.getElementById('sp-in-' + d.k).value = S.sp[d.k]; });
+  syncValves();
 }
 function updateUI(s, f) {
   document.getElementById('t-sane').textContent = fmt(s.sane);
@@ -941,6 +1105,7 @@ document.getElementById('balance').addEventListener('click', function () {
   if (S.pump.fost.mode === 'off') S.pump.fost.mode = 'dis';
   var mode = document.getElementById('pp-mode-fost'), sp = document.getElementById('pp-sp-fost');
   mode.value = S.pump.fost.mode; sp.disabled = false; sp.value = S.pump.fost.dis;
+  noteAction();
 });
 document.getElementById('snd').addEventListener('click', function () {
   AUDIO.on = !AUDIO.on;
@@ -952,18 +1117,207 @@ document.getElementById('snd').addEventListener('click', function () {
 document.getElementById('run').addEventListener('click', function () {
   S.running = !S.running; this.textContent = S.running ? 'Pause' : 'Run';
 });
-document.getElementById('reset').addEventListener('click', function () {
+function resetLine() {
   S = freshState();
-  PUMPS.forEach(function (d) {
-    var mode = document.getElementById('pp-mode-' + d.k), sp = document.getElementById('pp-sp-' + d.k);
-    mode.value = d.mode; sp.disabled = false;
-    sp.value = d.mode === 'suc' ? d.suc : d.dis;
-  });
-  SP.forEach(function (d) { document.getElementById('sp-in-' + d.k).value = d.def; });
+  syncControls();
   document.getElementById('run').textContent = 'Pause';
   AUDIO.lastCrit = -999;
   document.getElementById('log').innerHTML = '<li>&mdash; no events yet &mdash;</li>';
   document.getElementById('alarms').innerHTML = '';
+}
+document.getElementById('reset').addEventListener('click', function () {
+  D = null;
+  resetLine();
+  renderDrill(S, null);
+});
+
+/* ================= training drills =================
+   A drill resets the line, waits, then throws a field event at the trainee.
+   PASS = the line is back to normal and held for DRILL_HOLD s: no alarm or
+   trip, no pump starved, every delivery met, and all three sections balanced
+   within DRILL_TOL bph. FAIL = the SANE trip, or DRILL_LIMIT s run out.
+   Times are model seconds, the same clock as the trend and the event log.  */
+var DRILL_TOL = 100, DRILL_HOLD = 30, DRILL_LIMIT = 600, DRILL_LEAD = 30;
+var DRILLS = [
+  { k: 'mntl', name: 'MNTL delivery shuts',
+    field: 'MNTL terminal has stopped taking product \u2014 0 bph',
+    hint: 'Nothing is leaving the end of the line, so the bottom branch and then the MGDR section pack up. Trim FOST to the new total demand (or open another delivery); if MGDR has already gone HIGH, bleed the pack off first, then rebalance.',
+    upset: function (s) { s.sp.mntl = 0; } },
+  { k: 'wllr', name: 'WLLR pump trip',
+    field: 'WLLR unit TRIPPED \u2014 station passing on bypass only',
+    hint: 'The bypass passes at most 1,500 bph while the deliveries keep taking 2,600, so the line below WLLR draws down fast. Restart WLLR, then pack the MGDR section back up before you rebalance.',
+    upset: function (s) { s.pump.wllr.mode = 'off'; } },
+  { k: 'fost', name: 'FOST setpoint bumped',
+    field: 'FOST discharge setpoint changed to 1,330 psi',
+    hint: 'FOST is now pushing far more than the deliveries take. WLLR holds SANE, so the pack lands below it: MGDR and the WLLR discharge go HIGH. Pull the setpoint back, bleed the pack off, then rebalance.',
+    upset: function (s) { s.pump.fost.dis = 1330; } },
+  { k: 'vanp', name: 'VANP pump trip',
+    field: 'VANP unit TRIPPED',
+    hint: 'Everything past VANP starves while the MGDR section packs with what VANP is no longer moving. Restart VANP; if MGDR has gone HIGH, bleed it down and rebalance.',
+    upset: function (s) { s.pump.vanp.mode = 'off'; } },
+  { k: 'fostoff', name: 'FOST unit trip',
+    field: 'FOST unit TRIPPED \u2014 no supply into the SANE section',
+    hint: 'SANE bleeds down, WLLR loses suction, and the whole line starts to starve. Restart FOST on discharge control and let SANE recover, then pack the line back up and rebalance.',
+    upset: function (s) { s.pump.fost.mode = 'off'; } }
+];
+var D = null;
+function drillDef(k) { for (var i = 0; i < DRILLS.length; i++) if (DRILLS[i].k === k) return DRILLS[i]; return DRILLS[0]; }
+function drillClean(s, f) {
+  if (s.tripped) return false;
+  for (var k in s.alarm) if (s.alarm[k]) return false;
+  for (var p in f.lowSuc) if (f.lowSuc[p]) return false;
+  return true;
+}
+function drillBalanced(f) {
+  return Math.abs(f.dSane) <= DRILL_TOL && Math.abs(f.dLine) <= DRILL_TOL && Math.abs(f.dBot) <= DRILL_TOL;
+}
+function startDrill() {
+  var pick = document.getElementById('drill-pick').value, hidden = pick === 'random';
+  var def = hidden ? DRILLS[Math.floor(Math.random() * DRILLS.length)] : drillDef(pick);
+  var surprise = document.getElementById('drill-surprise').checked;
+  resetLine();
+  D = { def: def, hidden: hidden, surprise: surprise, startT: S.t,
+        fireT: S.t + (surprise ? 50 + Math.floor(Math.random() * 250) : DRILL_LEAD),
+        fired: false, firedT: null, doneT: null, result: null, reason: '',
+        actions: 0, firstActionT: null, stableSince: null,
+        peakSane: 0, minMgdr: Infinity, maxMgdr: 0, abnormalT: 0, shortBbl: 0 };
+  S.events.push({ t: S.t, lvl: 'ok', msg: '\uD83C\uDFAF Drill started \u2014 ' + (hidden ? 'unknown upset' : def.name) +
+    (surprise ? ' (surprise timing)' : ' (event in ' + DRILL_LEAD + ' s)') });
+  renderDrill(S, null);
+}
+function abortDrill() {
+  if (!D || D.result) return;
+  S.events.push({ t: S.t, lvl: 'warn', msg: '\u2715 Drill aborted \u2014 ' + D.def.name });
+  D = null;
+  renderDrill(S, null);
+}
+function noteAction() {
+  if (!D || !D.fired || D.result) return;
+  D.actions++;
+  if (D.firstActionT === null) D.firstActionT = S.t;
+}
+function finishDrill(result, reason) {
+  D.result = result; D.reason = reason; D.doneT = S.t;
+  S.events.push({ t: S.t, lvl: result === 'pass' ? 'ok' : 'crit', snd: result === 'pass' ? 'ok' : 'lock',
+    msg: '\uD83C\uDFC1 Drill ' + (result === 'pass' ? 'PASSED' : 'FAILED') + ' \u2014 ' + D.def.name + ': ' + reason });
+  saveDrillResult(D);
+}
+function drillTick(s, f) {
+  if (!D || D.result) return;
+  if (!D.fired) {
+    if (s.t >= D.fireT) {
+      D.def.upset(s);
+      syncControls();
+      D.fired = true; D.firedT = s.t;
+      s.events.push({ t: s.t, lvl: 'warn', snd: 'hi', msg: '\uD83D\uDCDF FIELD: ' + D.def.field });
+    }
+    return;
+  }
+  D.peakSane = Math.max(D.peakSane, s.sane);
+  D.minMgdr = Math.min(D.minMgdr, s.press.MGDR);
+  D.maxMgdr = Math.max(D.maxMgdr, s.press.MGDR);
+  D.shortBbl += Math.max(0, f.demand - f.delivered) / 3600;
+  var clean = drillClean(s, f), met = !f.starved, bal = drillBalanced(f);
+  if (!clean || !met) D.abnormalT++;
+  if (s.tripped) return finishDrill('fail', 'SANE reached 1,200 psi and shut the FOST unit down');
+  if (clean && met && bal) {
+    if (D.stableSince === null) D.stableSince = s.t;
+    if (s.t - D.stableSince >= DRILL_HOLD) return finishDrill('pass', 'line back to normal and held ' + DRILL_HOLD + ' s');
+  } else {
+    D.stableSince = null;
+  }
+  if (s.t - D.firedT >= DRILL_LIMIT) finishDrill('fail', 'not back to normal within ' + DRILL_LIMIT + ' s');
+}
+function secs(v) { return v == null ? '\u2014' : v + ' s'; }
+function renderDrill(s, f) {
+  var st = document.getElementById('drill-status'), card = document.getElementById('drillcard'), go = document.getElementById('drill-go');
+  if (!D) {
+    st.textContent = 'Resets the line, fires a field event, and scores your recovery.';
+    card.className = ''; card.innerHTML = '';
+    go.innerHTML = '&#127919; Start drill'; go.className = 'btn-drill';
+    return;
+  }
+  var live = !D.result;
+  go.innerHTML = live ? '&#10005; Abort drill' : '&#127919; Start drill';
+  go.className = 'btn-drill' + (live ? ' stop' : '');
+  var title = D.hidden && live ? 'Unknown upset' : D.def.name;
+  if (!D.fired) {
+    st.textContent = D.surprise ? 'Drill running \u2014 the event will come without warning. Watch the line.'
+                                : 'Drill running \u2014 event in ' + (D.fireT - s.t) + ' s.';
+    card.className = 'on';
+    card.innerHTML = '<div class="dtitle">&#127919; ' + title + '</div>' +
+      '<div class="dhint">You are the controller. When the event comes, bring the line back to normal and hold it: ' +
+      'no alarm, no pump starved, every delivery met, all sections balanced within &plusmn;' + DRILL_TOL + ' bph.</div>';
+    return;
+  }
+  var elapsed = (D.doneT == null ? s.t : D.doneT) - D.firedT;
+  var head = '<div class="dtitle">&#127919; ' + title +
+    (live ? '' : '<span class="res ' + D.result + '">' + (D.result === 'pass' ? '&#10003; PASS' : '&#10007; FAIL') + '</span>') +
+    '</div><div class="dfield">&#128223; ' + D.def.field + '</div>';
+  if (live) {
+    st.textContent = 'Recover the line \u2014 ' + Math.max(0, DRILL_LIMIT - elapsed) + ' s left.';
+    var clean = f ? drillClean(s, f) : false, met = f ? !f.starved : false, bal = f ? drillBalanced(f) : false;
+    var held = D.stableSince === null ? 0 : s.t - D.stableSince;
+    function g(ok, txt) { return '<span class="' + (ok ? 'ok' : 'no') + '">' + (ok ? '&#10003; ' : '&#10007; ') + txt + '</span>'; }
+    card.className = 'on';
+    card.innerHTML = head + (D.hidden ? '' : '<div class="dhint">' + D.def.hint + '</div>') +
+      '<div class="dgoal">' + g(clean, 'no alarm, trip or starved pump') + g(met, 'deliveries met') +
+      g(bal, 'balanced &plusmn;' + DRILL_TOL + ' bph' + (f ? ' (SANE ' + fmtD(f.dSane) + ' &middot; line ' + fmtD(f.dLine) + ' &middot; bottom ' + fmtD(f.dBot) + ')' : '')) +
+      '<span class="' + (held ? 'wait' : 'no') + '">&#8987; held ' + held + ' / ' + DRILL_HOLD + ' s</span></div>';
+    return;
+  }
+  st.textContent = 'Drill ' + (D.result === 'pass' ? 'passed' : 'failed') + ' \u2014 ' + D.reason + '.';
+  var react = D.firstActionT === null ? null : D.firstActionT - D.firedT;
+  var recover = D.result === 'pass' ? D.doneT - D.firedT : null;
+  function cell(k, v) { return '<div><div class="k">' + k + '</div><div class="v">' + v + '</div></div>'; }
+  card.className = 'on ' + D.result;
+  card.innerHTML = head + '<div class="dhint">' + D.def.hint + '</div>' +
+    '<div>' + (D.result === 'pass' ? 'Recovered: ' : 'Not recovered: ') + D.reason + '.</div>' +
+    '<div class="dscore">' +
+    cell('Reaction', D.firstActionT === null ? 'no action' : secs(react)) +
+    cell('Recovery', recover === null ? '\u2014' : secs(recover)) +
+    cell('Control changes', D.actions) +
+    cell('Peak SANE', fmt(D.peakSane) + ' psi') +
+    cell('MGDR range', fmt(D.minMgdr) + '\u2013' + fmt(D.maxMgdr) + ' psi') +
+    cell('Abnormal', secs(D.abnormalT)) +
+    cell('Undelivered', Math.round(D.shortBbl) + ' bbl') +
+    '</div>';
+}
+function fmtD(v) { v = Math.round(v); return (v > 0 ? '+' : '') + fmt(v); }
+/* drill history: kept in this browser only */
+var HIST_KEY = 'c12_drills';
+function loadDrillHist() { try { return JSON.parse(localStorage.getItem(HIST_KEY) || '[]') || []; } catch (e) { return []; } }
+function saveDrillResult(d) {
+  var h = loadDrillHist();
+  h.push({ at: Date.now(), k: d.def.k, name: d.def.name, result: d.result,
+           react: d.firstActionT === null ? null : d.firstActionT - d.firedT,
+           recover: d.result === 'pass' ? d.doneT - d.firedT : null,
+           actions: d.actions, peak: d.peakSane, abnormal: d.abnormalT, short: Math.round(d.shortBbl) });
+  while (h.length > 12) h.shift();
+  try { localStorage.setItem(HIST_KEY, JSON.stringify(h)); } catch (e) {}
+  renderDrillHist();
+}
+function renderDrillHist() {
+  var h = loadDrillHist(), tb = document.getElementById('drill-hist');
+  if (!h.length) { tb.innerHTML = '<tr><td colspan="9">&mdash; no drills yet &mdash;</td></tr>'; return; }
+  tb.innerHTML = h.slice().reverse().map(function (r) {
+    var when = new Date(r.at);
+    return '<tr><td>' + when.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' +
+      when.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) + '</td><td>' + r.name +
+      '</td><td class="' + r.result + '">' + r.result.toUpperCase() + '</td><td>' +
+      (r.react == null ? 'none' : r.react + ' s') + '</td><td>' + (r.recover == null ? '\u2014' : r.recover + ' s') +
+      '</td><td>' + r.actions + '</td><td>' + fmt(r.peak) + '</td><td>' + r.abnormal + ' s</td><td>' + r.short + ' bbl</td></tr>';
+  }).join('');
+}
+document.getElementById('drill-pick').innerHTML = DRILLS.map(function (d) {
+  return '<option value="' + d.k + '">' + d.name + '</option>';
+}).join('') + '<option value="random">Random \u2014 name hidden until the end</option>';
+document.getElementById('drill-go').addEventListener('click', function () {
+  if (D && !D.result) abortDrill(); else startDrill();
+});
+document.getElementById('drill-hist-clear').addEventListener('click', function () {
+  try { localStorage.removeItem(HIST_KEY); } catch (e) {}
+  renderDrillHist();
 });
 
 S = freshState();
@@ -980,12 +1334,15 @@ try {
 } catch (e) {}
 buildControls();
 buildSchematic();
+renderDrillHist();
 setInterval(function () {
   if (!S.running) return;
   var f = step(S);
+  drillTick(S, f);
   updateSchematic(S, f);
   drawChart(S);
   updateUI(S, f);
+  if (D) renderDrill(S, f);
 }, TICK);
 setInterval(function () { if (S.running) animateFlow(S, solve(S)); }, 40);
 })();
